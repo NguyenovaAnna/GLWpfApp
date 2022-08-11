@@ -1,4 +1,5 @@
-﻿using GLWpfApp.Models;
+﻿using GLWpfApp.Commands;
+using GLWpfApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,6 +16,9 @@ namespace GLWpfApp.ViewModels
     {
 
         private ObservableCollection<Employee> _employees;
+        private ObservableCollection<Employee> _searchedEmployees;
+        private string _searchText;
+
         public ObservableCollection<Employee> Employees
         {
             get
@@ -23,27 +27,47 @@ namespace GLWpfApp.ViewModels
             }
             set
             {
+                if (_employees == value)
+                    return;
+
                 _employees = value;
-                OnPropertyChanged(nameof(Employees));
+
+                SearchedEmployees = new ObservableCollection<Employee>(_employees);
             }
         }
 
-        public ICollectionView EmployeesCollectionView { get; }
-
-        private string _employeesFilter = string.Empty;
-        public string EmployeesFilter
-        {
+        public ObservableCollection<Employee> SearchedEmployees 
+        { 
             get
             {
-                return _employeesFilter;
+                return _searchedEmployees;
             }
             set
             {
-                _employeesFilter = value;
-                OnPropertyChanged(nameof(EmployeesFilter));
-                EmployeesCollectionView.Refresh();
+                _searchedEmployees = value;
+                OnPropertyChanged("SearchedEmployees");
             }
         }
+
+        public string SearchText
+        {
+            get
+            {
+                return _searchText;
+            }
+            set
+            {
+                if (_searchText == value)
+                    return;
+
+                _searchText = value;
+
+                if (string.IsNullOrEmpty(SearchText))
+                    Search();
+            }
+        }
+
+        public ICommand SearchCommand { get; set; }
 
         public EmployeeListViewModel()
         {
@@ -56,27 +80,26 @@ namespace GLWpfApp.ViewModels
                 new Employee { FirstName = "Peter", LastName = "Duris" }
             };
 
-            EmployeesCollectionView = CollectionViewSource.GetDefaultView(Employees);
-            EmployeesCollectionView.Filter = FilterEmployees;
+            SearchCommand = new RelayCommand(Search);
         }
 
-        private bool FilterEmployees(object obj)
+        public void Search()
         {
-            if(obj is Employee Employee)
+            if (string.IsNullOrEmpty(SearchText) || Employees == null || Employees.Count <= 0)
             {
-                return Employee.FullName.Contains(EmployeesFilter, StringComparison.InvariantCultureIgnoreCase);
+                SearchedEmployees = new ObservableCollection<Employee>(Employees ?? Enumerable.Empty<Employee>());
+                return;
             }
 
-            return false;
+            SearchedEmployees = new ObservableCollection<Employee>(Employees.Where(employee => employee.FullName.ToLower().Contains(SearchText.ToLower())));
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
         protected void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

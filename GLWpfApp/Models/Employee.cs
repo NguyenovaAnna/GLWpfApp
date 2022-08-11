@@ -26,7 +26,6 @@ namespace GLWpfApp.Models
             }
         }
 
-        
         public string LastName
         {
             get
@@ -39,7 +38,6 @@ namespace GLWpfApp.Models
                 OnPropertyChanged(LastName);
             }
         }
-
 
         public string FullName
         {

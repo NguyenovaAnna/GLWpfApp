@@ -21,34 +21,9 @@ namespace GLWpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        
         public MainWindow()
         {
             InitializeComponent();
-
-            //employees.Add(new Employee { FirstName = "Anna", LastName = "Nguyenova" });
-            //employees.Add(new Employee { FirstName = "Daniela", LastName = "Horvathova" });
-            //employees.Add(new Employee { FirstName = "Dominika", LastName = "Mala" });
-            //employees.Add(new Employee { FirstName = "David", LastName = "Kovac" });
-            //employees.Add(new Employee { FirstName = "Peter", LastName = "Duris" });
-
-            //listOfEmployees.ItemsSource = employees;
-
-            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listOfEmployees.ItemsSource);
-            //view.Filter = EmployeeFilter;
         }
-
-        //private bool EmployeeFilter(object item)
-        //{
-        //    if (String.IsNullOrEmpty(textFilter.Text))
-        //        return true;
-        //    else
-        //        return ((item as Employee).FullName.Contains(textFilter.Text, StringComparison.OrdinalIgnoreCase));
-        //}
-
-        //private void textFilter_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        //{
-        //    CollectionViewSource.GetDefaultView(listOfEmployees.ItemsSource).Refresh();
-        //}
     }
 }

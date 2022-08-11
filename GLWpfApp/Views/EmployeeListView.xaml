@@ -42,28 +42,28 @@
                                          BorderThickness="0"
                                          Height="20"
                                          FontSize="12"
-                                         Text="{Binding EmployeesFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
 
                                 <Button Grid.Row="0"
                                         Content="Search"
+                                        Command="{Binding SearchCommand}"
                                         HorizontalAlignment="Right" 
                                         Margin="0,0,2,0" Height="20" 
                                         Width="Auto" />
                             </Grid>
                         </Border>
                         
-                        <ListView x:Name="ListOfEmployees" 
-                                  ItemsSource="{Binding Employees}" 
-                                  SelectedItem="{Binding SelectedEmployees}"
+                        <ListBox x:Name="ListOfEmployees" 
+                                  ItemsSource="{Binding SearchedEmployees}" 
                                   Margin="2" 
                                   Background="Transparent" 
                                   BorderThickness="0">
-                            <ListView.ItemTemplate>
+                            <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding FullName}" />
                                 </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </StackPanel>
                 </Border>
             </Grid>
