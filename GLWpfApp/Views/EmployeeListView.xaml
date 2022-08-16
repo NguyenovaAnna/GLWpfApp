@@ -10,7 +10,12 @@
 
     <Window.Resources>
         <vm:EmployeeListViewModel x:Key="EmployeeListViewModel" />
-
+        <DataTemplate x:Key="ListBoxItemTemplate">
+            <Grid>
+                <TextBlock Text="{Binding FullName}" />
+                <Button HorizontalAlignment="Right">x</Button>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
     
     <Border Padding="10">
@@ -30,12 +35,7 @@
                                 Margin="0,5,0,10"
                                 Padding="4">
                             <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-
-                                <TextBox Grid.Row="0"
-                                         VerticalAlignment="Stretch"  
+                                <TextBox VerticalAlignment="Stretch"  
                                          HorizontalAlignment="Stretch"
                                          Margin="2,0,0,0"
                                          Padding="2"
@@ -44,23 +44,36 @@
                                          FontSize="12"
                                          Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <Button Grid.Row="0"
-                                        Content="Search"
+                                <Button Content="Search"
                                         Command="{Binding SearchCommand}"
                                         HorizontalAlignment="Right" 
-                                        Margin="0,0,2,0" Height="20" 
+                                        Margin="0,0,2,0" 
+                                        Height="20" 
                                         Width="Auto" />
                             </Grid>
                         </Border>
                         
-                        <ListBox x:Name="ListOfEmployees" 
-                                  ItemsSource="{Binding SearchedEmployees}" 
-                                  Margin="2" 
-                                  Background="Transparent" 
-                                  BorderThickness="0">
+                        <ListBox x:Name="MyList" 
+                                 ItemsSource="{Binding SearchedEmployees}"
+                                 SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
+                                 Margin="2" 
+                                 Background="Transparent" 
+                                 BorderThickness="0">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding FullName}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding FullName}" 
+                                                   Margin="2,0,5,0"/>
+                                        <Button Content="X" 
+                                                Command="{Binding DeleteCommand}"
+                                                CommandParameter="{Binding ElementName=MyList, Path=SelectedItem}"
+                                                HorizontalAlignment="Right"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                Margin="0,0,2,0" 
+                                                Width="20" 
+                                                Height="20"/>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
