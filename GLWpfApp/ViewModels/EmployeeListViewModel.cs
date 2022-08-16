@@ -112,7 +112,7 @@ namespace GLWpfApp.ViewModels
         public void Delete()
         {
 
-            if(SelectedEmployee != null)
+            if (SelectedEmployee != null)
             {
                 SearchedEmployees.Remove(SelectedEmployee);
             }

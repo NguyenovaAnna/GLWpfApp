@@ -10,12 +10,7 @@
 
     <Window.Resources>
         <vm:EmployeeListViewModel x:Key="EmployeeListViewModel" />
-        <DataTemplate x:Key="ListBoxItemTemplate">
-            <Grid>
-                <TextBlock Text="{Binding FullName}" />
-                <Button HorizontalAlignment="Right">x</Button>
-            </Grid>
-        </DataTemplate>
+        <BooleanToVisibilityConverter x:Key="booleanVisibleConverter" />
     </Window.Resources>
     
     <Border Padding="10">
@@ -30,29 +25,32 @@
                         BorderThickness="0.5" 
                         Padding="5">
                     <StackPanel>
-                        <Border BorderBrush="Black" 
-                                BorderThickness="0.5"
-                                Margin="0,5,0,10"
-                                Padding="4">
-                            <Grid>
-                                <TextBox VerticalAlignment="Stretch"  
-                                         HorizontalAlignment="Stretch"
-                                         Margin="2,0,0,0"
-                                         Padding="2"
-                                         BorderThickness="0"
-                                         Height="20"
-                                         FontSize="12"
-                                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" 
+                                     VerticalAlignment="Stretch"  
+                                     HorizontalAlignment="Stretch"
+                                     Padding="2"
+                                     Height="20"
+                                     FontSize="12"
+                                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <Button Content="Search"
-                                        Command="{Binding SearchCommand}"
-                                        HorizontalAlignment="Right" 
-                                        Margin="0,0,2,0" 
-                                        Height="20" 
-                                        Width="Auto" />
-                            </Grid>
-                        </Border>
-                        
+                            <Button Grid.Column="1" 
+                                    Content="Search"
+                                    Command="{Binding SearchCommand}"
+                                    Height="20" 
+                                    Width="Auto" />
+
+                            <Button Grid.Column="2" 
+                                    Content="Add"
+                                    Height="20" 
+                                    Width="Auto" />
+                        </Grid>
+
                         <ListBox x:Name="MyList" 
                                  ItemsSource="{Binding SearchedEmployees}"
                                  SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
@@ -62,15 +60,15 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding FullName}" 
-                                                   Margin="2,0,5,0"/>
-                                        <Button Content="X" 
-                                                Command="{Binding DeleteCommand}"
-                                                CommandParameter="{Binding ElementName=MyList, Path=SelectedItem}"
+                                        <TextBlock Text="{Binding FullName}"
+                                                   Width="200"
+                                                   Margin="2,0,0,0"/>
+                                        <Button Content="X"
+                                                Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected, Converter={StaticResource booleanVisibleConverter}}"
+                                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                                 HorizontalAlignment="Right"
                                                 HorizontalContentAlignment="Center"
                                                 VerticalContentAlignment="Center"
-                                                Margin="0,0,2,0" 
                                                 Width="20" 
                                                 Height="20"/>
                                     </StackPanel>
