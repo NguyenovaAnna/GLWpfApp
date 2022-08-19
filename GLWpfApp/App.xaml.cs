@@ -14,6 +14,6 @@ namespace GLWpfApp
     /// </summary>
     public partial class App : Application
     {
-  
+        
     }
 }

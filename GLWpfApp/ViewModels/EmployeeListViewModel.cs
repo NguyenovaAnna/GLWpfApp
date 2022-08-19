@@ -12,14 +12,15 @@ using System.Windows.Input;
 
 namespace GLWpfApp.ViewModels
 {
-    public class EmployeeListViewModel : INotifyPropertyChanged
-    {
-
+    public class EmployeeListViewModel : ViewModelBase
+    {        
         private ObservableCollection<Employee> _employees;
         private ObservableCollection<Employee> _searchedEmployees;
         private Employee _selectedEmployee;
+        private Employee _employee;
         private string _searchText;
-
+        private bool _employeeIsSelected;
+        //private ICommand _submitCommand;
         public ObservableCollection<Employee> Employees
         {
             get
@@ -32,6 +33,7 @@ namespace GLWpfApp.ViewModels
                     return;
 
                 _employees = value;
+                OnPropertyChanged("Employees");
 
                 SearchedEmployees = new ObservableCollection<Employee>(_employees);
             }
@@ -60,6 +62,24 @@ namespace GLWpfApp.ViewModels
             {
                 _selectedEmployee = value;
                 OnPropertyChanged("SelectedEmployee");
+
+                if (SelectedEmployee != null)
+                {
+                    EmployeeIsSelected = true;
+                }
+            }
+        }
+
+        public Employee Employee
+        {
+            get
+            {
+                return _employee;
+            }
+            set
+            {
+                _employee = value;
+                OnPropertyChanged("Employee");
             }
         }
         public string SearchText
@@ -80,22 +100,53 @@ namespace GLWpfApp.ViewModels
             }
         }
 
+        public bool EmployeeIsSelected
+        {
+            get
+            {
+                return _employeeIsSelected;
+            }
+            set
+            {
+                _employeeIsSelected = value;
+                OnPropertyChanged("EmployeeIsSelected");
+            }
+        }
+
         public ICommand SearchCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+        public ICommand OpenDetailCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
+        public ICommand SubmitCommand { get; set; }
+        //{
+        //    get
+        //    {
+        //        if (_submitCommand == null)
+        //        {
+        //            _submitCommand = new AddEditEmployeeCommand(param => AddEmployee(param), param => true);
+        //        }
+        //        return _submitCommand;
+        //    }
+
+        //}
 
         public EmployeeListViewModel()
         {
+            Employee = new Employee();
             Employees = new ObservableCollection<Employee>()
             {
-                new Employee { FirstName = "Anna", LastName = "Nguyenova" },
-                new Employee { FirstName = "Daniela", LastName = "Horvathova" },
-                new Employee { FirstName = "Dominika", LastName = "Mala" },
-                new Employee { FirstName = "David", LastName = "Kovac" },
-                new Employee { FirstName = "Peter", LastName = "Duris" }
+                new Employee { FirstName = "Anna", LastName="Nguyenova", EmployeeNumber = 1111 },
+                new Employee { FirstName = "Daniela", LastName = "Horvathova", EmployeeNumber = 2222 },
+                new Employee { FirstName = "Dominika", LastName = "Mala", EmployeeNumber = 3333 },
+                new Employee { FirstName = "David", LastName = "Kovac", EmployeeNumber = 4444 },
+                new Employee { FirstName = "Peter", LastName = "Duris", EmployeeNumber = 5555 }
             };
 
             SearchCommand = new RelayCommand(Search);
             DeleteCommand = new RelayCommand(Delete);
+            OpenDetailCommand = new RelayCommand(OpenDetail);
+            CancelCommand = new RelayCommand(Cancel);
+            SubmitCommand = new AddEditEmployeeCommand(AddEmployee);
         }
 
         public void Search()
@@ -111,20 +162,27 @@ namespace GLWpfApp.ViewModels
 
         public void Delete()
         {
-
             if (SelectedEmployee != null)
             {
                 SearchedEmployees.Remove(SelectedEmployee);
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
+        public void OpenDetail()
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            EmployeeIsSelected = true;
+        }
+
+        public void Cancel()
+        {
+            EmployeeIsSelected = false;
+            SelectedEmployee = null;
+        }
+
+        public void AddEmployee(object parameter)
+        {
+            Employees.Add(new Employee() {FirstName = Employee.FirstName, LastName = Employee.LastName, EmployeeNumber = Employee.EmployeeNumber});
+            EmployeeIsSelected = false;
         }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GLWpfApp"
         xmlns:vm="clr-namespace:GLWpfApp.ViewModels"
         mc:Ignorable="d"
-        Title="Employees" Height="450" Width="800">
+        Title="Employees" Height="450" Width="900">
 
     <Window.Resources>
         <vm:EmployeeListViewModel x:Key="EmployeeListViewModel" />
@@ -37,7 +37,7 @@
                                      Padding="2"
                                      Height="20"
                                      FontSize="12"
-                                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
 
                             <Button Grid.Column="1" 
                                     Content="Search"
@@ -47,13 +47,14 @@
 
                             <Button Grid.Column="2" 
                                     Content="Add"
+                                    Command="{Binding OpenDetailCommand}"
                                     Height="20" 
                                     Width="Auto" />
                         </Grid>
 
                         <ListBox x:Name="MyList" 
                                  ItemsSource="{Binding SearchedEmployees}"
-                                 SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
+                                 SelectedItem="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="2" 
                                  Background="Transparent" 
                                  BorderThickness="0">
@@ -63,14 +64,17 @@
                                         <TextBlock Text="{Binding FullName}"
                                                    Width="200"
                                                    Margin="2,0,0,0"/>
-                                        <Button Content="X"
+                                        <Button Content="x"
                                                 Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected, Converter={StaticResource booleanVisibleConverter}}"
                                                 Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                                 HorizontalAlignment="Right"
-                                                HorizontalContentAlignment="Center"
-                                                VerticalContentAlignment="Center"
+                                                Padding="0,0,0,3"
                                                 Width="20" 
-                                                Height="20"/>
+                                                Height="20"
+                                                BorderThickness="0"
+                                                Background="Transparent"
+                                                Foreground="Red"
+                                                FontWeight="ExtraBold"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -78,6 +82,189 @@
                     </StackPanel>
                 </Border>
             </Grid>
+
+            <StackPanel x:Name="EmployeeDetail" Grid.Column="1" >
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" 
+                                Value="Hidden" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EmployeeIsSelected}" 
+                                         Value="True">
+                                <Setter Property="Visibility" 
+                                        Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+                <Grid Margin="0,0,0,3"
+                      DataContext="{Binding SelectedEmployee}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" 
+                               Text="Employee Number" 
+                               FontWeight="Bold" 
+                               FontSize="10" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom" />
+                    <TextBox x:Name="EmployeeNumber"
+                             Grid.Column="1" 
+                             Margin="3,0,0,0"
+                             Text="{Binding EmployeeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+
+                <Grid Margin="0,0,0,3"
+                      DataContext="{Binding SelectedEmployee}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" 
+                               Text="First Name" 
+                               FontWeight="Bold" 
+                               FontSize="10" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom" />
+                    <TextBox x:Name="FirstName"
+                             Grid.Column="1" 
+                             Margin="3,0,0,0" 
+                             Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+
+                <Grid Margin="0,0,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" 
+                               Text="Middle Name" 
+                               FontSize="10" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom" />
+                    <TextBox Grid.Column="1" 
+                             Margin="3,0,0,0" />
+                </Grid>
+
+                <Grid Margin="0,0,0,3"
+                      DataContext="{Binding SelectedEmployee}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" 
+                               Text="Last Name" 
+                               FontWeight="Bold" 
+                               FontSize="10" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom" />
+                    <TextBox x:Name="LastName" 
+                             Grid.Column="1" 
+                             Margin="3,0,0,0" 
+                             Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+
+                <Grid Margin="0,0,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" 
+                               Text="National Identification Number" 
+                               FontSize="10" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom" />
+                    <TextBox Grid.Column="1" 
+                             Margin="3,0,0,0" />
+                </Grid>
+
+                <Grid Margin="0,0,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" 
+                               Text="Previous Identification Number" 
+                               FontSize="10" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom" />
+                    <TextBox Grid.Column="1" Margin="3,0,0,0" />
+                </Grid>
+
+                <Grid Margin="0,0,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" 
+                               Text="Personell Number" 
+                               FontSize="10" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom" />
+                    <TextBox Grid.Column="1" Margin="3,0,0,0" />
+                </Grid>
+
+                <Grid Margin="0,20,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" 
+                               Text="Activation Time" 
+                               FontSize="10" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom" />
+                    <DatePicker Grid.Column="1"
+                                Margin="3,0,0,0"
+                                BorderThickness="0.5"/>
+                </Grid>
+
+                <Grid Margin="0,0,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" 
+                               Text="Expiration Time" 
+                               FontSize="10" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom" />
+                    <DatePicker Grid.Column="1"
+                                Margin="3,0,0,0"
+                                BorderThickness="0.5"/>
+                </Grid>
+
+                <Grid Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="1"
+                            Content="Submit" 
+                            Margin="0,0,4,0"
+                            Command="{Binding DataContext.SubmitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type StackPanel}}}"/>
+
+                    <Button Grid.Column="2"
+                            Content="Cancel"
+                            Command="{Binding CancelCommand}"/>
+                </Grid>
+            </StackPanel>
         </Grid>
     </Border>
 </Window>

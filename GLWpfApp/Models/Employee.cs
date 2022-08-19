@@ -12,6 +12,7 @@ namespace GLWpfApp.Models
         private string _firstName;
         private string _lastName;
         private string _fullname;
+        private int _employeeNumber;
 
         public string FirstName
         {
@@ -46,6 +47,30 @@ namespace GLWpfApp.Models
                 return $"{FirstName} {LastName}";
             }
         }
+
+        public int EmployeeNumber
+        {
+            get
+            {
+                return _employeeNumber;
+            }
+            set
+            {
+                _employeeNumber = value;
+            }
+        }
+        
+        public Employee()
+        {
+
+        }
+
+        //public Employee(string firstName, string lastName, int employeeNumber)
+        //{
+        //    FirstName = firstName;
+        //    LastName = lastName;
+        //    EmployeeNumber = employeeNumber;
+        //}
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

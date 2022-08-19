@@ -1,4 +1,5 @@
 ﻿using GLWpfApp.Models;
+using GLWpfApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

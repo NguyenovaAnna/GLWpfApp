@@ -7,25 +7,28 @@ using System.Windows.Input;
 
 namespace GLWpfApp.Commands
 {
-    public class RelayCommand : ICommand
+    internal class AddEditEmployeeCommand : ICommand
     {
-        private Action mAction;
+
+        private Action<object> _execute;
+ 
 
         public event EventHandler? CanExecuteChanged;
 
-        public RelayCommand(Action action)
+        public AddEditEmployeeCommand(Action<object> execute)
         {
-            mAction = action;
+            _execute = execute;
         }
 
-        public bool CanExecute(object? parameter)
+
+        public bool CanExecute(object parameter)
         {
             return true;
         }
 
-        public void Execute(object? parameter)
+        public void Execute(object parameter)
         {
-            mAction();
+            _execute(parameter);
         }
     }
 }
