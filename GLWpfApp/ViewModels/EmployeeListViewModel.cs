@@ -19,8 +19,8 @@ namespace GLWpfApp.ViewModels
         private Employee _selectedEmployee;
         private Employee _employee;
         private string _searchText;
-        private bool _employeeIsSelected;
-        //private ICommand _submitCommand;
+        private bool _isEmployeeSelected;
+        private bool _isAddedBtnClicked;
         public ObservableCollection<Employee> Employees
         {
             get
@@ -60,12 +60,16 @@ namespace GLWpfApp.ViewModels
             }
             set 
             {
+                if (_selectedEmployee == value)
+                    return;
+
                 _selectedEmployee = value;
                 OnPropertyChanged("SelectedEmployee");
+                OnPropertyChanged("Employee");
 
                 if (SelectedEmployee != null)
                 {
-                    EmployeeIsSelected = true;
+                    IsEmployeeSelected = true;
                 }
             }
         }
@@ -78,8 +82,14 @@ namespace GLWpfApp.ViewModels
             }
             set
             {
+                if (_employee == value)
+                    return;
+
                 _employee = value;
                 OnPropertyChanged("Employee");
+                OnPropertyChanged("SelectedEmployee");
+
+
             }
         }
         public string SearchText
@@ -100,16 +110,29 @@ namespace GLWpfApp.ViewModels
             }
         }
 
-        public bool EmployeeIsSelected
+        public bool IsEmployeeSelected
         {
             get
             {
-                return _employeeIsSelected;
+                return _isEmployeeSelected;
             }
             set
             {
-                _employeeIsSelected = value;
-                OnPropertyChanged("EmployeeIsSelected");
+                _isEmployeeSelected = value;
+                OnPropertyChanged("IsEmployeeSelected");
+            }
+        }
+
+        public bool IsAddedBtnClicked
+        {
+            get
+            {
+                return _isAddedBtnClicked;
+            }
+            set
+            {
+                _isAddedBtnClicked = value;
+                OnPropertyChanged("IsAddedBtnClicked");
             }
         }
 
@@ -118,17 +141,9 @@ namespace GLWpfApp.ViewModels
         public ICommand OpenDetailCommand { get; set; }
         public ICommand CancelCommand { get; set; }
         public ICommand SubmitCommand { get; set; }
-        //{
-        //    get
-        //    {
-        //        if (_submitCommand == null)
-        //        {
-        //            _submitCommand = new AddEditEmployeeCommand(param => AddEmployee(param), param => true);
-        //        }
-        //        return _submitCommand;
-        //    }
 
-        //}
+        public ICommand EditCommand { get; set; }
+
 
         public EmployeeListViewModel()
         {
@@ -147,6 +162,7 @@ namespace GLWpfApp.ViewModels
             OpenDetailCommand = new RelayCommand(OpenDetail);
             CancelCommand = new RelayCommand(Cancel);
             SubmitCommand = new AddEditEmployeeCommand(AddEmployee);
+            EditCommand = new AddEditEmployeeCommand(EditEmployee);
         }
 
         public void Search()
@@ -170,19 +186,30 @@ namespace GLWpfApp.ViewModels
 
         public void OpenDetail()
         {
-            EmployeeIsSelected = true;
+            IsAddedBtnClicked = true;
         }
 
         public void Cancel()
         {
-            EmployeeIsSelected = false;
+            IsEmployeeSelected = false;
+            IsAddedBtnClicked = false;
             SelectedEmployee = null;
         }
 
-        public void AddEmployee(object parameter)
+        public void AddEmployee(object o)
         {
-            Employees.Add(new Employee() {FirstName = Employee.FirstName, LastName = Employee.LastName, EmployeeNumber = Employee.EmployeeNumber});
-            EmployeeIsSelected = false;
+            Employees.Add(Employee);
+            Search();
+            IsEmployeeSelected = false;
+            IsAddedBtnClicked = false;
+        }
+
+        public void EditEmployee(object o)
+        {
+            SelectedEmployee = new Employee();
+            Search();
+            IsEmployeeSelected = false;
+            IsAddedBtnClicked = false;
         }
     }
 }
