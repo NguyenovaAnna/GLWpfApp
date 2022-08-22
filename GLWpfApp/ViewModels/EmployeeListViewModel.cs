@@ -65,7 +65,6 @@ namespace GLWpfApp.ViewModels
 
                 _selectedEmployee = value;
                 OnPropertyChanged("SelectedEmployee");
-                OnPropertyChanged("Employee");
 
                 if (SelectedEmployee != null)
                 {
@@ -87,9 +86,6 @@ namespace GLWpfApp.ViewModels
 
                 _employee = value;
                 OnPropertyChanged("Employee");
-                OnPropertyChanged("SelectedEmployee");
-
-
             }
         }
         public string SearchText
