@@ -15,12 +15,17 @@ namespace GLWpfApp.ViewModels
     public class EmployeeListViewModel : ViewModelBase
     {        
         private ObservableCollection<Employee> _employees;
-        private ObservableCollection<Employee> _searchedEmployees;
+        //private ObservableCollection<Employee> _searchedEmployees;
         private Employee _selectedEmployee;
         private Employee _employee;
-        private string _searchText;
         private bool _isEmployeeSelected;
         private bool _isAddedBtnClicked;
+        private string _employeesFilter = string.Empty;
+        private string _firstName;
+        private string _lastName;
+        private int _employeeNumber;
+
+        public ICollectionView EmployeesCollectionView { get; }
         public ObservableCollection<Employee> Employees
         {
             get
@@ -34,21 +39,6 @@ namespace GLWpfApp.ViewModels
 
                 _employees = value;
                 OnPropertyChanged("Employees");
-
-                SearchedEmployees = new ObservableCollection<Employee>(_employees);
-            }
-        }
-
-        public ObservableCollection<Employee> SearchedEmployees 
-        { 
-            get
-            {
-                return _searchedEmployees;
-            }
-            set
-            {
-                _searchedEmployees = value;
-                OnPropertyChanged("SearchedEmployees");
             }
         }
 
@@ -69,6 +59,7 @@ namespace GLWpfApp.ViewModels
                 if (SelectedEmployee != null)
                 {
                     IsEmployeeSelected = true;
+                    IsAddedBtnClicked = false;
                 }
             }
         }
@@ -86,23 +77,6 @@ namespace GLWpfApp.ViewModels
 
                 _employee = value;
                 OnPropertyChanged("Employee");
-            }
-        }
-        public string SearchText
-        {
-            get
-            {
-                return _searchText;
-            }
-            set
-            {
-                if (_searchText == value)
-                    return;
-
-                _searchText = value;
-
-                if (string.IsNullOrEmpty(SearchText))
-                    Search();
             }
         }
 
@@ -132,18 +106,70 @@ namespace GLWpfApp.ViewModels
             }
         }
 
+        public string EmployeesFilter
+        {
+            get
+            {
+                return _employeesFilter;
+            }
+            set
+            {
+                _employeesFilter = value;
+                OnPropertyChanged("EmployeesFilter");
+                if (string.IsNullOrEmpty(EmployeesFilter))
+                    Search();
+            }
+        }
+
+        public string FirstName
+        {
+            get
+            {
+                return _firstName;
+            }
+            set
+            {
+                _firstName = value;
+                OnPropertyChanged("FirstName");  
+            }
+        }
+
+        public string LastName
+        {
+            get
+            {
+                return _lastName;
+            }
+            set
+            {
+                _lastName = value;
+                OnPropertyChanged("LastName");
+            }
+        }
+
+        public int EmployeeNumber
+        {
+            get
+            {
+                return _employeeNumber;
+            }
+            set
+            {
+                _employeeNumber = value;
+                OnPropertyChanged("EmployeeNumber");
+            }
+        }
+
         public ICommand SearchCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand OpenDetailCommand { get; set; }
         public ICommand CancelCommand { get; set; }
         public ICommand SubmitCommand { get; set; }
-
         public ICommand EditCommand { get; set; }
 
 
         public EmployeeListViewModel()
         {
-            Employee = new Employee();
             Employees = new ObservableCollection<Employee>()
             {
                 new Employee { FirstName = "Anna", LastName="Nguyenova", EmployeeNumber = 1111 },
@@ -159,30 +185,41 @@ namespace GLWpfApp.ViewModels
             CancelCommand = new RelayCommand(Cancel);
             SubmitCommand = new AddEditEmployeeCommand(AddEmployee);
             EditCommand = new AddEditEmployeeCommand(EditEmployee);
+
+            EmployeesCollectionView = CollectionViewSource.GetDefaultView(Employees);
+            EmployeesCollectionView.Filter = FilterEmployees;
+        }
+
+        private bool FilterEmployees(object obj)
+        {
+            if (obj is Employee Employee)
+            {
+                return Employee.FullName.Contains(EmployeesFilter, StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            return false;
         }
 
         public void Search()
-       {
-            if (string.IsNullOrEmpty(SearchText) || Employees == null || Employees.Count <= 0)
-            {
-                SearchedEmployees = new ObservableCollection<Employee>(Employees ?? Enumerable.Empty<Employee>());
-                return;
-            }
-
-            SearchedEmployees = new ObservableCollection<Employee>(Employees.Where(employee => employee.FullName.ToLower().Contains(SearchText.ToLower())));
+        {
+            EmployeesCollectionView.Refresh();
         }
+
 
         public void Delete()
         {
             if (SelectedEmployee != null)
             {
-                SearchedEmployees.Remove(SelectedEmployee);
+                Employees.Remove(SelectedEmployee);
             }
+            IsEmployeeSelected = false;
         }
 
         public void OpenDetail()
         {
             IsAddedBtnClicked = true;
+            IsEmployeeSelected = false;
+            SelectedEmployee = null;
         }
 
         public void Cancel()
@@ -194,8 +231,12 @@ namespace GLWpfApp.ViewModels
 
         public void AddEmployee(object o)
         {
-            Employees.Add(Employee);
+            var newEmployee = new Employee(FirstName, LastName, EmployeeNumber);
+            Employees.Add(newEmployee);
             Search();
+            FirstName = String.Empty;
+            LastName = String.Empty;
+            EmployeeNumber = 0;
             IsEmployeeSelected = false;
             IsAddedBtnClicked = false;
         }

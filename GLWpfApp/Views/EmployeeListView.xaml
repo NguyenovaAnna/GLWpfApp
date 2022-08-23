@@ -37,7 +37,7 @@
                                      Padding="2"
                                      Height="20"
                                      FontSize="12"
-                                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding EmployeesFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
                             <Button Grid.Column="1" 
                                     Content="Search"
@@ -53,7 +53,7 @@
                         </Grid>
 
                         <ListBox x:Name="MyList" 
-                                 ItemsSource="{Binding SearchedEmployees}"
+                                 ItemsSource="{Binding Employees}"
                                  SelectedItem="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="2" 
                                  Background="Transparent" 
@@ -272,7 +272,7 @@
                     <TextBox 
                              Grid.Column="1" 
                              Margin="3,0,0,0"
-                             Text="{Binding Employee.EmployeeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding EmployeeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <Grid Margin="0,0,0,3">
@@ -290,7 +290,7 @@
                     <TextBox 
                              Grid.Column="1" 
                              Margin="3,0,0,0" 
-                             Text="{Binding Employee.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
 
                 <Grid Margin="0,0,0,3">
@@ -323,7 +323,7 @@
                     <TextBox 
                              Grid.Column="1" 
                              Margin="3,0,0,0" 
-                             Text="{Binding Employee.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
 
                 <Grid Margin="0,0,0,3">

@@ -23,7 +23,7 @@ namespace GLWpfApp.Models
             set 
             { 
                 _firstName = value;
-                OnPropertyChanged(FirstName);
+                OnPropertyChanged("FirstName");
             }
         }
 
@@ -36,7 +36,7 @@ namespace GLWpfApp.Models
             set
             {
                 _lastName = value;
-                OnPropertyChanged(LastName);
+                OnPropertyChanged("LastName");
             }
         }
 
@@ -57,6 +57,7 @@ namespace GLWpfApp.Models
             set
             {
                 _employeeNumber = value;
+                OnPropertyChanged("EmployeeNumber");
             }
         }
         
@@ -65,20 +66,21 @@ namespace GLWpfApp.Models
 
         }
 
-        //public Employee(string firstName, string lastName, int employeeNumber)
-        //{
-        //    FirstName = firstName;
-        //    LastName = lastName;
-        //    EmployeeNumber = employeeNumber;
-        //}
+        public Employee(string firstName, string lastName, int employeeNumber)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            EmployeeNumber = employeeNumber;
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private void OnPropertyChanged(string p)
+        protected void OnPropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler ph = PropertyChanged;
-            if (ph != null)
-                ph(this, new PropertyChangedEventArgs(p));
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }
