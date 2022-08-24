@@ -15,7 +15,7 @@ namespace GLWpfApp.ViewModels
     public class EmployeeListViewModel : ViewModelBase
     {        
         private ObservableCollection<Employee> _employees;
-        private Employee _selectedEmployee;
+        private Employee? _selectedEmployee;
         private bool _isEmployeeSelected;
         private bool _isAddedBtnClicked;
         private bool _isVisible;
@@ -35,7 +35,7 @@ namespace GLWpfApp.ViewModels
             }
         }
 
-        public Employee SelectedEmployee
+        public Employee? SelectedEmployee
         {
             get 
             {
@@ -49,9 +49,15 @@ namespace GLWpfApp.ViewModels
                 if (SelectedEmployee != null)
                 {
                     IsVisible = true;
-                    SelectedEmployeeDetail.EmployeeNumber = value.EmployeeNumber;
-                    SelectedEmployeeDetail.FirstName = value.FirstName;
-                    SelectedEmployeeDetail.LastName = value.LastName;
+                    SelectedEmployeeDetail.EmployeeNumber = SelectedEmployee.EmployeeNumber;
+                    SelectedEmployeeDetail.FirstName = SelectedEmployee.FirstName;
+                    SelectedEmployeeDetail.LastName = SelectedEmployee.LastName;
+                    SelectedEmployeeDetail.MiddleName = SelectedEmployee.MiddleName;
+                    SelectedEmployeeDetail.NationalIdNumber = SelectedEmployee.NationalIdNumber;
+                    SelectedEmployeeDetail.PreviousIdNumber = SelectedEmployee.PreviousIdNumber;
+                    SelectedEmployeeDetail.PersonellNumber = SelectedEmployee.PersonellNumber;
+                    SelectedEmployeeDetail.ActivationTime = SelectedEmployee.ActivationTime;
+                    SelectedEmployeeDetail.ExpirationTime = SelectedEmployee.ExpirationTime;
                 }
             }
         }
@@ -127,11 +133,11 @@ namespace GLWpfApp.ViewModels
             SelectedEmployeeDetail = new Employee();
             Employees = new ObservableCollection<Employee>()
             {
-                new Employee { FirstName = "Anna", LastName="Nguyenova", EmployeeNumber = 1111 },
-                new Employee { FirstName = "Daniela", LastName = "Horvathova", EmployeeNumber = 2222 },
-                new Employee { FirstName = "Dominika", LastName = "Mala", EmployeeNumber = 3333 },
-                new Employee { FirstName = "David", LastName = "Kovac", EmployeeNumber = 4444 },
-                new Employee { FirstName = "Peter", LastName = "Duris", EmployeeNumber = 5555 }
+                new Employee { FirstName = "Anna", LastName="Nguyenova", EmployeeNumber = 1111, MiddleName = string.Empty, NationalIdNumber = 1, PreviousIdNumber = 0, PersonellNumber = 11, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31) },
+                new Employee { FirstName = "Daniela", LastName = "Horvathova", EmployeeNumber = 2222, MiddleName = string.Empty, NationalIdNumber = 2, PreviousIdNumber = 0, PersonellNumber = 22, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31)  },
+                new Employee { FirstName = "Dominika", LastName = "Mala", EmployeeNumber = 3333, MiddleName = string.Empty, NationalIdNumber = 3, PreviousIdNumber = 0, PersonellNumber = 33, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31)  },
+                new Employee { FirstName = "David", LastName = "Kovac", EmployeeNumber = 4444, MiddleName = string.Empty, NationalIdNumber = 4, PreviousIdNumber = 0, PersonellNumber = 44, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31)  },
+                new Employee { FirstName = "Peter", LastName = "Duris", EmployeeNumber = 5555, MiddleName = string.Empty, NationalIdNumber = 5, PreviousIdNumber = 0, PersonellNumber = 55, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31)  }
             };
 
             SearchCommand = new RelayCommand(Search);
@@ -162,12 +168,13 @@ namespace GLWpfApp.ViewModels
 
         public void Delete()
         {
-            if (SelectedEmployee != null)
+            var employeeToDelete = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployeeDetail.EmployeeNumber);
+            
+            if (employeeToDelete != null)
             {
-                var employeeToDelete = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployeeDetail.EmployeeNumber);
                 Employees.Remove(employeeToDelete);
             }
-
+                
             IsVisible = false;
         }
 
@@ -177,7 +184,13 @@ namespace GLWpfApp.ViewModels
             SelectedEmployee = null;
             SelectedEmployeeDetail.FirstName = String.Empty;
             SelectedEmployeeDetail.LastName = String.Empty;
+            SelectedEmployeeDetail.MiddleName = String.Empty;
             SelectedEmployeeDetail.EmployeeNumber = 0;
+            SelectedEmployeeDetail.NationalIdNumber = 0;
+            SelectedEmployeeDetail.PreviousIdNumber = 0;
+            SelectedEmployeeDetail.PersonellNumber = 0;
+            SelectedEmployeeDetail.ActivationTime = DateTime.Today;
+            SelectedEmployeeDetail.ExpirationTime = DateTime.Today;
         }
 
         public void Reset()
@@ -196,22 +209,41 @@ namespace GLWpfApp.ViewModels
 
         public void Submit(object o)
         {
-            if(SelectedEmployee == null)
+            if (SelectedEmployee == null)
             {
-                var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, SelectedEmployeeDetail.EmployeeNumber);
+                var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, SelectedEmployeeDetail.EmployeeNumber, 
+                    SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
+                    SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime);
                 Employees.Add(newEmployee);
                 Search();
                 SelectedEmployeeDetail.FirstName = String.Empty;
                 SelectedEmployeeDetail.LastName = String.Empty;
+                SelectedEmployeeDetail.MiddleName = String.Empty;
                 SelectedEmployeeDetail.EmployeeNumber = 0;
+                SelectedEmployeeDetail.NationalIdNumber = 0;
+                SelectedEmployeeDetail.PreviousIdNumber = 0;
+                SelectedEmployeeDetail.PersonellNumber = 0;
+                SelectedEmployeeDetail.ActivationTime = DateTime.Today;
+                SelectedEmployeeDetail.ExpirationTime = DateTime.Today;
                 IsVisible = false;
             }
             else
             {
                 var employeeToEdit = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployeeDetail.EmployeeNumber);
-                employeeToEdit.FirstName = SelectedEmployeeDetail.FirstName;
-                employeeToEdit.LastName = SelectedEmployeeDetail.LastName;
-                employeeToEdit.EmployeeNumber = SelectedEmployeeDetail.EmployeeNumber;
+
+                if (employeeToEdit != null)
+                {
+                    employeeToEdit.FirstName = SelectedEmployeeDetail.FirstName;
+                    employeeToEdit.LastName = SelectedEmployeeDetail.LastName;
+                    employeeToEdit.MiddleName = SelectedEmployeeDetail.MiddleName;
+                    employeeToEdit.EmployeeNumber = SelectedEmployeeDetail.EmployeeNumber;
+                    employeeToEdit.NationalIdNumber = SelectedEmployeeDetail.NationalIdNumber;
+                    employeeToEdit.PreviousIdNumber = SelectedEmployeeDetail.PreviousIdNumber;
+                    employeeToEdit.PersonellNumber = SelectedEmployeeDetail.PersonellNumber;
+                    employeeToEdit.ActivationTime = SelectedEmployeeDetail.ActivationTime;
+                    employeeToEdit.ExpirationTime = SelectedEmployeeDetail.ExpirationTime;  
+                }
+                
                 Search();
                 IsVisible = false;
             }

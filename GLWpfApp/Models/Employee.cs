@@ -11,8 +11,13 @@ namespace GLWpfApp.Models
     {
         private string _firstName;
         private string _lastName;
-        private string _fullname;
+        private string? _middleName;
         private int _employeeNumber;
+        private int _nationalIdNumber;
+        private int _previousIdNumber;
+        private int _personellNumber;
+        private DateTime _activationTime;
+        private DateTime _expirationTime;
 
         public string FirstName
         {
@@ -40,6 +45,19 @@ namespace GLWpfApp.Models
             }
         }
 
+        public string? MiddleName
+        {
+            get
+            {
+                return _middleName;
+            }
+            set
+            {
+                _middleName = value;
+                OnPropertyChanged("MiddleName");
+            }
+        }
+
         public string FullName
         {
             get
@@ -60,17 +78,88 @@ namespace GLWpfApp.Models
                 OnPropertyChanged("EmployeeNumber");
             }
         }
-        
+
+        public int NationalIdNumber
+        {
+            get
+            {
+                return _nationalIdNumber;
+            }
+            set
+            {
+                _nationalIdNumber = value;
+                OnPropertyChanged("NationalIdNumber");
+            }
+        }
+
+        public int PreviousIdNumber
+        {
+            get
+            {
+                return _previousIdNumber;
+            }
+            set
+            {
+                _previousIdNumber = value;
+                OnPropertyChanged("PreviousIdNumber");
+            }
+        }
+
+        public int PersonellNumber
+        {
+            get
+            {
+                return _personellNumber;
+            }
+            set
+            {
+                _personellNumber = value;
+                OnPropertyChanged("PersonellNumber");
+            }
+        }
+
+        public DateTime ActivationTime
+        {
+            get
+            {
+                return _activationTime;
+            }
+            set
+            {
+                _activationTime = value;
+                OnPropertyChanged("ActivationTime");
+            }
+        }
+
+        public DateTime ExpirationTime
+        {
+            get
+            {
+                return _expirationTime;
+            }
+            set
+            {
+                _expirationTime = value;
+                OnPropertyChanged("ExpirationTime");
+            }
+        }
+
         public Employee()
         {
 
         }
 
-        public Employee(string firstName, string lastName, int employeeNumber)
+        public Employee(string firstName, string lastName, int employeeNumber, string middleName, int nationalIdNumber, int previousIdNumber, int personellNumber, DateTime activationTime, DateTime expirationTime)
         {
             FirstName = firstName;
             LastName = lastName;
             EmployeeNumber = employeeNumber;
+            MiddleName = middleName;
+            NationalIdNumber = nationalIdNumber;
+            PreviousIdNumber = previousIdNumber;
+            PersonellNumber = personellNumber;
+            ActivationTime = activationTime;
+            ExpirationTime = expirationTime;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

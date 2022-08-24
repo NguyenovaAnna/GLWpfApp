@@ -27,9 +27,10 @@
                     <StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="20" />
                             </Grid.ColumnDefinitions>
                             
                             <TextBox Grid.Column="0" 
@@ -40,29 +41,32 @@
                                      FontSize="12"
                                      Text="{Binding EmployeesFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <Button Grid.Column="0"
-                                    Content="x"
+                            <Button Grid.Column="1" 
+                                    Command="{Binding SearchCommand}"
+                                    Width="22" 
+                                    Height="22"
+                                    BorderThickness="0"
+                                    Background="Transparent" >
+                                <Image Source="../Images/SearchButton.png" />
+                            </Button>
+                            
+                            <Button Grid.Column="2"
                                     Command="{Binding ResetCommand}"
-                                    HorizontalAlignment="Right"
-                                    Padding="0,0,0,3"
                                     Width="20" 
                                     Height="20"
                                     BorderThickness="0"
-                                    Background="Transparent"
-                                    Foreground="Red"
-                                    FontWeight="ExtraBold" />
+                                    Background="Transparent" >
+                                <Image Source="../Images/ResetButton.png" />
+                            </Button>
 
-                            <Button Grid.Column="1" 
-                                    Content="Search"
-                                    Command="{Binding SearchCommand}"
-                                    Height="20" 
-                                    Width="Auto" />
-
-                            <Button Grid.Column="2" 
-                                    Content="Add"
+                            <Button Grid.Column="3" 
                                     Command="{Binding AddCommand}"
-                                    Height="20" 
-                                    Width="Auto" />
+                                    Width="20" 
+                                    Height="20"
+                                    BorderThickness="0"
+                                    Background="Transparent">
+                                <Image Source="../Images/AddButton.png" />
+                            </Button>
                         </Grid>
 
                         <ListBox x:Name="MyList" 
@@ -77,17 +81,15 @@
                                         <TextBlock Text="{Binding FullName}"
                                                    Width="200"
                                                    Margin="2,0,0,0"/>
-                                        <Button Content="x"
-                                                Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected, Converter={StaticResource booleanVisibleConverter}}"
+                                        <Button Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected, Converter={StaticResource booleanVisibleConverter}}"
                                                 Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                                 HorizontalAlignment="Right"
-                                                Padding="0,0,0,3"
                                                 Width="20" 
                                                 Height="20"
                                                 BorderThickness="0"
-                                                Background="Transparent"
-                                                Foreground="Red"
-                                                FontWeight="ExtraBold"/>
+                                                Background="Transparent" >
+                                            <Image Source="../Images/ResetButton.png" />
+                                        </Button>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -148,7 +150,8 @@
                                HorizontalAlignment="Right" 
                                VerticalAlignment="Bottom" />
                     <TextBox Grid.Column="1" 
-                             Margin="3,0,0,0" />
+                             Margin="3,0,0,0" 
+                             Text="{Binding SelectedEmployeeDetail.MiddleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <Grid Margin="0,0,0,3">
@@ -181,7 +184,8 @@
                                HorizontalAlignment="Right" 
                                VerticalAlignment="Bottom" />
                     <TextBox Grid.Column="1" 
-                             Margin="3,0,0,0" />
+                             Margin="3,0,0,0"
+                             Text="{Binding SelectedEmployeeDetail.NationalIdNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <Grid Margin="0,0,0,3">
@@ -196,7 +200,8 @@
                                HorizontalAlignment="Right" 
                                VerticalAlignment="Bottom" />
                     <TextBox Grid.Column="1" 
-                             Margin="3,0,0,0" />
+                             Margin="3,0,0,0"
+                             Text="{Binding SelectedEmployeeDetail.PreviousIdNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <Grid Margin="0,0,0,3">
@@ -211,7 +216,8 @@
                                HorizontalAlignment="Right" 
                                VerticalAlignment="Bottom" />
                     <TextBox Grid.Column="1" 
-                             Margin="3,0,0,0" />
+                             Margin="3,0,0,0"
+                             Text="{Binding SelectedEmployeeDetail.PersonellNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <Grid Margin="0,20,0,3">
@@ -228,7 +234,8 @@
                                VerticalAlignment="Bottom" />
                     <DatePicker Grid.Column="1"
                                 Margin="3,0,0,0"
-                                BorderThickness="0.5"/>
+                                BorderThickness="0.5"
+                                SelectedDate="{Binding SelectedEmployeeDetail.ActivationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <Grid Margin="0,0,0,3">
@@ -245,7 +252,8 @@
                                VerticalAlignment="Bottom" />
                     <DatePicker Grid.Column="1"
                                 Margin="3,0,0,0"
-                                BorderThickness="0.5"/>
+                                BorderThickness="0.5"
+                                SelectedDate="{Binding SelectedEmployeeDetail.ExpirationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <Grid Margin="0,20,0,0">
