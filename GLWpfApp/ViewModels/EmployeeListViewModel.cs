@@ -116,6 +116,7 @@ namespace GLWpfApp.ViewModels
         public ICommand SearchCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand AddCommand { get; set; }
+        public ICommand ResetCommand { get; set; }
         public ICommand CancelCommand { get; set; }
         public ICommand SubmitCommand { get; set; }
 
@@ -136,6 +137,7 @@ namespace GLWpfApp.ViewModels
             SearchCommand = new RelayCommand(Search);
             DeleteCommand = new RelayCommand(Delete);
             AddCommand = new RelayCommand(Add);
+            ResetCommand = new RelayCommand(Reset);
             CancelCommand = new RelayCommand(Cancel);
             SubmitCommand = new AddEditEmployeeCommand(Submit);
 
@@ -176,6 +178,11 @@ namespace GLWpfApp.ViewModels
             SelectedEmployeeDetail.FirstName = String.Empty;
             SelectedEmployeeDetail.LastName = String.Empty;
             SelectedEmployeeDetail.EmployeeNumber = 0;
+        }
+
+        public void Reset()
+        {
+            EmployeesFilter = String.Empty;
         }
 
         public void Cancel()

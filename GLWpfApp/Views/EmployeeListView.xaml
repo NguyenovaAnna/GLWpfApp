@@ -31,6 +31,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+                            
                             <TextBox Grid.Column="0" 
                                      VerticalAlignment="Stretch"  
                                      HorizontalAlignment="Stretch"
@@ -38,6 +39,18 @@
                                      Height="20"
                                      FontSize="12"
                                      Text="{Binding EmployeesFilter, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <Button Grid.Column="0"
+                                    Content="x"
+                                    Command="{Binding ResetCommand}"
+                                    HorizontalAlignment="Right"
+                                    Padding="0,0,0,3"
+                                    Width="20" 
+                                    Height="20"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    Foreground="Red"
+                                    FontWeight="ExtraBold" />
 
                             <Button Grid.Column="1" 
                                     Content="Search"
