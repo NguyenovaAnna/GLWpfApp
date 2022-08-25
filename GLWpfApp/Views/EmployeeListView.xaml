@@ -102,7 +102,7 @@
                         Grid.Column="1"
                         Visibility="{Binding IsVisible, Converter={StaticResource booleanVisibleConverter}}">
                 
-                <Grid Margin="0,0,0,3">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="3*" />
@@ -117,7 +117,17 @@
                     <TextBox x:Name="EmployeeNumber"
                              Grid.Column="1" 
                              Margin="3,0,0,0"
-                             Text="{Binding SelectedEmployeeDetail.EmployeeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding SelectedEmployeeDetail.EmployeeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEmployeeNumberExisting}" Value="True">
+                                        <Setter Property="BorderBrush" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
                 </Grid>
 
                 <Grid Margin="0,0,0,3">
@@ -127,6 +137,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" 
+                               Margin="0,3,0,0" 
                                Text="First Name" 
                                FontWeight="Bold" 
                                FontSize="10" 
@@ -134,8 +145,15 @@
                                VerticalAlignment="Bottom" />
                     <TextBox x:Name="FirstName"
                              Grid.Column="1" 
-                             Margin="3,0,0,0" 
+                             Margin="3,3,0,0" 
                              Text="{Binding SelectedEmployeeDetail.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Grid.Column="1"
+                               Margin="3,0,0,0" 
+                               Background="red"
+                               Text="Emloyee number exists."
+                               Foreground="white"
+                               FontWeight="Bold"
+                               Visibility="{Binding IsEmployeeNumberExisting, Converter={StaticResource booleanVisibleConverter}}" />
                 </Grid>
 
                 <Grid Margin="0,0,0,3">

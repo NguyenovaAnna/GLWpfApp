@@ -19,6 +19,7 @@ namespace GLWpfApp.ViewModels
         private bool _isEmployeeSelected;
         private bool _isAddedBtnClicked;
         private bool _isVisible;
+        private bool _isEmployeeNumberExisting;
         private string _employeesFilter = string.Empty;
 
         public ICollectionView EmployeesCollectionView { get; }
@@ -49,6 +50,7 @@ namespace GLWpfApp.ViewModels
                 if (SelectedEmployee != null)
                 {
                     IsVisible = true;
+                    IsEmployeeNumberExisting = false;
                     SelectedEmployeeDetail.EmployeeNumber = SelectedEmployee.EmployeeNumber;
                     SelectedEmployeeDetail.FirstName = SelectedEmployee.FirstName;
                     SelectedEmployeeDetail.LastName = SelectedEmployee.LastName;
@@ -98,6 +100,19 @@ namespace GLWpfApp.ViewModels
             {
                 _isVisible = value;
                 OnPropertyChanged("IsVisible");
+            }
+        }
+
+        public bool IsEmployeeNumberExisting
+        {
+            get
+            {
+                return _isEmployeeNumberExisting;
+            }
+            set
+            {
+                _isEmployeeNumberExisting = value;
+                OnPropertyChanged("IsEmployeeNumberExisting");
             }
         }
 
@@ -201,6 +216,7 @@ namespace GLWpfApp.ViewModels
         public void Cancel()
         {
             IsVisible = false;
+            IsEmployeeNumberExisting = false;
             SelectedEmployee = null;
             SelectedEmployeeDetail.FirstName = String.Empty;
             SelectedEmployeeDetail.LastName = String.Empty;
@@ -211,21 +227,30 @@ namespace GLWpfApp.ViewModels
         {
             if (SelectedEmployee == null)
             {
-                var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, SelectedEmployeeDetail.EmployeeNumber, 
-                    SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
-                    SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime);
-                Employees.Add(newEmployee);
-                Search();
-                SelectedEmployeeDetail.FirstName = String.Empty;
-                SelectedEmployeeDetail.LastName = String.Empty;
-                SelectedEmployeeDetail.MiddleName = String.Empty;
-                SelectedEmployeeDetail.EmployeeNumber = 0;
-                SelectedEmployeeDetail.NationalIdNumber = 0;
-                SelectedEmployeeDetail.PreviousIdNumber = 0;
-                SelectedEmployeeDetail.PersonellNumber = 0;
-                SelectedEmployeeDetail.ActivationTime = DateTime.Today;
-                SelectedEmployeeDetail.ExpirationTime = DateTime.Today;
-                IsVisible = false;
+                var employeeToAdd = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployeeDetail.EmployeeNumber);
+
+                if (employeeToAdd != null)
+                {
+                    IsEmployeeNumberExisting = true;
+                }
+                else
+                {
+                    var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, SelectedEmployeeDetail.EmployeeNumber,
+                                        SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
+                                        SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime);
+                    Employees.Add(newEmployee);
+                    Search();
+                    SelectedEmployeeDetail.FirstName = String.Empty;
+                    SelectedEmployeeDetail.LastName = String.Empty;
+                    SelectedEmployeeDetail.MiddleName = String.Empty;
+                    SelectedEmployeeDetail.EmployeeNumber = 0;
+                    SelectedEmployeeDetail.NationalIdNumber = 0;
+                    SelectedEmployeeDetail.PreviousIdNumber = 0;
+                    SelectedEmployeeDetail.PersonellNumber = 0;
+                    SelectedEmployeeDetail.ActivationTime = DateTime.Today;
+                    SelectedEmployeeDetail.ExpirationTime = DateTime.Today;
+                    IsVisible = false;
+                }        
             }
             else
             {
