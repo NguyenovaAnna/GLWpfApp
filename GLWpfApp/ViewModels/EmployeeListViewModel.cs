@@ -13,7 +13,7 @@ using System.Windows.Input;
 namespace GLWpfApp.ViewModels
 {
     public class EmployeeListViewModel : ViewModelBase
-    {        
+    {
         private ObservableCollection<Employee> _employees;
         private Employee? _selectedEmployee;
         private bool _isEmployeeSelected;
@@ -38,11 +38,11 @@ namespace GLWpfApp.ViewModels
 
         public Employee? SelectedEmployee
         {
-            get 
+            get
             {
                 return _selectedEmployee;
             }
-            set 
+            set
             {
                 _selectedEmployee = value;
                 OnPropertyChanged("SelectedEmployee");
@@ -51,15 +51,7 @@ namespace GLWpfApp.ViewModels
                 {
                     IsVisible = true;
                     IsEmployeeNumberExisting = false;
-                    SelectedEmployeeDetail.EmployeeNumber = SelectedEmployee.EmployeeNumber;
-                    SelectedEmployeeDetail.FirstName = SelectedEmployee.FirstName;
-                    SelectedEmployeeDetail.LastName = SelectedEmployee.LastName;
-                    SelectedEmployeeDetail.MiddleName = SelectedEmployee.MiddleName;
-                    SelectedEmployeeDetail.NationalIdNumber = SelectedEmployee.NationalIdNumber;
-                    SelectedEmployeeDetail.PreviousIdNumber = SelectedEmployee.PreviousIdNumber;
-                    SelectedEmployeeDetail.PersonellNumber = SelectedEmployee.PersonellNumber;
-                    SelectedEmployeeDetail.ActivationTime = SelectedEmployee.ActivationTime;
-                    SelectedEmployeeDetail.ExpirationTime = SelectedEmployee.ExpirationTime;
+                    Assign(SelectedEmployeeDetail, SelectedEmployee);
                 }
             }
         }
@@ -134,6 +126,7 @@ namespace GLWpfApp.ViewModels
         public Employee Employee { get; set; }
         public Employee SelectedEmployeeDetail { get; set; }
 
+
         public ICommand SearchCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand AddCommand { get; set; }
@@ -183,13 +176,13 @@ namespace GLWpfApp.ViewModels
 
         public void Delete()
         {
-            var employeeToDelete = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployeeDetail.EmployeeNumber);
-            
+            var employeeToDelete = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
+
             if (employeeToDelete != null)
             {
                 Employees.Remove(employeeToDelete);
             }
-                
+
             IsVisible = false;
         }
 
@@ -197,15 +190,7 @@ namespace GLWpfApp.ViewModels
         {
             IsVisible = true;
             SelectedEmployee = null;
-            SelectedEmployeeDetail.FirstName = String.Empty;
-            SelectedEmployeeDetail.LastName = String.Empty;
-            SelectedEmployeeDetail.MiddleName = String.Empty;
-            SelectedEmployeeDetail.EmployeeNumber = 0;
-            SelectedEmployeeDetail.NationalIdNumber = 0;
-            SelectedEmployeeDetail.PreviousIdNumber = 0;
-            SelectedEmployeeDetail.PersonellNumber = 0;
-            SelectedEmployeeDetail.ActivationTime = DateTime.Today;
-            SelectedEmployeeDetail.ExpirationTime = DateTime.Today;
+            Clear();
         }
 
         public void Reset()
@@ -218,9 +203,7 @@ namespace GLWpfApp.ViewModels
             IsVisible = false;
             IsEmployeeNumberExisting = false;
             SelectedEmployee = null;
-            SelectedEmployeeDetail.FirstName = String.Empty;
-            SelectedEmployeeDetail.LastName = String.Empty;
-            SelectedEmployeeDetail.EmployeeNumber = 0;
+            Clear();
         }
 
         public void Submit(object o)
@@ -240,38 +223,55 @@ namespace GLWpfApp.ViewModels
                                         SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime);
                     Employees.Add(newEmployee);
                     Search();
-                    SelectedEmployeeDetail.FirstName = String.Empty;
-                    SelectedEmployeeDetail.LastName = String.Empty;
-                    SelectedEmployeeDetail.MiddleName = String.Empty;
-                    SelectedEmployeeDetail.EmployeeNumber = 0;
-                    SelectedEmployeeDetail.NationalIdNumber = 0;
-                    SelectedEmployeeDetail.PreviousIdNumber = 0;
-                    SelectedEmployeeDetail.PersonellNumber = 0;
-                    SelectedEmployeeDetail.ActivationTime = DateTime.Today;
-                    SelectedEmployeeDetail.ExpirationTime = DateTime.Today;
+                    Clear();
                     IsVisible = false;
-                }        
+                }
             }
             else
             {
-                var employeeToEdit = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployeeDetail.EmployeeNumber);
+                var employeeToEdit = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
+                var employeeToCheck = Employees.FirstOrDefault(y => y.EmployeeNumber == SelectedEmployeeDetail.EmployeeNumber);
 
                 if (employeeToEdit != null)
                 {
-                    employeeToEdit.FirstName = SelectedEmployeeDetail.FirstName;
-                    employeeToEdit.LastName = SelectedEmployeeDetail.LastName;
-                    employeeToEdit.MiddleName = SelectedEmployeeDetail.MiddleName;
-                    employeeToEdit.EmployeeNumber = SelectedEmployeeDetail.EmployeeNumber;
-                    employeeToEdit.NationalIdNumber = SelectedEmployeeDetail.NationalIdNumber;
-                    employeeToEdit.PreviousIdNumber = SelectedEmployeeDetail.PreviousIdNumber;
-                    employeeToEdit.PersonellNumber = SelectedEmployeeDetail.PersonellNumber;
-                    employeeToEdit.ActivationTime = SelectedEmployeeDetail.ActivationTime;
-                    employeeToEdit.ExpirationTime = SelectedEmployeeDetail.ExpirationTime;  
+                    if (employeeToCheck != null && employeeToEdit.EmployeeNumber != employeeToCheck.EmployeeNumber)
+                    {
+                        IsEmployeeNumberExisting = true;
+                    }
+                    else
+                    {
+                        Assign(employeeToEdit, SelectedEmployeeDetail);
+                        Search();
+                        IsVisible = false;
+                    }
                 }
-                
-                Search();
-                IsVisible = false;
             }
+        }
+
+        private void Clear()
+        {
+            SelectedEmployeeDetail.FirstName = String.Empty;
+            SelectedEmployeeDetail.LastName = String.Empty;
+            SelectedEmployeeDetail.MiddleName = String.Empty;
+            SelectedEmployeeDetail.EmployeeNumber = 0;
+            SelectedEmployeeDetail.NationalIdNumber = 0;
+            SelectedEmployeeDetail.PreviousIdNumber = 0;
+            SelectedEmployeeDetail.PersonellNumber = 0;
+            SelectedEmployeeDetail.ActivationTime = DateTime.Today;
+            SelectedEmployeeDetail.ExpirationTime = DateTime.Today;
+        }
+
+        private void Assign(Employee employeeToBeAssignedTo, Employee employeeToBeAssignedFrom)
+        {
+            employeeToBeAssignedTo.FirstName = employeeToBeAssignedFrom.FirstName;
+            employeeToBeAssignedTo.LastName = employeeToBeAssignedFrom.LastName;
+            employeeToBeAssignedTo.MiddleName = employeeToBeAssignedFrom.MiddleName;
+            employeeToBeAssignedTo.EmployeeNumber = employeeToBeAssignedFrom.EmployeeNumber;
+            employeeToBeAssignedTo.NationalIdNumber = employeeToBeAssignedFrom.NationalIdNumber;
+            employeeToBeAssignedTo.PreviousIdNumber = employeeToBeAssignedFrom.PreviousIdNumber;
+            employeeToBeAssignedTo.PersonellNumber = employeeToBeAssignedFrom.PersonellNumber;
+            employeeToBeAssignedTo.ActivationTime = employeeToBeAssignedFrom.ActivationTime;
+            employeeToBeAssignedTo.ExpirationTime = employeeToBeAssignedFrom.ExpirationTime;
         }
     }
 }

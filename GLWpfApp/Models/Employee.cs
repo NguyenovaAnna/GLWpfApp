@@ -11,7 +11,7 @@ namespace GLWpfApp.Models
     {
         private string _firstName;
         private string _lastName;
-        private string? _middleName;
+        private string _middleName;
         private int _employeeNumber;
         private int _nationalIdNumber;
         private int _previousIdNumber;
