@@ -20,7 +20,10 @@ namespace GLWpfApp.ViewModels
         private bool _isAddedBtnClicked;
         private bool _isVisible;
         private bool _isEmployeeNumberExisting;
+        private bool _isFirstNameEmpty;
+        private bool _isLastNameEmpty;
         private string _employeesFilter = string.Empty;
+        private int _employeeNum = 0;
 
         public ICollectionView EmployeesCollectionView { get; }
         public ObservableCollection<Employee> Employees
@@ -51,10 +54,13 @@ namespace GLWpfApp.ViewModels
                 {
                     IsVisible = true;
                     IsEmployeeNumberExisting = false;
-                    Assign(SelectedEmployeeDetail, SelectedEmployee);
+                    EmployeeNum = SelectedEmployee.EmployeeNumber;
+                    Assign(SelectedEmployeeDetail, SelectedEmployee);    
                 }
             }
         }
+        public Employee Employee { get; set; }
+        public Employee SelectedEmployeeDetail { get; set; }
 
         public bool IsEmployeeSelected
         {
@@ -108,6 +114,32 @@ namespace GLWpfApp.ViewModels
             }
         }
 
+        public bool IsFirstNameEmpty
+        {
+            get
+            {
+                return _isFirstNameEmpty;
+            }
+            set
+            {
+                _isFirstNameEmpty = value;
+                OnPropertyChanged("IsFirstNameEmpty");
+            }
+        }
+
+        public bool IsLastNameEmpty
+        {
+            get
+            {
+                return _isLastNameEmpty;
+            }
+            set
+            {
+                _isLastNameEmpty = value;
+                OnPropertyChanged("IsLastNameEmpty");
+            }
+        }
+
         public string EmployeesFilter
         {
             get
@@ -123,9 +155,46 @@ namespace GLWpfApp.ViewModels
             }
         }
 
-        public Employee Employee { get; set; }
-        public Employee SelectedEmployeeDetail { get; set; }
+        public int EmployeeNum
+        {
+            get { return _employeeNum; }
+            set
+            {
+                _employeeNum = value;
+                OnPropertyChanged("EmployeeNum");
 
+                if (SelectedEmployee != null)
+                {
+                    var employeeToEdit = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
+                    var employeeToCheck = Employees.FirstOrDefault(y => y.EmployeeNumber == EmployeeNum);
+
+                    if (employeeToEdit != null)
+                    {
+                        if (employeeToCheck != null && employeeToEdit.EmployeeNumber != employeeToCheck.EmployeeNumber)
+                        {
+                            IsEmployeeNumberExisting = true;
+                        }
+                        else
+                        {
+                            IsEmployeeNumberExisting = false;
+                        }
+                    }
+                }
+                else
+                {
+                    var employeeToAdd = Employees.FirstOrDefault(x => x.EmployeeNumber == EmployeeNum);
+
+                    if (employeeToAdd != null)
+                    {
+                        IsEmployeeNumberExisting = true;
+                    }
+                    else
+                    {
+                        IsEmployeeNumberExisting = false;
+                    }
+                }
+            }
+        }
 
         public ICommand SearchCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
@@ -153,7 +222,7 @@ namespace GLWpfApp.ViewModels
             AddCommand = new RelayCommand(Add);
             ResetCommand = new RelayCommand(Reset);
             CancelCommand = new RelayCommand(Cancel);
-            SubmitCommand = new AddEditEmployeeCommand(Submit);
+            SubmitCommand = new SubmitCommand(Submit, CanSubmitExecute);
 
             EmployeesCollectionView = CollectionViewSource.GetDefaultView(Employees);
             EmployeesCollectionView.Filter = FilterEmployees;
@@ -201,59 +270,54 @@ namespace GLWpfApp.ViewModels
         public void Cancel()
         {
             IsVisible = false;
+            IsFirstNameEmpty = false;
+            IsLastNameEmpty = false;
             IsEmployeeNumberExisting = false;
             SelectedEmployee = null;
             Clear();
         }
 
-        public void Submit(object o)
+        public void Submit(object parameter)
         {
-            if (SelectedEmployee == null)
-            {
-                var employeeToAdd = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployeeDetail.EmployeeNumber);
+            CheckFirstName();
+            CheckLastName();
 
-                if (employeeToAdd != null)
-                {
-                    IsEmployeeNumberExisting = true;
-                }
-                else
-                {
-                    var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, SelectedEmployeeDetail.EmployeeNumber,
-                                        SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
-                                        SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime);
-                    Employees.Add(newEmployee);
-                    Search();
-                    Clear();
-                    IsVisible = false;
-                }
+            if (SelectedEmployee == null && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
+            {
+
+                var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, EmployeeNum,
+                                    SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
+                                    SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime);
+                Employees.Add(newEmployee);
+                Search();
+                Clear();
+                IsVisible = false;
+                IsFirstNameEmpty = false;
+                IsLastNameEmpty = false;
             }
-            else
+            
+            if (SelectedEmployee != null && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
             {
                 var employeeToEdit = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
-                var employeeToCheck = Employees.FirstOrDefault(y => y.EmployeeNumber == SelectedEmployeeDetail.EmployeeNumber);
 
                 if (employeeToEdit != null)
                 {
-                    if (employeeToCheck != null && employeeToEdit.EmployeeNumber != employeeToCheck.EmployeeNumber)
-                    {
-                        IsEmployeeNumberExisting = true;
-                    }
-                    else
-                    {
-                        Assign(employeeToEdit, SelectedEmployeeDetail);
-                        Search();
-                        IsVisible = false;
-                    }
+                    employeeToEdit.EmployeeNumber = EmployeeNum;
+                    Assign(employeeToEdit, SelectedEmployeeDetail);
+                    Search();
+                    IsVisible = false;
+                    IsFirstNameEmpty = false;
+                    IsLastNameEmpty = false;
                 }
             }
         }
 
         private void Clear()
         {
+            EmployeeNum = 0;
             SelectedEmployeeDetail.FirstName = String.Empty;
             SelectedEmployeeDetail.LastName = String.Empty;
             SelectedEmployeeDetail.MiddleName = String.Empty;
-            SelectedEmployeeDetail.EmployeeNumber = 0;
             SelectedEmployeeDetail.NationalIdNumber = 0;
             SelectedEmployeeDetail.PreviousIdNumber = 0;
             SelectedEmployeeDetail.PersonellNumber = 0;
@@ -266,12 +330,39 @@ namespace GLWpfApp.ViewModels
             employeeToBeAssignedTo.FirstName = employeeToBeAssignedFrom.FirstName;
             employeeToBeAssignedTo.LastName = employeeToBeAssignedFrom.LastName;
             employeeToBeAssignedTo.MiddleName = employeeToBeAssignedFrom.MiddleName;
-            employeeToBeAssignedTo.EmployeeNumber = employeeToBeAssignedFrom.EmployeeNumber;
             employeeToBeAssignedTo.NationalIdNumber = employeeToBeAssignedFrom.NationalIdNumber;
             employeeToBeAssignedTo.PreviousIdNumber = employeeToBeAssignedFrom.PreviousIdNumber;
             employeeToBeAssignedTo.PersonellNumber = employeeToBeAssignedFrom.PersonellNumber;
             employeeToBeAssignedTo.ActivationTime = employeeToBeAssignedFrom.ActivationTime;
             employeeToBeAssignedTo.ExpirationTime = employeeToBeAssignedFrom.ExpirationTime;
+        }
+
+        private void CheckFirstName()
+        {
+            if (String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName))
+            {
+                IsFirstNameEmpty = true;
+            }
+        }
+
+        private void CheckLastName()
+        {
+            if (String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
+            {
+                IsLastNameEmpty = true;
+            }
+        }
+
+        private bool CanSubmitExecute (object parameter)
+        {
+            if(IsEmployeeNumberExisting)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

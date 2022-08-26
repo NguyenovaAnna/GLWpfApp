@@ -7,23 +7,32 @@ using System.Windows.Input;
 
 namespace GLWpfApp.Commands
 {
-    internal class AddEditEmployeeCommand : ICommand
+    internal class SubmitCommand : ICommand
     {
 
         private Action<object> _execute;
+        private Func<object, bool> _canExecute;
  
 
         public event EventHandler? CanExecuteChanged;
 
-        public AddEditEmployeeCommand(Action<object> execute)
+        public SubmitCommand(Action<object> execute, Func<object, bool> canExecute)
         {
             _execute = execute;
+            _canExecute = canExecute;
         }
 
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            if (_canExecute == null)
+            {
+                return true;
+            }
+            else
+            {
+                return _canExecute(parameter);
+            }
         }
 
         public void Execute(object parameter)

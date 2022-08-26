@@ -117,7 +117,7 @@
                     <TextBox x:Name="EmployeeNumber"
                              Grid.Column="1" 
                              Margin="3,0,0,0"
-                             Text="{Binding SelectedEmployeeDetail.EmployeeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                             Text="{Binding EmployeeNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
                                 <Style.Triggers>
@@ -130,7 +130,7 @@
                     </TextBox>
                 </Grid>
 
-                <Grid Margin="0,0,0,3">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="3*" />
@@ -146,7 +146,17 @@
                     <TextBox x:Name="FirstName"
                              Grid.Column="1" 
                              Margin="3,3,0,0" 
-                             Text="{Binding SelectedEmployeeDetail.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding SelectedEmployeeDetail.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsFirstNameEmpty}" Value="True">
+                                        <Setter Property="BorderBrush" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
                     <TextBlock Grid.Column="1"
                                Margin="3,0,0,0" 
                                Background="red"
@@ -162,17 +172,25 @@
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" 
+                    <TextBlock Grid.Column="0"
+                               Margin="0,3,0,0"
                                Text="Middle Name" 
                                FontSize="10" 
                                HorizontalAlignment="Right" 
                                VerticalAlignment="Bottom" />
                     <TextBox Grid.Column="1" 
-                             Margin="3,0,0,0" 
+                             Margin="3,3,0,0" 
                              Text="{Binding SelectedEmployeeDetail.MiddleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="1"
+                               Margin="3,0,0,0" 
+                               Background="red"
+                               Text="First Name is mandatory."
+                               Foreground="white"
+                               FontWeight="Bold"
+                               Visibility="{Binding IsFirstNameEmpty, Converter={StaticResource booleanVisibleConverter}}" />
                 </Grid>
 
-                <Grid Margin="0,0,0,3">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="3*" />
@@ -187,7 +205,17 @@
                     <TextBox x:Name="LastName" 
                              Grid.Column="1" 
                              Margin="3,0,0,0" 
-                             Text="{Binding SelectedEmployeeDetail.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding SelectedEmployeeDetail.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsLastNameEmpty}" Value="True">
+                                        <Setter Property="BorderBrush" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
                 </Grid>
 
                 <Grid Margin="0,0,0,3">
@@ -197,13 +225,21 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" 
+                               Margin="0,3,0,0"
                                Text="National Identification Number" 
                                FontSize="10" 
                                HorizontalAlignment="Right" 
                                VerticalAlignment="Bottom" />
                     <TextBox Grid.Column="1" 
-                             Margin="3,0,0,0"
+                             Margin="3,3,0,0"
                              Text="{Binding SelectedEmployeeDetail.NationalIdNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Column="1"
+                               Margin="3,0,0,0" 
+                               Background="red"
+                               Text="Last Name is mandatory."
+                               Foreground="white"
+                               FontWeight="Bold"
+                               Visibility="{Binding IsLastNameEmpty, Converter={StaticResource booleanVisibleConverter}}" />
                 </Grid>
 
                 <Grid Margin="0,0,0,3">
@@ -285,7 +321,17 @@
                     <Button Grid.Column="1"
                             Content="Submit" 
                             Margin="0,0,4,0"
-                            Command="{Binding SubmitCommand}"/>
+                            Command="{Binding SubmitCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEmployeeNumberExisting}" Value="True">
+                                        <Setter Property="Background" Value="White"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
                     <Button Grid.Column="2"
                             Content="Cancel"
