@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GLWpfApp"
         xmlns:vm="clr-namespace:GLWpfApp.ViewModels"
         mc:Ignorable="d"
-        Title="Employees" Height="450" Width="900">
+        Title="Employees" Height="550" Width="900">
 
     <Window.Resources>
         <vm:EmployeeListViewModel x:Key="EmployeeListViewModel" />
@@ -109,11 +109,12 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" 
-                               Text="Employee Number" 
                                FontWeight="Bold" 
                                FontSize="10" 
                                HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom" />
+                               VerticalAlignment="Bottom">
+                        <Run Text="Employee Number" /><Run Text="*" Foreground="Red" />
+                    </TextBlock>
                     <TextBox x:Name="EmployeeNumber"
                              Grid.Column="1" 
                              Margin="3,0,0,0"
@@ -138,11 +139,12 @@
 
                     <TextBlock Grid.Column="0" 
                                Margin="0,3,0,0" 
-                               Text="First Name" 
                                FontWeight="Bold" 
                                FontSize="10" 
                                HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom" />
+                               VerticalAlignment="Bottom">
+                        <Run Text="First Name" /><Run Text="*" Foreground="Red" />
+                    </TextBlock>
                     <TextBox x:Name="FirstName"
                              Grid.Column="1" 
                              Margin="3,3,0,0" 
@@ -164,6 +166,13 @@
                                Foreground="white"
                                FontWeight="Bold"
                                Visibility="{Binding IsEmployeeNumberExisting, Converter={StaticResource booleanVisibleConverter}}" />
+                    <TextBlock Grid.Column="1"
+                               Margin="3,0,0,0" 
+                               Background="red"
+                               Text="Employee number is mandatory."
+                               Foreground="white"
+                               FontWeight="Bold"
+                               Visibility="{Binding IsEmployeeNumberEmpty, Converter={StaticResource booleanVisibleConverter}}" />
                 </Grid>
 
                 <Grid Margin="0,0,0,3">
@@ -197,11 +206,12 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" 
-                               Text="Last Name" 
                                FontWeight="Bold" 
                                FontSize="10" 
                                HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom" />
+                               VerticalAlignment="Bottom">
+                        <Run Text="Last Name" /><Run Text="*" Foreground="Red" />
+                    </TextBlock>
                     <TextBox x:Name="LastName" 
                              Grid.Column="1" 
                              Margin="3,0,0,0" 
@@ -308,6 +318,87 @@
                                 Margin="3,0,0,0"
                                 BorderThickness="0.5"
                                 SelectedDate="{Binding SelectedEmployeeDetail.ExpirationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                
+                </Grid>
+
+                <Grid Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" 
+                               Text="Contact Method" 
+                               FontSize="10" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom" />
+
+                    <CheckBox Grid.Column="1" 
+                              Margin="3,0,0,0"
+                              Name="ContactMethodCheckBox"
+                              Content="Including all contact methods"
+                              FontSize="10" 
+                              VerticalContentAlignment="Bottom"
+                              IsChecked="{Binding IsContactMethodCheckBoxChecked}"/>
+                </Grid>
+
+                <Grid Margin="0,0,0,3"
+                      Visibility="{Binding ElementName=ContactMethodCheckBox, Path=IsChecked, Converter={StaticResource booleanVisibleConverter}}" >
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="1" Margin="3,5,0,0">
+                        <Border BorderBrush="Gray"
+                                BorderThickness="0.5">
+                            <StackPanel>
+                                <Grid Height="30">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <CheckBox Grid.Column="0"
+                                              Margin="2,0,0,0"
+                                              Name="PhoneNumberCheckBox"
+                                              Content="Phone number"
+                                              FontSize="10"
+                                              VerticalAlignment="Center"
+                                              VerticalContentAlignment="Bottom" />
+                                    <TextBox Grid.Column="1"
+                                             Height="20"
+                                             Width="200"
+                                             HorizontalAlignment="Left"
+                                             Text="{Binding SelectedEmployeeDetail.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Visibility="{Binding ElementName=PhoneNumberCheckBox, Path=IsChecked, Converter={StaticResource booleanVisibleConverter}}" />
+                                </Grid>
+
+                                <Grid Height="30">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <CheckBox Grid.Column="0"
+                                              Margin="2,0,0,0"
+                                              Name="EmailCheckBox"
+                                              Content="E-mail"
+                                              FontSize="10"
+                                              VerticalAlignment="Center"
+                                              VerticalContentAlignment="Bottom" />
+                                    <TextBox Grid.Column="1"
+                                             Height="20"
+                                             Width="200"
+                                             HorizontalAlignment="Left"
+                                             Text="{Binding SelectedEmployeeDetail.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Visibility="{Binding ElementName=EmailCheckBox, Path=IsChecked, Converter={StaticResource booleanVisibleConverter}}" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
                 </Grid>
 
                 <Grid Margin="0,20,0,0">
