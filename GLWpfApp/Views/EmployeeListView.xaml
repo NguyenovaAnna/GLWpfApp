@@ -366,7 +366,8 @@
                                               Content="Phone number"
                                               FontSize="10"
                                               VerticalAlignment="Center"
-                                              VerticalContentAlignment="Bottom" />
+                                              VerticalContentAlignment="Bottom" 
+                                              IsChecked="{Binding IsPhoneNumberCheckBoxChecked}" />
                                     <TextBox Grid.Column="1"
                                              Height="20"
                                              Width="200"
@@ -387,7 +388,8 @@
                                               Content="E-mail"
                                               FontSize="10"
                                               VerticalAlignment="Center"
-                                              VerticalContentAlignment="Bottom" />
+                                              VerticalContentAlignment="Bottom"
+                                              IsChecked="{Binding IsEmailCheckBoxChecked}" />
                                     <TextBox Grid.Column="1"
                                              Height="20"
                                              Width="200"

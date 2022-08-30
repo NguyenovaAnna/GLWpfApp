@@ -58,6 +58,7 @@ namespace GLWpfApp.ViewModels
                 {
                     IsVisible = true;
                     IsEmployeeNumberExisting = false;
+                    UncheckCheckBoxes();
                     EmployeeNum = SelectedEmployee.EmployeeNumber;
                     Assign(SelectedEmployeeDetail, SelectedEmployee);
                 }
@@ -316,6 +317,7 @@ namespace GLWpfApp.ViewModels
             IsVisible = true;
             SelectedEmployee = null;
             Clear();
+            UncheckCheckBoxes();
         }
 
         public void Reset()
