@@ -267,11 +267,11 @@ namespace GLWpfApp.ViewModels
             SelectedEmployeeDetail = new Employee();
             Employees = new ObservableCollection<Employee>()
             {
-                new Employee { FirstName = "Anna", LastName="Nguyenova", EmployeeNumber = 1111, MiddleName = string.Empty, NationalIdNumber = 1, PreviousIdNumber = 0, PersonellNumber = 11, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 111 111", Email = "anna@mail.com" },
-                new Employee { FirstName = "Daniela", LastName = "Horvathova", EmployeeNumber = 2222, MiddleName = string.Empty, NationalIdNumber = 2, PreviousIdNumber = 0, PersonellNumber = 22, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 222 222", Email = "daniela@mail.com" },
-                new Employee { FirstName = "Dominika", LastName = "Mala", EmployeeNumber = 3333, MiddleName = string.Empty, NationalIdNumber = 3, PreviousIdNumber = 0, PersonellNumber = 33, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 333 333", Email = "dominika@mail.com" },
-                new Employee { FirstName = "David", LastName = "Kovac", EmployeeNumber = 4444, MiddleName = string.Empty, NationalIdNumber = 4, PreviousIdNumber = 0, PersonellNumber = 44, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 444 444", Email = "david@mail.com" },
-                new Employee { FirstName = "Peter", LastName = "Duris", EmployeeNumber = 5555, MiddleName = string.Empty, NationalIdNumber = 5, PreviousIdNumber = 0, PersonellNumber = 55, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 555 555", Email = "peter@mail.com"  }
+                new Employee { FirstName = "Anna", LastName="Nguyenova", EmployeeNumber = 1, MiddleName = string.Empty, NationalIdNumber = 1, PreviousIdNumber = 0, PersonellNumber = 11, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 111 111", Email = "anna@mail.com" },
+                new Employee { FirstName = "Daniela", LastName = "Horvathova", EmployeeNumber = 2, MiddleName = string.Empty, NationalIdNumber = 2, PreviousIdNumber = 0, PersonellNumber = 22, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 222 222", Email = "daniela@mail.com" },
+                new Employee { FirstName = "Dominika", LastName = "Mala", EmployeeNumber = 3, MiddleName = string.Empty, NationalIdNumber = 3, PreviousIdNumber = 0, PersonellNumber = 33, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 333 333", Email = "dominika@mail.com" },
+                new Employee { FirstName = "David", LastName = "Kovac", EmployeeNumber = 4, MiddleName = string.Empty, NationalIdNumber = 4, PreviousIdNumber = 0, PersonellNumber = 44, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 444 444", Email = "david@mail.com" },
+                new Employee { FirstName = "Peter", LastName = "Duris", EmployeeNumber = 5, MiddleName = string.Empty, NationalIdNumber = 5, PreviousIdNumber = 0, PersonellNumber = 55, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 555 555", Email = "peter@mail.com"  }
             };
 
             SearchCommand = new RelayCommand(Search);
@@ -341,7 +341,7 @@ namespace GLWpfApp.ViewModels
             CheckFirstName();
             CheckLastName();
 
-            if (SelectedEmployee == null && SelectedEmployeeDetail.EmployeeNumber != 0 && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
+            if (SelectedEmployee == null && EmployeeNum != 0 && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
             {
 
                 var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, EmployeeNum,
@@ -370,7 +370,7 @@ namespace GLWpfApp.ViewModels
 
         private void Clear()
         {
-            EmployeeNum = 0;
+            EmployeeNum = GenerateId();
             SelectedEmployeeDetail.FirstName = String.Empty;
             SelectedEmployeeDetail.LastName = String.Empty;
             SelectedEmployeeDetail.MiddleName = String.Empty;
@@ -435,6 +435,13 @@ namespace GLWpfApp.ViewModels
             {
                 IsLastNameEmpty = true;
             }
+        }
+
+        private int GenerateId()
+        {
+            int maxId = Employees.Max(x => x.EmployeeNumber);
+            int id = maxId + 1;
+            return id;
         }
 
         private bool CanSubmitExecute (object parameter)

@@ -118,7 +118,8 @@
                     <TextBox x:Name="EmployeeNumber"
                              Grid.Column="1" 
                              Margin="3,0,0,0"
-                             Text="{Binding EmployeeNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                             Text="{Binding EmployeeNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             IsReadOnly="True">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
                                 <Style.Triggers>
