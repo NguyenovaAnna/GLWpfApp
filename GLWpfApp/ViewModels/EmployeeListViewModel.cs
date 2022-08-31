@@ -27,6 +27,8 @@ namespace GLWpfApp.ViewModels
         private bool _isPhoneNumberCheckBoxChecked;
         private bool _isEmailCheckBoxChecked;
         private string _employeesFilter = string.Empty;
+        private string _employeePhoneNumber;
+        private string _employeeEmail;
         private int _employeeNum = 0;
 
         public ICollectionView EmployeesCollectionView { get; }
@@ -60,12 +62,15 @@ namespace GLWpfApp.ViewModels
                     IsEmployeeNumberExisting = false;
                     UncheckCheckBoxes();
                     EmployeeNum = SelectedEmployee.EmployeeNumber;
-                    Assign(SelectedEmployeeDetail, SelectedEmployee);
+                    EmployeePhoneNumber = SelectedEmployee.PhoneNumber;
+                    EmployeeEmail = SelectedEmployee.Email;
+                    Assign(SelectedEmployeeDetail, SelectedEmployee);                   
                 }
             }
         }
         public Employee Employee { get; set; }
         public Employee SelectedEmployeeDetail { get; set; }
+
 
         public bool IsEmployeeSelected
         {
@@ -211,6 +216,50 @@ namespace GLWpfApp.ViewModels
             }
         }
 
+        public string EmployeePhoneNumber
+        {
+            get
+            { 
+                return _employeePhoneNumber; 
+            }
+            set
+            { 
+                _employeePhoneNumber = value;
+                OnPropertyChanged("EmployeePhoneNumber");
+
+                if (!String.IsNullOrEmpty(EmployeePhoneNumber))
+                {
+                    IsPhoneNumberCheckBoxChecked = true;
+                }
+                else
+                {
+                    IsPhoneNumberCheckBoxChecked = false;
+                }
+            }
+        }
+
+        public string EmployeeEmail
+        {
+            get
+            {
+                return _employeeEmail;
+            }
+            set
+            {
+                _employeeEmail = value;
+                OnPropertyChanged("EmployeeEmail");
+
+                if (!String.IsNullOrEmpty(EmployeeEmail))
+                {
+                    IsEmailCheckBoxChecked = true;
+                }
+                else
+                {
+                    IsEmailCheckBoxChecked = false;
+                }
+            }
+        }
+
         public int EmployeeNum
         {
             get { return _employeeNum; }
@@ -268,8 +317,8 @@ namespace GLWpfApp.ViewModels
             Employees = new ObservableCollection<Employee>()
             {
                 new Employee { FirstName = "Anna", LastName="Nguyenova", EmployeeNumber = 1, MiddleName = string.Empty, NationalIdNumber = 1, PreviousIdNumber = 0, PersonellNumber = 11, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 111 111", Email = "anna@mail.com" },
-                new Employee { FirstName = "Daniela", LastName = "Horvathova", EmployeeNumber = 2, MiddleName = string.Empty, NationalIdNumber = 2, PreviousIdNumber = 0, PersonellNumber = 22, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 222 222", Email = "daniela@mail.com" },
-                new Employee { FirstName = "Dominika", LastName = "Mala", EmployeeNumber = 3, MiddleName = string.Empty, NationalIdNumber = 3, PreviousIdNumber = 0, PersonellNumber = 33, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 333 333", Email = "dominika@mail.com" },
+                new Employee { FirstName = "Daniela", LastName = "Horvathova", EmployeeNumber = 2, MiddleName = string.Empty, NationalIdNumber = 2, PreviousIdNumber = 0, PersonellNumber = 22, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 222 222", Email = String.Empty },
+                new Employee { FirstName = "Dominika", LastName = "Mala", EmployeeNumber = 3, MiddleName = string.Empty, NationalIdNumber = 3, PreviousIdNumber = 0, PersonellNumber = 33, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = String.Empty, Email = "dominika@mail.com" },
                 new Employee { FirstName = "David", LastName = "Kovac", EmployeeNumber = 4, MiddleName = string.Empty, NationalIdNumber = 4, PreviousIdNumber = 0, PersonellNumber = 44, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 444 444", Email = "david@mail.com" },
                 new Employee { FirstName = "Peter", LastName = "Duris", EmployeeNumber = 5, MiddleName = string.Empty, NationalIdNumber = 5, PreviousIdNumber = 0, PersonellNumber = 55, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), PhoneNumber = "+421 911 555 555", Email = "peter@mail.com"  }
             };
@@ -347,23 +396,26 @@ namespace GLWpfApp.ViewModels
                 var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, EmployeeNum,
                                     SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
                                     SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime, 
-                                    SelectedEmployeeDetail.PhoneNumber, SelectedEmployeeDetail.Email);
+                                    EmployeePhoneNumber, EmployeeEmail);
                 Employees.Add(newEmployee);
                 Search();
                 Clear();
                 SetPropertiesToFalse();
             }
             
-            if (SelectedEmployee != null && SelectedEmployeeDetail.EmployeeNumber != 0 && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
+            if (SelectedEmployee != null && EmployeeNum != 0 && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
             {
                 var employeeToEdit = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
 
                 if (employeeToEdit != null)
                 {
                     employeeToEdit.EmployeeNumber = EmployeeNum;
+                    employeeToEdit.PhoneNumber = EmployeePhoneNumber;
+                    employeeToEdit.Email = EmployeeEmail;
                     Assign(employeeToEdit, SelectedEmployeeDetail);
                     Search();
                     SetPropertiesToFalse();
+                    SelectedEmployee = null;
                 }
             }
         }
@@ -393,8 +445,6 @@ namespace GLWpfApp.ViewModels
             employeeToBeAssignedTo.PersonellNumber = employeeToBeAssignedFrom.PersonellNumber;
             employeeToBeAssignedTo.ActivationTime = employeeToBeAssignedFrom.ActivationTime;
             employeeToBeAssignedTo.ExpirationTime = employeeToBeAssignedFrom.ExpirationTime;
-            employeeToBeAssignedTo.PhoneNumber = employeeToBeAssignedFrom.PhoneNumber;
-            employeeToBeAssignedTo.Email = employeeToBeAssignedFrom.Email;
         }
 
         private void SetPropertiesToFalse()
@@ -446,7 +496,7 @@ namespace GLWpfApp.ViewModels
 
         private bool CanSubmitExecute (object parameter)
         {
-            if(IsEmployeeNumberExisting)
+            if (IsEmployeeNumberExisting)
             {
                 return false;
             }

@@ -337,7 +337,6 @@
                     <CheckBox Grid.Column="1" 
                               Margin="3,0,0,0"
                               Name="ContactMethodCheckBox"
-                              Content="Including all contact methods"
                               FontSize="10" 
                               VerticalContentAlignment="Bottom"
                               IsChecked="{Binding IsContactMethodCheckBoxChecked}"/>
@@ -373,7 +372,7 @@
                                              Height="20"
                                              Width="200"
                                              HorizontalAlignment="Left"
-                                             Text="{Binding SelectedEmployeeDetail.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Text="{Binding EmployeePhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              Visibility="{Binding ElementName=PhoneNumberCheckBox, Path=IsChecked, Converter={StaticResource booleanVisibleConverter}}" />
                                 </Grid>
 
@@ -395,7 +394,7 @@
                                              Height="20"
                                              Width="200"
                                              HorizontalAlignment="Left"
-                                             Text="{Binding SelectedEmployeeDetail.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Text="{Binding EmployeeEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              Visibility="{Binding ElementName=EmailCheckBox, Path=IsChecked, Converter={StaticResource booleanVisibleConverter}}" />
                                 </Grid>
                             </StackPanel>

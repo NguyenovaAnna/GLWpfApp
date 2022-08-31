@@ -21,8 +21,6 @@ namespace GLWpfApp.Models
         private DateTime _activationTime;
         private DateTime _expirationTime;
 
-
-        
         public string Email 
         { 
             get
@@ -35,7 +33,6 @@ namespace GLWpfApp.Models
                 OnPropertyChanged("Email");
             }
         }   
-
 
         public string FirstName
         {
@@ -88,6 +85,7 @@ namespace GLWpfApp.Models
                 OnPropertyChanged("PhoneNumber");
             }
         }
+
         public string FullName
         {
             get
