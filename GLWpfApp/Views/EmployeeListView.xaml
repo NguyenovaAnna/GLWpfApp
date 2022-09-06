@@ -118,8 +118,7 @@
                     <TextBox x:Name="EmployeeNumber"
                              Grid.Column="1" 
                              Margin="3,0,0,0"
-                             Text="{Binding EmployeeNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             IsReadOnly="True">
+                             Text="{Binding EmployeeNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
                                 <Style.Triggers>
@@ -396,6 +395,28 @@
                                              HorizontalAlignment="Left"
                                              Text="{Binding EmployeeEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              Visibility="{Binding ElementName=EmailCheckBox, Path=IsChecked, Converter={StaticResource booleanVisibleConverter}}" />
+                                </Grid>
+
+                                <Grid Height="30">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <CheckBox Grid.Column="0"
+                                              Margin="2,0,0,0"
+                                              Name="SkypeCheckBox"
+                                              Content="Skype"
+                                              FontSize="10"
+                                              VerticalAlignment="Center"
+                                              VerticalContentAlignment="Bottom"
+                                              IsChecked="{Binding IsSkypeCheckBoxChecked}" />
+                                    <TextBox Grid.Column="1"
+                                             Height="20"
+                                             Width="200"
+                                             HorizontalAlignment="Left"
+                                             Text="{Binding EmployeeSkype, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Visibility="{Binding ElementName=SkypeCheckBox, Path=IsChecked, Converter={StaticResource booleanVisibleConverter}}" />
                                 </Grid>
                             </StackPanel>
                         </Border>

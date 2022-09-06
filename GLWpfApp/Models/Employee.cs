@@ -9,11 +9,12 @@ namespace GLWpfApp.Models
 {
     public class Employee : INotifyPropertyChanged
     {
+        private ContactMethod _contactMethod;
         private string _firstName;
         private string _lastName;
         private string _middleName;
-        private string _phoneNumber;
-        private string _email;
+        //private string _phoneNumber;
+        //private string _email;
         private int _employeeNumber;
         private int _nationalIdNumber;
         private int _previousIdNumber;
@@ -21,18 +22,31 @@ namespace GLWpfApp.Models
         private DateTime _activationTime;
         private DateTime _expirationTime;
 
-        public string Email 
-        { 
+        public ContactMethod ContactMethod
+        {
             get
             {
-                return _email;
+                return _contactMethod;
             }
             set
             {
-                _email = value;
-                OnPropertyChanged("Email");
+                _contactMethod = value;
+                OnPropertyChanged("ContactMethod");
             }
-        }   
+        }
+
+        //public string Email 
+        //{ 
+        //    get
+        //    {
+        //        return _email;
+        //    }
+        //    set
+        //    {
+        //        _email = value;
+        //        OnPropertyChanged("Email");
+        //    }
+        //}   
 
         public string FirstName
         {
@@ -73,18 +87,18 @@ namespace GLWpfApp.Models
             }
         }
 
-        public string PhoneNumber
-        {
-            get
-            {
-                return _phoneNumber;
-            }
-            set
-            {
-                _phoneNumber = value;
-                OnPropertyChanged("PhoneNumber");
-            }
-        }
+        //public string PhoneNumber
+        //{
+        //    get
+        //    {
+        //        return _phoneNumber;
+        //    }
+        //    set
+        //    {
+        //        _phoneNumber = value;
+        //        OnPropertyChanged("PhoneNumber");
+        //    }
+        //}
 
         public string FullName
         {
@@ -177,7 +191,7 @@ namespace GLWpfApp.Models
 
         }
 
-        public Employee(string firstName, string lastName, int employeeNumber, string middleName, int nationalIdNumber, int previousIdNumber, int personellNumber, DateTime activationTime, DateTime expirationTime, string phoneNumber, string email)
+        public Employee(string firstName, string lastName, int employeeNumber, string middleName, int nationalIdNumber, int previousIdNumber, int personellNumber, DateTime activationTime, DateTime expirationTime, ContactMethod contactMethod)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -188,8 +202,10 @@ namespace GLWpfApp.Models
             PersonellNumber = personellNumber;
             ActivationTime = activationTime;
             ExpirationTime = expirationTime;
-            PhoneNumber = phoneNumber;
-            Email = email;
+            //ContactMethod.Telephone = telephone;
+            //ContactMethod.Mail = mail;
+            //ContactMethod.Skype = skype;
+            ContactMethod = contactMethod;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
