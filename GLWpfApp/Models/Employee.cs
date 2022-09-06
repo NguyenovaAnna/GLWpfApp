@@ -13,8 +13,6 @@ namespace GLWpfApp.Models
         private string _firstName;
         private string _lastName;
         private string _middleName;
-        //private string _phoneNumber;
-        //private string _email;
         private int _employeeNumber;
         private int _nationalIdNumber;
         private int _previousIdNumber;
@@ -34,19 +32,6 @@ namespace GLWpfApp.Models
                 OnPropertyChanged("ContactMethod");
             }
         }
-
-        //public string Email 
-        //{ 
-        //    get
-        //    {
-        //        return _email;
-        //    }
-        //    set
-        //    {
-        //        _email = value;
-        //        OnPropertyChanged("Email");
-        //    }
-        //}   
 
         public string FirstName
         {
@@ -86,19 +71,6 @@ namespace GLWpfApp.Models
                 OnPropertyChanged("MiddleName");
             }
         }
-
-        //public string PhoneNumber
-        //{
-        //    get
-        //    {
-        //        return _phoneNumber;
-        //    }
-        //    set
-        //    {
-        //        _phoneNumber = value;
-        //        OnPropertyChanged("PhoneNumber");
-        //    }
-        //}
 
         public string FullName
         {
@@ -202,9 +174,6 @@ namespace GLWpfApp.Models
             PersonellNumber = personellNumber;
             ActivationTime = activationTime;
             ExpirationTime = expirationTime;
-            //ContactMethod.Telephone = telephone;
-            //ContactMethod.Mail = mail;
-            //ContactMethod.Skype = skype;
             ContactMethod = contactMethod;
         }
 
