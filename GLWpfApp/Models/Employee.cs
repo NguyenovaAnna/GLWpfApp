@@ -59,7 +59,7 @@ namespace GLWpfApp.Models
             }
         }
 
-        public string? MiddleName
+        public string MiddleName
         {
             get
             {
