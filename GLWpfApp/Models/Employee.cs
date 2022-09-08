@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace GLWpfApp.Models
 {
     public class Employee : INotifyPropertyChanged
     {
-        private ContactMethod _contactMethod;
+        private ObservableCollection<ContactMethod> _contactMethods;
         private string _firstName;
         private string _lastName;
         private string _middleName;
@@ -20,15 +21,15 @@ namespace GLWpfApp.Models
         private DateTime _activationTime;
         private DateTime _expirationTime;
 
-        public ContactMethod ContactMethod
+        public ObservableCollection<ContactMethod> ContactMethods
         {
             get
             {
-                return _contactMethod;
+                return _contactMethods;
             }
             set
             {
-                _contactMethod = value;
+                _contactMethods = value;
                 OnPropertyChanged("ContactMethod");
             }
         }
@@ -163,7 +164,7 @@ namespace GLWpfApp.Models
 
         }
 
-        public Employee(string firstName, string lastName, int employeeNumber, string middleName, int nationalIdNumber, int previousIdNumber, int personellNumber, DateTime activationTime, DateTime expirationTime, ContactMethod contactMethod)
+        public Employee(string firstName, string lastName, int employeeNumber, string middleName, int nationalIdNumber, int previousIdNumber, int personellNumber, DateTime activationTime, DateTime expirationTime, ObservableCollection<ContactMethod> contactMethods)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -174,7 +175,7 @@ namespace GLWpfApp.Models
             PersonellNumber = personellNumber;
             ActivationTime = activationTime;
             ExpirationTime = expirationTime;
-            ContactMethod = contactMethod;
+            ContactMethods = contactMethods;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

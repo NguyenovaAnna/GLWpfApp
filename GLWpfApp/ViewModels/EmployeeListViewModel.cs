@@ -15,6 +15,7 @@ namespace GLWpfApp.ViewModels
     public class EmployeeListViewModel : ViewModelBase
     {
         private ObservableCollection<Employee> _employees;
+        //private ObservableCollection<ContactMethod> _contactMethod;
         private Employee? _selectedEmployee;
         private bool _isVisible;
         private bool _isEmployeeNumberExisting;
@@ -46,6 +47,20 @@ namespace GLWpfApp.ViewModels
             }
         }
 
+        //public ObservableCollection<ContactMethod> ContactMethod
+        //{
+        //    get
+        //    { 
+        //        return _contactMethod;
+        //    }
+        //    set
+        //    {
+        //        _contactMethod = value;
+        //        OnPropertyChanged("ContactMethods");
+        //    }
+        //}
+
+
         public Employee? SelectedEmployee
         {
             get
@@ -63,18 +78,11 @@ namespace GLWpfApp.ViewModels
                     IsEmployeeNumberExisting = false;
                     UncheckCheckBoxes();
                     EmployeeNum = SelectedEmployee.EmployeeNumber;
-                    EmployeePhoneNumber = SelectedEmployee.ContactMethod.PhoneNumber;
-                    EmployeeEmail = SelectedEmployee.ContactMethod.Email;
-                    EmployeeSkype = SelectedEmployee.ContactMethod.Skype;
-                    IsPhoneNumberCheckBoxChecked = SelectedEmployee.ContactMethod.IsPhoneNumberChecked;
-                    IsEmailCheckBoxChecked = SelectedEmployee.ContactMethod.IsEmailChecked;
-                    IsSkypeCheckBoxChecked = SelectedEmployee.ContactMethod.IsSkypeChecked;
                     Assign(SelectedEmployeeDetail, SelectedEmployee);                   
                 }
             }
         }
         public Employee SelectedEmployeeDetail { get; set; }
-        public ContactMethod ContactMethod { get; set; }
 
         public bool IsVisible
         {
@@ -301,11 +309,69 @@ namespace GLWpfApp.ViewModels
             SelectedEmployeeDetail = new Employee();
             Employees = new ObservableCollection<Employee>()
             {
-                new Employee { FirstName = "Anna", LastName = "Nguyenova", EmployeeNumber = 1, MiddleName = string.Empty, NationalIdNumber = 1, PreviousIdNumber = 0, PersonellNumber = 11, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), ContactMethod = new ContactMethod("+421 911 111 111", true, "anna@mail.com", true, "anna111", true)},
-                new Employee { FirstName = "Daniela", LastName = "Horvathova", EmployeeNumber = 2, MiddleName = string.Empty, NationalIdNumber = 2, PreviousIdNumber = 0, PersonellNumber = 22, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), ContactMethod = new ContactMethod("+421 911 222 222", false, "daniela@mail.com", false, "daniela222", false)},
-                new Employee { FirstName = "Dominika", LastName = "Mala", EmployeeNumber = 3, MiddleName = string.Empty, NationalIdNumber = 3, PreviousIdNumber = 0, PersonellNumber = 33, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), ContactMethod = new ContactMethod("+421 911 333 333", true, "dominika@mail.com", false, "dominika333", true)},
-                new Employee { FirstName = "David", LastName = "Kovac", EmployeeNumber = 4, MiddleName = string.Empty, NationalIdNumber = 4, PreviousIdNumber = 0, PersonellNumber = 44, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), ContactMethod = new ContactMethod("+421 911 444 444", true, "david@mail.com", true, "david444", false)},
-                new Employee { FirstName = "Peter", LastName = "Duris", EmployeeNumber = 5, MiddleName = string.Empty, NationalIdNumber = 5, PreviousIdNumber = 0, PersonellNumber = 55, ActivationTime = new DateTime(2020,1,1), ExpirationTime = new DateTime(2025,12,31), ContactMethod = new ContactMethod("+421 911 555 555", false, "peter@mail.com", true, "peter555", true)}
+                new Employee
+                {
+                    FirstName = "Anna",
+                    LastName = "Nguyenova",
+                    EmployeeNumber = 1,
+                    MiddleName = string.Empty,
+                    NationalIdNumber = 1,
+                    PreviousIdNumber = 0,
+                    PersonellNumber = 11,
+                    ActivationTime = new DateTime(2020,1,1),
+                    ExpirationTime = new DateTime(2025,12,31),
+                    ContactMethods = new ObservableCollection<ContactMethod>()
+                    {
+                        new ContactMethod (true, "PhoneNumber","+421 911 111 111"),
+                        new ContactMethod (true, "Email", "anna@email.com"),
+                        new ContactMethod (true, "Skype","anna111")
+                    }
+                },
+                new Employee 
+                { 
+                    FirstName = "Daniela", 
+                    LastName = "Horvathova", 
+                    EmployeeNumber = 2, MiddleName = string.Empty, 
+                    NationalIdNumber = 2, PreviousIdNumber = 0, 
+                    PersonellNumber = 22, 
+                    ActivationTime = new DateTime(2020,1,1), 
+                    ExpirationTime = new DateTime(2025,12,31)
+                },
+                new Employee 
+                { 
+                    FirstName = "Dominika", 
+                    LastName = "Mala", 
+                    EmployeeNumber = 3, 
+                    MiddleName = string.Empty,
+                    NationalIdNumber = 3, 
+                    PreviousIdNumber = 0, PersonellNumber = 33, 
+                    ActivationTime = new DateTime(2020,1,1), 
+                    ExpirationTime = new DateTime(2025,12,31)
+                },
+                new Employee 
+                { 
+                    FirstName = "David", 
+                    LastName = "Kovac", 
+                    EmployeeNumber = 4, 
+                    MiddleName = string.Empty, 
+                    NationalIdNumber = 4, 
+                    PreviousIdNumber = 0, 
+                    PersonellNumber = 44, 
+                    ActivationTime = new DateTime(2020,1,1), 
+                    ExpirationTime = new DateTime(2025,12,31)
+                },
+                new Employee 
+                { 
+                    FirstName = "Peter", 
+                    LastName = "Duris", 
+                    EmployeeNumber = 5, 
+                    MiddleName = string.Empty, 
+                    NationalIdNumber = 5, 
+                    PreviousIdNumber = 0, 
+                    PersonellNumber = 55, 
+                    ActivationTime = new DateTime(2020,1,1), 
+                    ExpirationTime = new DateTime(2025,12,31)
+                }
             };
 
             SearchCommand = new RelayCommand(Search);
@@ -381,12 +447,10 @@ namespace GLWpfApp.ViewModels
             if (SelectedEmployee == null && EmployeeNum != 0 && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
             {
 
-                var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, EmployeeNum,
-                                    SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
-                                    SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime,
-                                    ContactMethod = new ContactMethod(EmployeePhoneNumber, IsPhoneNumberCheckBoxChecked, EmployeeEmail, 
-                                    IsEmailCheckBoxChecked, EmployeeSkype, IsSkypeCheckBoxChecked));
-                Employees.Add(newEmployee);
+                //var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, EmployeeNum,
+                //                    SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
+                //                    SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime);
+                //Employees.Add(newEmployee);
                 Search();
                 Clear();
                 SetPropertiesToFalse();
@@ -399,12 +463,6 @@ namespace GLWpfApp.ViewModels
                 if (employeeToEdit != null)
                 {
                     employeeToEdit.EmployeeNumber = EmployeeNum;
-                    employeeToEdit.ContactMethod.PhoneNumber = EmployeePhoneNumber;
-                    employeeToEdit.ContactMethod.Email = EmployeeEmail;
-                    employeeToEdit.ContactMethod.Skype = EmployeeSkype;
-                    employeeToEdit.ContactMethod.IsPhoneNumberChecked = IsPhoneNumberCheckBoxChecked;
-                    employeeToEdit.ContactMethod.IsEmailChecked = IsEmailCheckBoxChecked;
-                    employeeToEdit.ContactMethod.IsSkypeChecked = IsSkypeCheckBoxChecked;
                     Assign(employeeToEdit, SelectedEmployeeDetail);
                     Search();
                     SetPropertiesToFalse();

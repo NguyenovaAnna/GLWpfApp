@@ -7,23 +7,66 @@ using System.Threading.Tasks;
 
 namespace GLWpfApp.Models
 {
-    public class ContactMethod 
+    public class ContactMethod : INotifyPropertyChanged
     {
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public string Skype { get; set; }
-        public bool IsPhoneNumberChecked { get; set; }
-        public bool IsEmailChecked { get; set; }
-        public bool IsSkypeChecked { get; set; }
+        private bool _isChecked;
+        private string _contactMethodType;
+        private string _contactMethodValue;
 
-        public ContactMethod(string phoneNumber, bool isPhoneNumberChecked, string email, bool isEmailChecked, string skype, bool isSkypeChecked)
+        public bool IsChecked
         {
-            PhoneNumber = phoneNumber;
-            IsPhoneNumberChecked = isPhoneNumberChecked;
-            Email = email;
-            IsEmailChecked = isEmailChecked;
-            Skype = skype;
-            IsSkypeChecked = isSkypeChecked;
+            get
+            {
+                return _isChecked;
+            }
+            set
+            {
+                _isChecked = value;
+                OnPropertyChanged("IsChecked");
+            }
+        }
+        public string ContactMethodType 
+        { 
+            get
+            {
+                return _contactMethodType;
+            }
+            set
+            {
+                _contactMethodType = value;
+                OnPropertyChanged("ContactMethodType");
+            }
+        }
+        public string ContactMethodValue
+        {
+            get
+            {
+                return _contactMethodValue;
+            }
+            set
+            {
+                _contactMethodValue = value;
+                OnPropertyChanged("ContactMethodValue");
+            }
+        }
+        
+
+        public ContactMethod(bool isChecked, string contactMethodType, string contactMethodValue)
+        {
+            IsChecked = isChecked;
+            ContactMethodType = contactMethodType;
+            ContactMethodValue = contactMethodValue;
+
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }
