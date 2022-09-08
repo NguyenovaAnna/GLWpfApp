@@ -9,19 +9,19 @@ namespace GLWpfApp.Models
 {
     public class ContactMethod : INotifyPropertyChanged
     {
-        private bool _isChecked;
+        private bool _hasValue;
         private string _contactMethodType;
         private string _contactMethodValue;
 
-        public bool IsChecked
+        public bool HasValue
         {
             get
             {
-                return _isChecked;
+                return _hasValue;
             }
             set
             {
-                _isChecked = value;
+                _hasValue = value;
                 OnPropertyChanged("IsChecked");
             }
         }
@@ -51,9 +51,9 @@ namespace GLWpfApp.Models
         }
         
 
-        public ContactMethod(bool isChecked, string contactMethodType, string contactMethodValue)
+        public ContactMethod(bool hasValue, string contactMethodType, string contactMethodValue)
         {
-            IsChecked = isChecked;
+            HasValue = hasValue;
             ContactMethodType = contactMethodType;
             ContactMethodValue = contactMethodValue;
 

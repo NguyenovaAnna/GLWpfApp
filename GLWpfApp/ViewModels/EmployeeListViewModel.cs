@@ -15,7 +15,6 @@ namespace GLWpfApp.ViewModels
     public class EmployeeListViewModel : ViewModelBase
     {
         private ObservableCollection<Employee> _employees;
-        //private ObservableCollection<ContactMethod> _contactMethod;
         private Employee? _selectedEmployee;
         private bool _isVisible;
         private bool _isEmployeeNumberExisting;
@@ -46,20 +45,6 @@ namespace GLWpfApp.ViewModels
                 OnPropertyChanged("Employees");
             }
         }
-
-        //public ObservableCollection<ContactMethod> ContactMethod
-        //{
-        //    get
-        //    { 
-        //        return _contactMethod;
-        //    }
-        //    set
-        //    {
-        //        _contactMethod = value;
-        //        OnPropertyChanged("ContactMethods");
-        //    }
-        //}
-
 
         public Employee? SelectedEmployee
         {
@@ -335,7 +320,13 @@ namespace GLWpfApp.ViewModels
                     NationalIdNumber = 2, PreviousIdNumber = 0, 
                     PersonellNumber = 22, 
                     ActivationTime = new DateTime(2020,1,1), 
-                    ExpirationTime = new DateTime(2025,12,31)
+                    ExpirationTime = new DateTime(2025,12,31),
+                    ContactMethods = new ObservableCollection<ContactMethod>()
+                    {
+                        new ContactMethod (false, "PhoneNumber",String.Empty),
+                        new ContactMethod (true, "Email", "daniela@email.com"),
+                        new ContactMethod (false, "Skype",String.Empty)
+                    }
                 },
                 new Employee 
                 { 
@@ -346,19 +337,31 @@ namespace GLWpfApp.ViewModels
                     NationalIdNumber = 3, 
                     PreviousIdNumber = 0, PersonellNumber = 33, 
                     ActivationTime = new DateTime(2020,1,1), 
-                    ExpirationTime = new DateTime(2025,12,31)
+                    ExpirationTime = new DateTime(2025,12,31),
+                    ContactMethods = new ObservableCollection<ContactMethod>()
+                    {
+                        new ContactMethod (true, "PhoneNumber","+421 911 333 333"),
+                        new ContactMethod (false, "Email", String.Empty),
+                        new ContactMethod (false, "Skype",String.Empty)
+                    }
                 },
-                new Employee 
-                { 
-                    FirstName = "David", 
-                    LastName = "Kovac", 
-                    EmployeeNumber = 4, 
-                    MiddleName = string.Empty, 
-                    NationalIdNumber = 4, 
-                    PreviousIdNumber = 0, 
-                    PersonellNumber = 44, 
-                    ActivationTime = new DateTime(2020,1,1), 
-                    ExpirationTime = new DateTime(2025,12,31)
+                new Employee
+                {
+                    FirstName = "David",
+                    LastName = "Kovac",
+                    EmployeeNumber = 4,
+                    MiddleName = string.Empty,
+                    NationalIdNumber = 4,
+                    PreviousIdNumber = 0,
+                    PersonellNumber = 44,
+                    ActivationTime = new DateTime(2020,1,1),
+                    ExpirationTime = new DateTime(2025,12,31),
+                    ContactMethods = new ObservableCollection<ContactMethod>()
+                    {
+                        new ContactMethod (true, "PhoneNumber","+421 911 444 444"),
+                        new ContactMethod (true, "Email", "david@email.com"),
+                        new ContactMethod (false, "Skype",String.Empty)
+                    }
                 },
                 new Employee 
                 { 
@@ -370,7 +373,13 @@ namespace GLWpfApp.ViewModels
                     PreviousIdNumber = 0, 
                     PersonellNumber = 55, 
                     ActivationTime = new DateTime(2020,1,1), 
-                    ExpirationTime = new DateTime(2025,12,31)
+                    ExpirationTime = new DateTime(2025,12,31),
+                    ContactMethods = new ObservableCollection<ContactMethod>()
+                    {
+                        new ContactMethod (false, "PhoneNumber",String.Empty),
+                        new ContactMethod (false, "Email", String.Empty),
+                        new ContactMethod (false, "Skype",String.Empty)
+                    }
                 }
             };
 
