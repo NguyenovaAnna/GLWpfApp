@@ -15,6 +15,7 @@ namespace GLWpfApp.ViewModels
     public class EmployeeListViewModel : ViewModelBase
     {
         private ObservableCollection<Employee> _employees;
+        private ObservableCollection<ContactMethod> _selectedEmployeeContactMethods;
         private Employee? _selectedEmployee;
         private bool _isVisible;
         private bool _isEmployeeNumberExisting;
@@ -22,13 +23,7 @@ namespace GLWpfApp.ViewModels
         private bool _isFirstNameEmpty;
         private bool _isLastNameEmpty;
         private bool _isContactMethodCheckBoxChecked;
-        private bool _isPhoneNumberCheckBoxChecked;
-        private bool _isEmailCheckBoxChecked;
-        private bool _isSkypeCheckBoxChecked;
         private string _employeesFilter = string.Empty;
-        private string _employeePhoneNumber;
-        private string _employeeEmail;
-        private string _employeeSkype;
         private int _employeeNum = 0;
 
         public ICollectionView EmployeesCollectionView { get; }
@@ -43,6 +38,19 @@ namespace GLWpfApp.ViewModels
             {
                 _employees = value;
                 OnPropertyChanged("Employees");
+            }
+        }
+
+        public ObservableCollection<ContactMethod> SelectedEmployeeContactMethods
+        {
+            get
+            {
+                return _selectedEmployeeContactMethods;
+            }
+            set
+            {
+                _selectedEmployeeContactMethods = value;
+                OnPropertyChanged("SelectedEmployeeContactMethods");
             }
         }
 
@@ -63,7 +71,8 @@ namespace GLWpfApp.ViewModels
                     IsEmployeeNumberExisting = false;
                     UncheckCheckBoxes();
                     EmployeeNum = SelectedEmployee.EmployeeNumber;
-                    Assign(SelectedEmployeeDetail, SelectedEmployee);                   
+                    Assign(SelectedEmployeeDetail, SelectedEmployee);
+                    SelectedEmployeeContactMethods = new ObservableCollection<ContactMethod>(SelectedEmployee.ContactMethods);
                 }
             }
         }
@@ -147,45 +156,6 @@ namespace GLWpfApp.ViewModels
             }
         }
 
-        public bool IsPhoneNumberCheckBoxChecked
-        {
-            get
-            {
-                return _isPhoneNumberCheckBoxChecked;
-            }
-            set
-            {
-                _isPhoneNumberCheckBoxChecked = value;
-                OnPropertyChanged("IsPhoneNumberCheckBoxChecked");
-            }
-        }
-
-        public bool IsEmailCheckBoxChecked
-        {
-            get
-            {
-                return _isEmailCheckBoxChecked;
-            }
-            set
-            {
-                _isEmailCheckBoxChecked = value;
-                OnPropertyChanged("IsEmailCheckBoxChecked");
-            }
-        }
-
-        public bool IsSkypeCheckBoxChecked
-        {
-            get
-            {
-                return _isSkypeCheckBoxChecked;
-            }
-            set
-            {
-                _isSkypeCheckBoxChecked = value;
-                OnPropertyChanged("IsSkypeCheckBoxChecked");
-            }
-        }
-
         public string EmployeesFilter
         {
             get
@@ -198,45 +168,6 @@ namespace GLWpfApp.ViewModels
                 OnPropertyChanged("EmployeesFilter");
                 if (string.IsNullOrEmpty(EmployeesFilter))
                     Search();
-            }
-        }
-
-        public string EmployeePhoneNumber
-        {
-            get
-            { 
-                return _employeePhoneNumber; 
-            }
-            set
-            { 
-                _employeePhoneNumber = value;
-                OnPropertyChanged("EmployeePhoneNumber");
-            }
-        }
-
-        public string EmployeeEmail
-        {
-            get
-            {
-                return _employeeEmail;
-            }
-            set
-            {
-                _employeeEmail = value;
-                OnPropertyChanged("EmployeeEmail");
-            }
-        }
-
-        public string EmployeeSkype
-        {
-            get
-            {
-                return _employeeSkype;
-            }
-            set
-            {
-                _employeeSkype = value;
-                OnPropertyChanged("EmployeeSkype");
             }
         }
 
@@ -430,6 +361,12 @@ namespace GLWpfApp.ViewModels
             SelectedEmployee = null;
             Clear();
             UncheckCheckBoxes();
+            SelectedEmployeeContactMethods = new ObservableCollection<ContactMethod>()
+            {
+                new ContactMethod (false, "PhoneNumber",String.Empty),
+                new ContactMethod (false, "Email", String.Empty),
+                new ContactMethod (false, "Skype",String.Empty)
+            };
         }
 
         public void Reset()
@@ -456,10 +393,10 @@ namespace GLWpfApp.ViewModels
             if (SelectedEmployee == null && EmployeeNum != 0 && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
             {
 
-                //var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, EmployeeNum,
-                //                    SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
-                //                    SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime);
-                //Employees.Add(newEmployee);
+                var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, EmployeeNum,
+                                    SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
+                                    SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime, new ObservableCollection<ContactMethod>(SelectedEmployeeContactMethods));
+                Employees.Add(newEmployee);
                 Search();
                 Clear();
                 SetPropertiesToFalse();
@@ -473,6 +410,7 @@ namespace GLWpfApp.ViewModels
                 {
                     employeeToEdit.EmployeeNumber = EmployeeNum;
                     Assign(employeeToEdit, SelectedEmployeeDetail);
+                    employeeToEdit.ContactMethods = new ObservableCollection<ContactMethod>(SelectedEmployeeContactMethods);
                     Search();
                     SetPropertiesToFalse();
                     SelectedEmployee = null;
@@ -491,9 +429,6 @@ namespace GLWpfApp.ViewModels
             SelectedEmployeeDetail.PersonellNumber = 0;
             SelectedEmployeeDetail.ActivationTime = DateTime.Today;
             SelectedEmployeeDetail.ExpirationTime = DateTime.Today;
-            EmployeePhoneNumber = String.Empty;
-            EmployeeEmail = String.Empty;
-            EmployeeSkype = String.Empty;
         }
 
         private void Assign(Employee employeeToBeAssignedTo, Employee employeeToBeAssignedFrom)
@@ -519,9 +454,6 @@ namespace GLWpfApp.ViewModels
         private void UncheckCheckBoxes()
         {
             IsContactMethodCheckBoxChecked = false;
-            IsPhoneNumberCheckBoxChecked = false;
-            IsEmailCheckBoxChecked = false;
-            IsSkypeCheckBoxChecked = false;
         }
 
         private void CheckEmployeeNumber()

@@ -351,9 +351,9 @@
 
                     <Grid Grid.Column="1" Margin="3,5,0,0">
                         <Grid.Resources>
-                            <CollectionViewSource x:Key="cvs" Source="{Binding SelectedEmployee.ContactMethods}">
+                            <CollectionViewSource x:Key="cvs" Source="{Binding SelectedEmployeeContactMethods}">
                                 <CollectionViewSource.SortDescriptions>
-                                    <scm:SortDescription PropertyName="HasValue" Direction="Descending" />
+                                    <scm:SortDescription PropertyName="IsSelected" Direction="Descending" />
                                 </CollectionViewSource.SortDescriptions>
                             </CollectionViewSource>
                         </Grid.Resources>
@@ -379,7 +379,7 @@
                                                       Content="{Binding ContactMethodType}"
                                                       VerticalAlignment="Center"
                                                       VerticalContentAlignment="Bottom"
-                                                      IsChecked="{Binding HasValue}"/>
+                                                      IsChecked="{Binding IsSelected}"/>
                                             <TextBox Grid.Column="1"
                                                      Height="20"
                                                      Width="200"
