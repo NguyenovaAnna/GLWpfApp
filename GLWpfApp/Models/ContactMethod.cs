@@ -22,7 +22,7 @@ namespace GLWpfApp.Models
             set
             {
                 _isSelected = value;
-                OnPropertyChanged("IsSelected");
+                OnPropertyChanged(nameof(IsSelected));
             }
         }
         public string ContactMethodType 
@@ -34,7 +34,7 @@ namespace GLWpfApp.Models
             set
             {
                 _contactMethodType = value;
-                OnPropertyChanged("ContactMethodType");
+                OnPropertyChanged(nameof(ContactMethodType));
             }
         }
         public string ContactMethodValue
@@ -46,7 +46,7 @@ namespace GLWpfApp.Models
             set
             {
                 _contactMethodValue = value;
-                OnPropertyChanged("ContactMethodValue");
+                OnPropertyChanged(nameof(ContactMethodValue));
             }
         }
         

@@ -19,7 +19,6 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
-
             <Grid Grid.Column="0">
                 <Border BorderBrush="Gray" 
                         BorderThickness="0.5" 
@@ -27,68 +26,70 @@
                     <StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="20" />
-                                <ColumnDefinition Width="20" />
-                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="20"/>
                             </Grid.ColumnDefinitions>
-                            
-                            <TextBox Grid.Column="0" 
-                                     VerticalAlignment="Stretch"  
-                                     HorizontalAlignment="Stretch"
-                                     Padding="2"
-                                     Height="20"
-                                     FontSize="12"
-                                     Text="{Binding EmployeesFilter, UpdateSourceTrigger=PropertyChanged}"/>
-
-                            <Button Grid.Column="1" 
-                                    Command="{Binding SearchCommand}"
-                                    Width="22" 
-                                    Height="22"
-                                    BorderThickness="0"
-                                    Background="Transparent" >
-                                <Image Source="../Images/SearchButton.png" />
+                            <TextBox 
+                                Grid.Column="0" 
+                                VerticalAlignment="Stretch"  
+                                HorizontalAlignment="Stretch"
+                                Padding="2"
+                                Height="20"
+                                FontSize="12"
+                                Text="{Binding EmployeesFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button 
+                                Grid.Column="1" 
+                                Command="{Binding SearchCommand}"
+                                Width="22" 
+                                Height="22"
+                                BorderThickness="0"
+                                Background="Transparent">
+                                <Image Source="../Images/SearchButton.png"/>
                             </Button>
-                            
-                            <Button Grid.Column="2"
-                                    Command="{Binding ResetCommand}"
-                                    Width="20" 
-                                    Height="20"
-                                    BorderThickness="0"
-                                    Background="Transparent" >
-                                <Image Source="../Images/ResetButton.png" />
+                            <Button 
+                                Grid.Column="2"
+                                Command="{Binding ResetCommand}"
+                                Width="20" 
+                                Height="20"
+                                BorderThickness="0"
+                                Background="Transparent">
+                                <Image Source="../Images/ResetButton.png"/>
                             </Button>
-
-                            <Button Grid.Column="3" 
-                                    Command="{Binding AddCommand}"
-                                    Width="20" 
-                                    Height="20"
-                                    BorderThickness="0"
-                                    Background="Transparent">
-                                <Image Source="../Images/AddButton.png" />
+                            <Button 
+                                Grid.Column="3" 
+                                Command="{Binding AddCommand}"
+                                Width="20" 
+                                Height="20"
+                                BorderThickness="0"
+                                Background="Transparent">
+                                <Image Source="../Images/AddButton.png"/>
                             </Button>
                         </Grid>
-
-                        <ListBox x:Name="MyList" 
-                                 ItemsSource="{Binding Employees}"
-                                 SelectedItem="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 Margin="2" 
-                                 Background="Transparent" 
-                                 BorderThickness="0">
+                        <ListBox 
+                            Name="MyList" 
+                            ItemsSource="{Binding Employees}"
+                            SelectedItem="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="2" 
+                            Background="Transparent" 
+                            BorderThickness="0">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding FullName}"
-                                                   Width="200"
-                                                   Margin="2,0,0,0"/>
-                                        <Button Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected, Converter={StaticResource booleanVisibleConverter}}"
-                                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                                HorizontalAlignment="Right"
-                                                Width="20" 
-                                                Height="20"
-                                                BorderThickness="0"
-                                                Background="Transparent" >
-                                            <Image Source="../Images/ResetButton.png" />
+                                        <TextBlock 
+                                            Text="{Binding FullName}"
+                                                Width="200"
+                                                Margin="2,0,0,0"/>
+                                        <Button 
+                                            Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected, Converter={StaticResource booleanVisibleConverter}}"
+                                            Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                                            HorizontalAlignment="Right"
+                                            Width="20" 
+                                            Height="20"
+                                            BorderThickness="0"
+                                            Background="Transparent">
+                                            <Image Source="../Images/ResetButton.png"/>
                                         </Button>
                                     </StackPanel>
                                 </DataTemplate>
@@ -97,28 +98,28 @@
                     </StackPanel>
                 </Border>
             </Grid>
-
-            <StackPanel x:Name="EditEmployee" 
-                        Grid.Column="1"
-                        Visibility="{Binding IsVisible, Converter={StaticResource booleanVisibleConverter}}">
-                
+            <StackPanel 
+                Name="EditEmployee" 
+                Grid.Column="1"
+                Visibility="{Binding IsVisible, Converter={StaticResource booleanVisibleConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" 
-                               FontWeight="Bold" 
-                               FontSize="10" 
-                               HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom">
-                        <Run Text="Employee Number" /><Run Text="*" Foreground="Red" />
+                    <TextBlock 
+                        Grid.Column="0" 
+                        FontWeight="Bold" 
+                        FontSize="10" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom">
+                        <Run Text="Employee Number" /><Run Text="*" Foreground="Red"/>
                     </TextBlock>
-                    <TextBox x:Name="EmployeeNumber"
-                             Grid.Column="1" 
-                             Margin="3,0,0,0"
-                             Text="{Binding EmployeeNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox 
+                        Name="EmployeeNumber"
+                        Grid.Column="1" 
+                        Margin="3,0,0,0"
+                        Text="{Binding EmployeeNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
                                 <Style.Triggers>
@@ -130,25 +131,25 @@
                         </TextBox.Style>
                     </TextBox>
                 </Grid>
-
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" 
-                               Margin="0,3,0,0" 
-                               FontWeight="Bold" 
-                               FontSize="10" 
-                               HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom">
-                        <Run Text="First Name" /><Run Text="*" Foreground="Red" />
+                    <TextBlock 
+                        Grid.Column="0" 
+                        Margin="0,3,0,0" 
+                        FontWeight="Bold" 
+                        FontSize="10" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom">
+                        <Run Text="First Name"/><Run Text="*" Foreground="Red"/>
                     </TextBlock>
-                    <TextBox x:Name="FirstName"
-                             Grid.Column="1" 
-                             Margin="3,3,0,0" 
-                             Text="{Binding SelectedEmployeeDetail.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                    <TextBox 
+                        Name="FirstName"
+                        Grid.Column="1" 
+                        Margin="3,3,0,0" 
+                        Text="{Binding SelectedEmployeeDetail.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
                                 <Style.Triggers>
@@ -159,63 +160,66 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
-                    <TextBlock Grid.Column="1"
-                               Margin="3,0,0,0" 
-                               Background="red"
-                               Text="Emloyee number exists."
-                               Foreground="white"
-                               FontWeight="Bold"
-                               Visibility="{Binding IsEmployeeNumberExisting, Converter={StaticResource booleanVisibleConverter}}" />
-                    <TextBlock Grid.Column="1"
-                               Margin="3,0,0,0" 
-                               Background="red"
-                               Text="Employee number is mandatory."
-                               Foreground="white"
-                               FontWeight="Bold"
-                               Visibility="{Binding IsEmployeeNumberEmpty, Converter={StaticResource booleanVisibleConverter}}" />
+                    <TextBlock 
+                        Grid.Column="1"
+                        Margin="3,0,0,0" 
+                        Background="red"
+                        Text="Emloyee number exists."
+                        Foreground="white"
+                        FontWeight="Bold"
+                        Visibility="{Binding IsEmployeeNumberExisting, Converter={StaticResource booleanVisibleConverter}}"/>
+                    <TextBlock 
+                        Grid.Column="1"
+                        Margin="3,0,0,0" 
+                        Background="red"
+                        Text="Employee number is mandatory."
+                        Foreground="white"
+                        FontWeight="Bold"
+                        Visibility="{Binding IsEmployeeNumberEmpty, Converter={StaticResource booleanVisibleConverter}}"/>
                 </Grid>
-
                 <Grid Margin="0,0,0,3">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0"
-                               Margin="0,3,0,0"
-                               Text="Middle Name" 
-                               FontSize="10" 
-                               HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom" />
-                    <TextBox Grid.Column="1" 
-                             Margin="3,3,0,0" 
-                             Text="{Binding SelectedEmployeeDetail.MiddleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBlock Grid.Column="1"
-                               Margin="3,0,0,0" 
-                               Background="red"
-                               Text="First Name is mandatory."
-                               Foreground="white"
-                               FontWeight="Bold"
-                               Visibility="{Binding IsFirstNameEmpty, Converter={StaticResource booleanVisibleConverter}}" />
+                    <TextBlock 
+                        Grid.Column="0"
+                        Margin="0,3,0,0"
+                        Text="Middle Name" 
+                        FontSize="10" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom"/>
+                    <TextBox 
+                        Grid.Column="1" 
+                        Margin="3,3,0,0" 
+                        Text="{Binding SelectedEmployeeDetail.MiddleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock 
+                        Grid.Column="1"
+                        Margin="3,0,0,0" 
+                        Background="red"
+                        Text="First Name is mandatory."
+                        Foreground="white"
+                        FontWeight="Bold"
+                        Visibility="{Binding IsFirstNameEmpty, Converter={StaticResource booleanVisibleConverter}}"/>
                 </Grid>
-
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" 
-                               FontWeight="Bold" 
-                               FontSize="10" 
-                               HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom">
-                        <Run Text="Last Name" /><Run Text="*" Foreground="Red" />
+                    <TextBlock 
+                        Grid.Column="0" 
+                        FontWeight="Bold" 
+                        FontSize="10" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom">
+                        <Run Text="Last Name"/><Run Text="*" Foreground="Red"/>
                     </TextBlock>
-                    <TextBox x:Name="LastName" 
-                             Grid.Column="1" 
-                             Margin="3,0,0,0" 
-                             Text="{Binding SelectedEmployeeDetail.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox 
+                        Name="LastName" 
+                        Grid.Column="1" 
+                        Margin="3,0,0,0" 
+                        Text="{Binding SelectedEmployeeDetail.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
                                 <Style.Triggers>
@@ -227,129 +231,128 @@
                         </TextBox.Style>
                     </TextBox>
                 </Grid>
-
+                <Grid Margin="0,0,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0" 
+                        Margin="0,3,0,0"
+                        Text="National Identification Number" 
+                        FontSize="10" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom"/>
+                    <TextBox 
+                        Grid.Column="1" 
+                        Margin="3,3,0,0"
+                        Text="{Binding SelectedEmployeeDetail.NationalIdNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock 
+                        Grid.Column="1"
+                        Margin="3,0,0,0" 
+                        Background="red"
+                        Text="Last Name is mandatory."
+                        Foreground="white"
+                        FontWeight="Bold"
+                        Visibility="{Binding IsLastNameEmpty, Converter={StaticResource booleanVisibleConverter}}"/>
+                </Grid>
+                <Grid Margin="0,0,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        Grid.Column="0" 
+                        Text="Previous Identification Number" 
+                        FontSize="10" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom"/>
+                    <TextBox 
+                        Grid.Column="1" 
+                        Margin="3,0,0,0"
+                        Text="{Binding SelectedEmployeeDetail.PreviousIdNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
                 <Grid Margin="0,0,0,3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" 
-                               Margin="0,3,0,0"
-                               Text="National Identification Number" 
-                               FontSize="10" 
-                               HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom" />
-                    <TextBox Grid.Column="1" 
-                             Margin="3,3,0,0"
-                             Text="{Binding SelectedEmployeeDetail.NationalIdNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBlock Grid.Column="1"
-                               Margin="3,0,0,0" 
-                               Background="red"
-                               Text="Last Name is mandatory."
-                               Foreground="white"
-                               FontWeight="Bold"
-                               Visibility="{Binding IsLastNameEmpty, Converter={StaticResource booleanVisibleConverter}}" />
+                    <TextBlock 
+                        Grid.Column="0" 
+                        Text="Personell Number" 
+                        FontSize="10" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom"/>
+                    <TextBox 
+                        Grid.Column="1" 
+                        Margin="3,0,0,0"
+                        Text="{Binding SelectedEmployeeDetail.PersonellNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
-
-                <Grid Margin="0,0,0,3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="3*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" 
-                               Text="Previous Identification Number" 
-                               FontSize="10" 
-                               HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom" />
-                    <TextBox Grid.Column="1" 
-                             Margin="3,0,0,0"
-                             Text="{Binding SelectedEmployeeDetail.PreviousIdNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                </Grid>
-
-                <Grid Margin="0,0,0,3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="3*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" 
-                               Text="Personell Number" 
-                               FontSize="10" 
-                               HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom" />
-                    <TextBox Grid.Column="1" 
-                             Margin="3,0,0,0"
-                             Text="{Binding SelectedEmployeeDetail.PersonellNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                </Grid>
-
                 <Grid Margin="0,20,0,3">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" 
-                               Text="Activation Time" 
-                               FontSize="10" 
-                               HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom" />
-                    <DatePicker Grid.Column="1"
-                                Margin="3,0,0,0"
-                                BorderThickness="0.5"
-                                SelectedDate="{Binding SelectedEmployeeDetail.ActivationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock
+                        Grid.Column="0" 
+                        Text="Activation Time" 
+                        FontSize="10" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom"/>
+                    <DatePicker 
+                        Grid.Column="1"
+                        Margin="3,0,0,0"
+                        BorderThickness="0.5"
+                        SelectedDate="{Binding SelectedEmployeeDetail.ActivationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
-
                 <Grid Margin="0,0,0,3">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" 
-                               Text="Expiration Time" 
-                               FontSize="10" 
-                               HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom" />
-                    <DatePicker Grid.Column="1"
-                                Margin="3,0,0,0"
-                                BorderThickness="0.5"
-                                SelectedDate="{Binding SelectedEmployeeDetail.ExpirationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                
+                    <TextBlock 
+                        Grid.Column="0" 
+                        Text="Expiration Time" 
+                        FontSize="10" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom"/>
+                    <DatePicker 
+                        Grid.Column="1"
+                        Margin="3,0,0,0"
+                        BorderThickness="0.5"
+                        SelectedDate="{Binding SelectedEmployeeDetail.ExpirationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
-
                 <Grid Margin="0,20,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" 
-                               Text="Contact Method" 
-                               FontSize="10" 
-                               HorizontalAlignment="Right" 
-                               VerticalAlignment="Bottom" />
-
-                    <CheckBox Grid.Column="1" 
-                              Margin="3,0,0,0"
-                              Name="ContactMethodCheckBox"
-                              FontSize="10" 
-                              VerticalContentAlignment="Bottom"
-                              IsChecked="{Binding IsContactMethodCheckBoxChecked}"/>
+                    <TextBlock 
+                        Grid.Column="0" 
+                        Text="Contact Method" 
+                        FontSize="10" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom"/>
+                    <CheckBox 
+                        Grid.Column="1" 
+                        Margin="3,0,0,0"
+                        Name="ContactMethodCheckBox"
+                        FontSize="10" 
+                        VerticalContentAlignment="Bottom"
+                        IsChecked="{Binding IsContactMethodCheckBoxChecked}"/>
                 </Grid>
-
-                <Grid Margin="0,0,0,3"
-                      Visibility="{Binding ElementName=ContactMethodCheckBox, Path=IsChecked, Converter={StaticResource booleanVisibleConverter}}" >
-
+                <Grid 
+                    Margin="0,0,0,3"
+                    Visibility="{Binding ElementName=ContactMethodCheckBox, Path=IsChecked, Converter={StaticResource booleanVisibleConverter}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Column="1" Margin="3,5,0,0">
+                    <Grid 
+                        Grid.Column="1" 
+                        Margin="3,5,0,0">
                         <Grid.Resources>
                             <CollectionViewSource x:Key="cvs" Source="{Binding SelectedEmployeeContactMethods}">
                                 <CollectionViewSource.SortDescriptions>
@@ -357,54 +360,56 @@
                                 </CollectionViewSource.SortDescriptions>
                             </CollectionViewSource>
                         </Grid.Resources>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="0.5">
-                            
-                            <ListBox x:Name="ContactMethods" 
-                                 ItemsSource="{Binding Source={StaticResource cvs}}"
-                                 
-                                 Margin="2" 
-                                 Background="Transparent" 
-                                 BorderThickness="0">
+                        <Border 
+                            BorderBrush="Gray"
+                            BorderThickness="0.5">
+                            <ListBox 
+                                Name="ContactMethods" 
+                                ItemsSource="{Binding Source={StaticResource cvs}}"
+                                Margin="2" 
+                                Background="Transparent" 
+                                BorderThickness="0">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100" />
-                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <CheckBox Grid.Column="0"
-                                                      Margin="2,0,0,0"
-                                                      FontSize="10"
-                                                      Content="{Binding ContactMethodType}"
-                                                      VerticalAlignment="Center"
-                                                      VerticalContentAlignment="Bottom"
-                                                      IsChecked="{Binding IsSelected}"/>
-                                            <TextBox Grid.Column="1"
-                                                     Height="20"
-                                                     Width="200"
-                                                     Text="{Binding ContactMethodValue}"/>
+                                            <CheckBox 
+                                                Grid.Column="0"
+                                                Margin="2,0,0,0"
+                                                Name="ContactMethodTypeCheckBox"
+                                                FontSize="10"
+                                                Content="{Binding ContactMethodType}"
+                                                VerticalAlignment="Center"
+                                                VerticalContentAlignment="Bottom"
+                                                IsChecked="{Binding IsSelected}"/>
+                                            <TextBox 
+                                                Grid.Column="1"
+                                                Height="20"
+                                                Width="200"
+                                                Text="{Binding ContactMethodValue}"
+                                                Visibility="{Binding ElementName=ContactMethodTypeCheckBox, Path=IsChecked, Converter={StaticResource booleanVisibleConverter}}"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            
                         </Border>
                     </Grid>
                 </Grid>
-
                 <Grid Margin="0,20,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-
-                    <Button Grid.Column="1"
-                            Content="Submit" 
-                            Margin="0,0,4,0"
-                            Command="{Binding SubmitCommand}">
+                    <Button
+                        Grid.Column="1"
+                        Content="Submit" 
+                        Margin="0,0,4,0"
+                        Command="{Binding SubmitCommand}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Style.Triggers>
@@ -415,13 +420,12 @@
                             </Style>
                         </Button.Style>
                     </Button>
-
-                    <Button Grid.Column="2"
-                            Content="Cancel"
-                            Command="{Binding CancelCommand}"/>
+                    <Button 
+                        Grid.Column="2"
+                        Content="Cancel"
+                        Command="{Binding CancelCommand}"/>
                 </Grid>
             </StackPanel>
-
         </Grid>
     </Border>
 </Window>

@@ -37,7 +37,7 @@ namespace GLWpfApp.ViewModels
             set
             {
                 _employees = value;
-                OnPropertyChanged("Employees");
+                OnPropertyChanged(nameof(Employees));
             }
         }
 
@@ -50,7 +50,7 @@ namespace GLWpfApp.ViewModels
             set
             {
                 _selectedEmployeeContactMethods = value;
-                OnPropertyChanged("SelectedEmployeeContactMethods");
+                OnPropertyChanged(nameof(SelectedEmployeeContactMethods));
             }
         }
 
@@ -63,7 +63,7 @@ namespace GLWpfApp.ViewModels
             set
             {
                 _selectedEmployee = value;
-                OnPropertyChanged("SelectedEmployee");
+                OnPropertyChanged(nameof(SelectedEmployee));
 
                 if (SelectedEmployee != null)
                 {
@@ -87,7 +87,7 @@ namespace GLWpfApp.ViewModels
             set
             {
                 _isVisible = value;
-                OnPropertyChanged("IsVisible");
+                OnPropertyChanged(nameof(IsVisible));
             }
         }
 
@@ -100,7 +100,7 @@ namespace GLWpfApp.ViewModels
             set
             {
                 _isEmployeeNumberExisting = value;
-                OnPropertyChanged("IsEmployeeNumberExisting");
+                OnPropertyChanged(nameof(IsEmployeeNumberExisting));
             }
         }
 
@@ -113,7 +113,7 @@ namespace GLWpfApp.ViewModels
             set
             {
                 _isEmployeeNumberEmpty = value;
-                OnPropertyChanged("IsEmployeeNumberEmpty");
+                OnPropertyChanged(nameof(IsEmployeeNumberEmpty));
             }
         }
 
@@ -126,7 +126,7 @@ namespace GLWpfApp.ViewModels
             set
             {
                 _isFirstNameEmpty = value;
-                OnPropertyChanged("IsFirstNameEmpty");
+                OnPropertyChanged(nameof(IsFirstNameEmpty));
             }
         }
 
@@ -139,7 +139,7 @@ namespace GLWpfApp.ViewModels
             set
             {
                 _isLastNameEmpty = value;
-                OnPropertyChanged("IsLastNameEmpty");
+                OnPropertyChanged(nameof(IsLastNameEmpty));
             }
         }
 
@@ -152,7 +152,7 @@ namespace GLWpfApp.ViewModels
             set
             {
                 _isContactMethodCheckBoxChecked = value;
-                OnPropertyChanged("IsContactMethodCheckBoxChecked");
+                OnPropertyChanged(nameof(IsContactMethodCheckBoxChecked));
             }
         }
 
@@ -165,7 +165,7 @@ namespace GLWpfApp.ViewModels
             set
             {
                 _employeesFilter = value;
-                OnPropertyChanged("EmployeesFilter");
+                OnPropertyChanged(nameof(EmployeesFilter));
                 if (string.IsNullOrEmpty(EmployeesFilter))
                     Search();
             }
@@ -177,7 +177,7 @@ namespace GLWpfApp.ViewModels
             set
             {
                 _employeeNum = value;
-                OnPropertyChanged("EmployeeNum");
+                OnPropertyChanged(nameof(EmployeeNum));
 
                 if (SelectedEmployee != null)
                 {

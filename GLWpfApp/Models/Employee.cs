@@ -30,7 +30,7 @@ namespace GLWpfApp.Models
             set
             {
                 _contactMethods = value;
-                OnPropertyChanged("ContactMethod");
+                OnPropertyChanged(nameof(ContactMethods));
             }
         }
 
@@ -43,7 +43,7 @@ namespace GLWpfApp.Models
             set 
             { 
                 _firstName = value;
-                OnPropertyChanged("FirstName");
+                OnPropertyChanged(nameof(FirstName));
             }
         }
 
@@ -56,7 +56,7 @@ namespace GLWpfApp.Models
             set
             {
                 _lastName = value;
-                OnPropertyChanged("LastName");
+                OnPropertyChanged(nameof(LastName));
             }
         }
 
@@ -69,7 +69,7 @@ namespace GLWpfApp.Models
             set
             {
                 _middleName = value;
-                OnPropertyChanged("MiddleName");
+                OnPropertyChanged(nameof(MiddleName));
             }
         }
 
@@ -90,7 +90,7 @@ namespace GLWpfApp.Models
             set
             {
                 _employeeNumber = value;
-                OnPropertyChanged("EmployeeNumber");
+                OnPropertyChanged(nameof(EmployeeNumber));
             }
         }
 
@@ -103,7 +103,7 @@ namespace GLWpfApp.Models
             set
             {
                 _nationalIdNumber = value;
-                OnPropertyChanged("NationalIdNumber");
+                OnPropertyChanged(nameof(NationalIdNumber));
             }
         }
 
@@ -116,7 +116,7 @@ namespace GLWpfApp.Models
             set
             {
                 _previousIdNumber = value;
-                OnPropertyChanged("PreviousIdNumber");
+                OnPropertyChanged(nameof(PreviousIdNumber));
             }
         }
 
@@ -129,7 +129,7 @@ namespace GLWpfApp.Models
             set
             {
                 _personellNumber = value;
-                OnPropertyChanged("PersonellNumber");
+                OnPropertyChanged(nameof(PersonellNumber));
             }
         }
 
@@ -142,7 +142,7 @@ namespace GLWpfApp.Models
             set
             {
                 _activationTime = value;
-                OnPropertyChanged("ActivationTime");
+                OnPropertyChanged(nameof(ActivationTime));
             }
         }
 
@@ -155,7 +155,7 @@ namespace GLWpfApp.Models
             set
             {
                 _expirationTime = value;
-                OnPropertyChanged("ExpirationTime");
+                OnPropertyChanged(nameof(ExpirationTime));
             }
         }
 
