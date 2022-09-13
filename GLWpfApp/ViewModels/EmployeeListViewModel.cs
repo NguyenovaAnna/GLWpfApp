@@ -18,12 +18,14 @@ namespace GLWpfApp.ViewModels
         private ObservableCollection<ContactMethod> _selectedEmployeeContactMethods;
         private Employee? _selectedEmployee;
         private bool _isVisible;
+        public bool _isContactMethodTextBoxVisible;
         private bool _isEmployeeNumberExisting;
         private bool _isEmployeeNumberEmpty;
         private bool _isFirstNameEmpty;
         private bool _isLastNameEmpty;
         private bool _isContactMethodCheckBoxChecked;
         private string _employeesFilter = string.Empty;
+        private string _newContactMethodType = string.Empty;
         private int _employeeNum = 0;
 
         public ICollectionView EmployeesCollectionView { get; }
@@ -70,6 +72,8 @@ namespace GLWpfApp.ViewModels
                     IsVisible = true;
                     IsEmployeeNumberExisting = false;
                     UncheckCheckBoxes();
+                    IsContactMethodTextBoxVisible = false;
+                    NewContactMethodType = String.Empty;
                     EmployeeNum = SelectedEmployee.EmployeeNumber;
                     Assign(SelectedEmployeeDetail, SelectedEmployee);
                     SelectedEmployeeContactMethods = new ObservableCollection<ContactMethod>(SelectedEmployee.ContactMethods);
@@ -88,6 +92,19 @@ namespace GLWpfApp.ViewModels
             {
                 _isVisible = value;
                 OnPropertyChanged(nameof(IsVisible));
+            }
+        }
+
+        public bool IsContactMethodTextBoxVisible
+        {
+            get
+            {
+                return _isContactMethodTextBoxVisible;
+            }
+            set
+            {
+                _isContactMethodTextBoxVisible = value;
+                OnPropertyChanged(nameof(IsContactMethodTextBoxVisible));
             }
         }
 
@@ -171,6 +188,19 @@ namespace GLWpfApp.ViewModels
             }
         }
 
+        public string NewContactMethodType
+        {
+            get
+            {
+                return _newContactMethodType;
+            }
+            set
+            {
+                _newContactMethodType = value;
+                OnPropertyChanged(nameof(NewContactMethodType));
+            }
+        }
+
         public int EmployeeNum
         {
             get { return _employeeNum; }
@@ -219,6 +249,7 @@ namespace GLWpfApp.ViewModels
         public ICommand ResetCommand { get; set; }
         public ICommand CancelCommand { get; set; }
         public ICommand SubmitCommand { get; set; }
+        public ICommand AddContactMethodCommand { get; set; }
 
         public EmployeeListViewModel()
         {
@@ -243,14 +274,14 @@ namespace GLWpfApp.ViewModels
                         new ContactMethod (true, "Skype","anna111")
                     }
                 },
-                new Employee 
-                { 
-                    FirstName = "Daniela", 
-                    LastName = "Horvathova", 
-                    EmployeeNumber = 2, MiddleName = string.Empty, 
-                    NationalIdNumber = 2, PreviousIdNumber = 0, 
-                    PersonellNumber = 22, 
-                    ActivationTime = new DateTime(2020,1,1), 
+                new Employee
+                {
+                    FirstName = "Daniela",
+                    LastName = "Horvathova",
+                    EmployeeNumber = 2, MiddleName = string.Empty,
+                    NationalIdNumber = 2, PreviousIdNumber = 0,
+                    PersonellNumber = 22,
+                    ActivationTime = new DateTime(2020,1,1),
                     ExpirationTime = new DateTime(2025,12,31),
                     ContactMethods = new ObservableCollection<ContactMethod>()
                     {
@@ -259,15 +290,15 @@ namespace GLWpfApp.ViewModels
                         new ContactMethod (false, "Skype",String.Empty)
                     }
                 },
-                new Employee 
-                { 
-                    FirstName = "Dominika", 
-                    LastName = "Mala", 
-                    EmployeeNumber = 3, 
+                new Employee
+                {
+                    FirstName = "Dominika",
+                    LastName = "Mala",
+                    EmployeeNumber = 3,
                     MiddleName = string.Empty,
-                    NationalIdNumber = 3, 
-                    PreviousIdNumber = 0, PersonellNumber = 33, 
-                    ActivationTime = new DateTime(2020,1,1), 
+                    NationalIdNumber = 3,
+                    PreviousIdNumber = 0, PersonellNumber = 33,
+                    ActivationTime = new DateTime(2020,1,1),
                     ExpirationTime = new DateTime(2025,12,31),
                     ContactMethods = new ObservableCollection<ContactMethod>()
                     {
@@ -294,16 +325,16 @@ namespace GLWpfApp.ViewModels
                         new ContactMethod (false, "Skype",String.Empty)
                     }
                 },
-                new Employee 
-                { 
-                    FirstName = "Peter", 
-                    LastName = "Duris", 
-                    EmployeeNumber = 5, 
-                    MiddleName = string.Empty, 
-                    NationalIdNumber = 5, 
-                    PreviousIdNumber = 0, 
-                    PersonellNumber = 55, 
-                    ActivationTime = new DateTime(2020,1,1), 
+                new Employee
+                {
+                    FirstName = "Peter",
+                    LastName = "Duris",
+                    EmployeeNumber = 5,
+                    MiddleName = string.Empty,
+                    NationalIdNumber = 5,
+                    PreviousIdNumber = 0,
+                    PersonellNumber = 55,
+                    ActivationTime = new DateTime(2020,1,1),
                     ExpirationTime = new DateTime(2025,12,31),
                     ContactMethods = new ObservableCollection<ContactMethod>()
                     {
@@ -319,6 +350,7 @@ namespace GLWpfApp.ViewModels
             AddCommand = new RelayCommand(Add);
             ResetCommand = new RelayCommand(Reset);
             CancelCommand = new RelayCommand(Cancel);
+            AddContactMethodCommand = new RelayCommand(AddContactMethod);
             SubmitCommand = new SubmitCommand(Submit, CanSubmitExecute);
 
             EmployeesCollectionView = CollectionViewSource.GetDefaultView(Employees);
@@ -351,7 +383,7 @@ namespace GLWpfApp.ViewModels
                     Employees.Remove(employeeToDelete);
                 }
             }
-            
+
             IsVisible = false;
         }
 
@@ -384,6 +416,22 @@ namespace GLWpfApp.ViewModels
             Clear();
         }
 
+        public void AddContactMethod()
+        {
+            if (IsContactMethodTextBoxVisible == false)
+            {
+                IsContactMethodTextBoxVisible = true;
+            }
+
+            if (NewContactMethodType != String.Empty && IsContactMethodTextBoxVisible == true)
+            {
+                var newContactMethod = new ContactMethod(false, NewContactMethodType, String.Empty);
+                SelectedEmployeeContactMethods.Add(newContactMethod);
+                NewContactMethodType = String.Empty;
+                IsContactMethodTextBoxVisible = false;
+            }
+        }
+
         public void Submit(object parameter)
         {
             CheckEmployeeNumber();
@@ -401,7 +449,7 @@ namespace GLWpfApp.ViewModels
                 Clear();
                 SetPropertiesToFalse();
             }
-            
+
             if (SelectedEmployee != null && EmployeeNum != 0 && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
             {
                 var employeeToEdit = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
@@ -429,6 +477,7 @@ namespace GLWpfApp.ViewModels
             SelectedEmployeeDetail.PersonellNumber = 0;
             SelectedEmployeeDetail.ActivationTime = DateTime.Today;
             SelectedEmployeeDetail.ExpirationTime = DateTime.Today;
+            NewContactMethodType = String.Empty;
         }
 
         private void Assign(Employee employeeToBeAssignedTo, Employee employeeToBeAssignedFrom)
@@ -449,6 +498,7 @@ namespace GLWpfApp.ViewModels
             IsEmployeeNumberEmpty = false;
             IsFirstNameEmpty = false;
             IsLastNameEmpty = false;
+            IsContactMethodTextBoxVisible = false;
         }
 
         private void UncheckCheckBoxes()
@@ -497,7 +547,7 @@ namespace GLWpfApp.ViewModels
             return maxId + 1;
         }
 
-        private bool CanSubmitExecute (object parameter)
+        private bool CanSubmitExecute(object parameter)
         {
             if (IsEmployeeNumberExisting)
             {
