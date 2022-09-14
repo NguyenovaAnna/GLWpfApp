@@ -15,7 +15,7 @@ namespace GLWpfApp.ViewModels
     public class EmployeeListViewModel : ViewModelBase
     {
         private ObservableCollection<Employee> _employees;
-        private ObservableCollection<ContactMethod> _selectedEmployeeContactMethods;
+        private ObservableCollection<ContactMethod> _employeeContactMethods;
         private Employee? _selectedEmployee;
         private bool _isVisible;
         public bool _isContactMethodTextBoxVisible;
@@ -43,16 +43,17 @@ namespace GLWpfApp.ViewModels
             }
         }
 
-        public ObservableCollection<ContactMethod> SelectedEmployeeContactMethods
+
+        public ObservableCollection<ContactMethod> EmployeeContactMethods
         {
             get
             {
-                return _selectedEmployeeContactMethods;
+                return _employeeContactMethods;
             }
             set
             {
-                _selectedEmployeeContactMethods = value;
-                OnPropertyChanged(nameof(SelectedEmployeeContactMethods));
+                _employeeContactMethods = value;
+                OnPropertyChanged(nameof(EmployeeContactMethods));
             }
         }
 
@@ -76,7 +77,11 @@ namespace GLWpfApp.ViewModels
                     NewContactMethodType = String.Empty;
                     EmployeeNum = SelectedEmployee.EmployeeNumber;
                     Assign(SelectedEmployeeDetail, SelectedEmployee);
-                    SelectedEmployeeContactMethods = new ObservableCollection<ContactMethod>(SelectedEmployee.ContactMethods);
+                    EmployeeContactMethods = new ObservableCollection<ContactMethod>();
+                    foreach (var contactMethod in SelectedEmployee.ContactMethods)
+                    {
+                        EmployeeContactMethods.Add(new ContactMethod(contactMethod.IsSelected, contactMethod.ContactMethodType, contactMethod.ContactMethodValue));
+                    }
                 }
             }
         }
@@ -393,7 +398,7 @@ namespace GLWpfApp.ViewModels
             SelectedEmployee = null;
             Clear();
             UncheckCheckBoxes();
-            SelectedEmployeeContactMethods = new ObservableCollection<ContactMethod>()
+            EmployeeContactMethods = new ObservableCollection<ContactMethod>()
             {
                 new ContactMethod (false, "PhoneNumber",String.Empty),
                 new ContactMethod (false, "Email", String.Empty),
@@ -426,7 +431,7 @@ namespace GLWpfApp.ViewModels
             if (NewContactMethodType != String.Empty && IsContactMethodTextBoxVisible == true)
             {
                 var newContactMethod = new ContactMethod(false, NewContactMethodType, String.Empty);
-                SelectedEmployeeContactMethods.Add(newContactMethod);
+                EmployeeContactMethods.Add(newContactMethod);
                 NewContactMethodType = String.Empty;
                 IsContactMethodTextBoxVisible = false;
             }
@@ -443,7 +448,8 @@ namespace GLWpfApp.ViewModels
 
                 var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, EmployeeNum,
                                     SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
-                                    SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime, new ObservableCollection<ContactMethod>(SelectedEmployeeContactMethods));
+                                    SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime,
+                                    new ObservableCollection<ContactMethod>(EmployeeContactMethods));
                 Employees.Add(newEmployee);
                 Search();
                 Clear();
@@ -458,7 +464,15 @@ namespace GLWpfApp.ViewModels
                 {
                     employeeToEdit.EmployeeNumber = EmployeeNum;
                     Assign(employeeToEdit, SelectedEmployeeDetail);
-                    employeeToEdit.ContactMethods = new ObservableCollection<ContactMethod>(SelectedEmployeeContactMethods);
+                    employeeToEdit.ContactMethods = new ObservableCollection<ContactMethod>();
+                    foreach (var contactMethod in EmployeeContactMethods)
+                    {
+                        if (contactMethod.IsSelected == false)
+                        {
+                            contactMethod.ContactMethodValue = String.Empty;
+                        }
+                        employeeToEdit.ContactMethods.Add(new ContactMethod(contactMethod.IsSelected, contactMethod.ContactMethodType, contactMethod.ContactMethodValue));
+                    }
                     Search();
                     SetPropertiesToFalse();
                     SelectedEmployee = null;
