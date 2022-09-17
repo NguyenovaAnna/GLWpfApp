@@ -8,7 +8,6 @@ namespace Shared.Models
 {
     public class ContactMethodDTO
     {
-        public int EmployeeNumber { get; set; }
         public string ContactMethodType { get; set; }
         public string ContactMethodValue { get; set; }
         public bool IsSelected { get; set; }

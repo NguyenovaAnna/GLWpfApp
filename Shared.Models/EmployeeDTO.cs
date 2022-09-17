@@ -17,5 +17,6 @@ namespace Shared.Models
         public string MiddleName { get; set; }
         public DateTime ActivationTime { get; set; }
         public DateTime ExpirationTime { get; set; }
+        public List<ContactMethodDTO> ContactMethod { get; set; }
     }
 }
