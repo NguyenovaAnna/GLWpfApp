@@ -1,5 +1,6 @@
 ﻿using GLWpfApp.Commands;
 using GLWpfApp.Models;
+using GLWpfApp.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -259,96 +260,98 @@ namespace GLWpfApp.ViewModels
         public EmployeeListViewModel()
         {
             SelectedEmployeeDetail = new Employee();
-            Employees = new ObservableCollection<Employee>()
-            {
-                new Employee
-                {
-                    FirstName = "Anna",
-                    LastName = "Nguyenova",
-                    EmployeeNumber = 1,
-                    MiddleName = string.Empty,
-                    NationalIdNumber = 1,
-                    PreviousIdNumber = 0,
-                    PersonellNumber = 11,
-                    ActivationTime = new DateTime(2020,1,1),
-                    ExpirationTime = new DateTime(2025,12,31),
-                    ContactMethods = new ObservableCollection<ContactMethod>()
-                    {
-                        new ContactMethod (true, "PhoneNumber","+421 911 111 111"),
-                        new ContactMethod (true, "Email", "anna@email.com"),
-                        new ContactMethod (true, "Skype","anna111")
-                    }
-                },
-                new Employee
-                {
-                    FirstName = "Daniela",
-                    LastName = "Horvathova",
-                    EmployeeNumber = 2, MiddleName = string.Empty,
-                    NationalIdNumber = 2, PreviousIdNumber = 0,
-                    PersonellNumber = 22,
-                    ActivationTime = new DateTime(2020,1,1),
-                    ExpirationTime = new DateTime(2025,12,31),
-                    ContactMethods = new ObservableCollection<ContactMethod>()
-                    {
-                        new ContactMethod (false, "PhoneNumber",String.Empty),
-                        new ContactMethod (true, "Email", "daniela@email.com"),
-                        new ContactMethod (false, "Skype",String.Empty)
-                    }
-                },
-                new Employee
-                {
-                    FirstName = "Dominika",
-                    LastName = "Mala",
-                    EmployeeNumber = 3,
-                    MiddleName = string.Empty,
-                    NationalIdNumber = 3,
-                    PreviousIdNumber = 0, PersonellNumber = 33,
-                    ActivationTime = new DateTime(2020,1,1),
-                    ExpirationTime = new DateTime(2025,12,31),
-                    ContactMethods = new ObservableCollection<ContactMethod>()
-                    {
-                        new ContactMethod (true, "PhoneNumber","+421 911 333 333"),
-                        new ContactMethod (false, "Email", String.Empty),
-                        new ContactMethod (false, "Skype",String.Empty)
-                    }
-                },
-                new Employee
-                {
-                    FirstName = "David",
-                    LastName = "Kovac",
-                    EmployeeNumber = 4,
-                    MiddleName = string.Empty,
-                    NationalIdNumber = 4,
-                    PreviousIdNumber = 0,
-                    PersonellNumber = 44,
-                    ActivationTime = new DateTime(2020,1,1),
-                    ExpirationTime = new DateTime(2025,12,31),
-                    ContactMethods = new ObservableCollection<ContactMethod>()
-                    {
-                        new ContactMethod (true, "PhoneNumber","+421 911 444 444"),
-                        new ContactMethod (true, "Email", "david@email.com"),
-                        new ContactMethod (false, "Skype",String.Empty)
-                    }
-                },
-                new Employee
-                {
-                    FirstName = "Peter",
-                    LastName = "Duris",
-                    EmployeeNumber = 5,
-                    MiddleName = string.Empty,
-                    NationalIdNumber = 5,
-                    PreviousIdNumber = 0,
-                    PersonellNumber = 55,
-                    ActivationTime = new DateTime(2020,1,1),
-                    ExpirationTime = new DateTime(2025,12,31),
-                    ContactMethods = new ObservableCollection<ContactMethod>()
-                    {
-                        new ContactMethod (false, "PhoneNumber",String.Empty),
-                        new ContactMethod (false, "Email", String.Empty),
-                        new ContactMethod (false, "Skype",String.Empty)
-                    }
-                }
-            };
+            Employees = new ObservableCollection<Employee>();
+            Task task = LoadEmployees();
+            
+            //    {
+            //        new Employee
+            //        {
+            //            FirstName = "Anna",
+            //            LastName = "Nguyenova",
+            //            EmployeeNumber = 1,
+            //            MiddleName = string.Empty,
+            //            NationalIdNumber = 1,
+            //            PreviousIdNumber = 0,
+            //            PersonellNumber = 11,
+            //            ActivationTime = new DateTime(2020,1,1),
+            //            ExpirationTime = new DateTime(2025,12,31),
+            //            ContactMethods = new ObservableCollection<ContactMethod>()
+            //            {
+            //                new ContactMethod (true, "PhoneNumber","+421 911 111 111"),
+            //                new ContactMethod (true, "Email", "anna@email.com"),
+            //                new ContactMethod (true, "Skype","anna111")
+            //            }
+            //        },
+            //        new Employee
+            //        {
+            //            FirstName = "Daniela",
+            //            LastName = "Horvathova",
+            //            EmployeeNumber = 2, MiddleName = string.Empty,
+            //            NationalIdNumber = 2, PreviousIdNumber = 0,
+            //            PersonellNumber = 22,
+            //            ActivationTime = new DateTime(2020,1,1),
+            //            ExpirationTime = new DateTime(2025,12,31),
+            //            ContactMethods = new ObservableCollection<ContactMethod>()
+            //            {
+            //                new ContactMethod (false, "PhoneNumber",String.Empty),
+            //                new ContactMethod (true, "Email", "daniela@email.com"),
+            //                new ContactMethod (false, "Skype",String.Empty)
+            //            }
+            //        },
+            //        new Employee
+            //        {
+            //            FirstName = "Dominika",
+            //            LastName = "Mala",
+            //            EmployeeNumber = 3,
+            //            MiddleName = string.Empty,
+            //            NationalIdNumber = 3,
+            //            PreviousIdNumber = 0, PersonellNumber = 33,
+            //            ActivationTime = new DateTime(2020,1,1),
+            //            ExpirationTime = new DateTime(2025,12,31),
+            //            ContactMethods = new ObservableCollection<ContactMethod>()
+            //            {
+            //                new ContactMethod (true, "PhoneNumber","+421 911 333 333"),
+            //                new ContactMethod (false, "Email", String.Empty),
+            //                new ContactMethod (false, "Skype",String.Empty)
+            //            }
+            //        },
+            //        new Employee
+            //        {
+            //            FirstName = "David",
+            //            LastName = "Kovac",
+            //            EmployeeNumber = 4,
+            //            MiddleName = string.Empty,
+            //            NationalIdNumber = 4,
+            //            PreviousIdNumber = 0,
+            //            PersonellNumber = 44,
+            //            ActivationTime = new DateTime(2020,1,1),
+            //            ExpirationTime = new DateTime(2025,12,31),
+            //            ContactMethods = new ObservableCollection<ContactMethod>()
+            //            {
+            //                new ContactMethod (true, "PhoneNumber","+421 911 444 444"),
+            //                new ContactMethod (true, "Email", "david@email.com"),
+            //                new ContactMethod (false, "Skype",String.Empty)
+            //            }
+            //        },
+            //        new Employee
+            //        {
+            //            FirstName = "Peter",
+            //            LastName = "Duris",
+            //            EmployeeNumber = 5,
+            //            MiddleName = string.Empty,
+            //            NationalIdNumber = 5,
+            //            PreviousIdNumber = 0,
+            //            PersonellNumber = 55,
+            //            ActivationTime = new DateTime(2020,1,1),
+            //            ExpirationTime = new DateTime(2025,12,31),
+            //            ContactMethods = new ObservableCollection<ContactMethod>()
+            //            {
+            //                new ContactMethod (false, "PhoneNumber",String.Empty),
+            //                new ContactMethod (false, "Email", String.Empty),
+            //                new ContactMethod (false, "Skype",String.Empty)
+            //            }
+            //        }
+            //    };
 
             SearchCommand = new RelayCommand(Search);
             DeleteCommand = new RelayCommand(Delete);
@@ -360,6 +363,11 @@ namespace GLWpfApp.ViewModels
 
             EmployeesCollectionView = CollectionViewSource.GetDefaultView(Employees);
             EmployeesCollectionView.Filter = FilterEmployees;
+        }
+
+        public async Task LoadEmployees()
+        {
+            Employees = await EmployeeRepository.GetEmployeesAsync("https://localhost:7168/api/employees");
         }
 
         private bool FilterEmployees(object obj)

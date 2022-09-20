@@ -1,4 +1,5 @@
 ﻿using GLWpfApp.Models;
+using GLWpfApp.Repository;
 using GLWpfApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace GLWpfApp
         public MainWindow()
         {
             InitializeComponent();
+            //EmployeeRepository.InitializeClient();
         }
     }
 }
