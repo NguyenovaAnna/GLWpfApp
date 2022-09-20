@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shared.Models;
+using System.Net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,7 +25,7 @@ namespace WebAPIApp.Controllers
                 PersonellNumber = 11,
                 ActivationTime = new DateTime(2020, 1, 1),
                 ExpirationTime = new DateTime(2025, 12, 31),
-                ContactMethod = new List<ContactMethodDTO>()
+                ContactMethods = new List<ContactMethodDTO>()
                 {
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 111 111" },
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "anna@email.com" },
@@ -42,7 +43,7 @@ namespace WebAPIApp.Controllers
                 PersonellNumber = 22,
                 ActivationTime = new DateTime(2020, 1, 1),
                 ExpirationTime = new DateTime(2025, 12, 31),
-                ContactMethod = new List<ContactMethodDTO>()
+                ContactMethods = new List<ContactMethodDTO>()
                 {
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 222 222" },
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "daniela@email.com" },
@@ -60,7 +61,7 @@ namespace WebAPIApp.Controllers
                 PersonellNumber = 33,
                 ActivationTime = new DateTime(2020, 1, 1),
                 ExpirationTime = new DateTime(2025, 12, 31),
-                ContactMethod = new List<ContactMethodDTO>()
+                ContactMethods = new List<ContactMethodDTO>()
                 {
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 333 333" },
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "dominika@email.com" },
@@ -78,7 +79,7 @@ namespace WebAPIApp.Controllers
                 PersonellNumber = 44,
                 ActivationTime = new DateTime(2020, 1, 1),
                 ExpirationTime = new DateTime(2025, 12, 31),
-                ContactMethod = new List<ContactMethodDTO>()
+                ContactMethods = new List<ContactMethodDTO>()
                 {
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 444 444" },
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "david@email.com" },
@@ -96,7 +97,7 @@ namespace WebAPIApp.Controllers
                 PersonellNumber = 55,
                 ActivationTime = new DateTime(2020, 1, 1),
                 ExpirationTime = new DateTime(2025, 12, 31),
-                ContactMethod = new List<ContactMethodDTO>()
+                ContactMethods = new List<ContactMethodDTO>()
                 {
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 555 555" },
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "peter@email.com" },
@@ -121,20 +122,40 @@ namespace WebAPIApp.Controllers
 
         // POST api/employees
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] EmployeeDTO employee)
         {
+            employees.Add(employee);
         }
 
         // PUT api/employees/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] EmployeeDTO employee)
         {
+            var emp = employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
+            if (emp != null)
+            {
+                emp.FirstName = employee.FirstName;
+                emp.LastName = employee.LastName;
+                emp.EmployeeNumber = employee.EmployeeNumber;
+                emp.MiddleName = employee.MiddleName;
+                emp.NationalIdNumber = employee.NationalIdNumber;
+                emp.PreviousIdNumber = employee.PreviousIdNumber;
+                emp.PersonellNumber = employee.PersonellNumber;
+                emp.ActivationTime = employee.ActivationTime;
+                emp.ExpirationTime = employee.ExpirationTime;
+                emp.ContactMethods = employee.ContactMethods;
+            }
         }
 
         // DELETE api/employees/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var emp = employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
+            if (emp != null)
+            {
+                employees.Remove(emp);
+            }
         }
     }
 }

@@ -12,10 +12,10 @@ namespace GLWpfApp.Repository
 {
     public class EmployeeRepository
     {
-        
+               
         static readonly HttpClient httpClient = new HttpClient();
-
-        public static async Task<ObservableCollection<Employee>> GetEmployeesAsync(string path)
+     
+        public async Task<ObservableCollection<Employee>> GetEmployeesAsync(string path)
         {
             ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
             var response = await httpClient.GetAsync(path);

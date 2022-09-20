@@ -26,7 +26,6 @@ namespace GLWpfApp
         public MainWindow()
         {
             InitializeComponent();
-            //EmployeeRepository.InitializeClient();
         }
     }
 }
