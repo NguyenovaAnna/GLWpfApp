@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -263,7 +264,7 @@ namespace GLWpfApp.ViewModels
         {
             SelectedEmployeeDetail = new Employee();
             Employees = new ObservableCollection<Employee>();
-            Task task = LoadEmployees();
+            Task task = GetEmployees();
             
             SearchCommand = new RelayCommand(Search);
             DeleteCommand = new RelayCommand(Delete);
@@ -277,17 +278,21 @@ namespace GLWpfApp.ViewModels
             EmployeesCollectionView.Filter = FilterEmployees;
         }
 
-        
-        public async Task LoadEmployees()
+        public async Task GetEmployees()
         {
-            Employees.Clear(); 
-            foreach (var employee in (await employeeRepo.GetEmployeesAsync("https://localhost:7168/api/employees")))
+            var response = await employeeRepo.GetCallAsync("api/employees");
+            if (response.IsSuccessStatusCode)
             {
-                var newEmployee = new Employee(employee.FirstName, employee.LastName, employee.EmployeeNumber, employee.MiddleName, employee.NationalIdNumber,
-                                                employee.PreviousIdNumber, employee.PersonellNumber, employee.ActivationTime, employee.ExpirationTime, employee.ContactMethods);
+                var employees = await response.Content.ReadAsAsync<ObservableCollection<Employee>>();
 
-                Employees.Add(newEmployee);    
-            }        
+                foreach (var employee in employees)
+                {
+                    var newEmployee = new Employee(employee.FirstName, employee.LastName, employee.EmployeeNumber, employee.MiddleName, employee.NationalIdNumber,
+                                                    employee.PreviousIdNumber, employee.PersonellNumber, employee.ActivationTime, employee.ExpirationTime, employee.ContactMethods);
+
+                    Employees.Add(newEmployee);
+                }
+            }
         }
 
         private bool FilterEmployees(object obj)
@@ -314,6 +319,8 @@ namespace GLWpfApp.ViewModels
                 if (employeeToDelete != null)
                 {
                     Employees.Remove(employeeToDelete);
+                    var url = "https://localhost:7168/api/employees/" + employeeToDelete.EmployeeNumber;
+                    employeeRepo.DeleteCallAsync(url);
                 }
             }
 
@@ -378,7 +385,10 @@ namespace GLWpfApp.ViewModels
                                     SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
                                     SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime,
                                     new ObservableCollection<ContactMethod>(EmployeeContactMethods));
+
                 Employees.Add(newEmployee);
+                var url = "https://localhost:7168/api/employees";
+                var emp = employeeRepo.PostCallAsync(url, newEmployee);
                 Search();
                 Clear();
                 SetPropertiesToFalse();
@@ -401,6 +411,10 @@ namespace GLWpfApp.ViewModels
                         }
                         employeeToEdit.ContactMethods.Add(new ContactMethod(contactMethod.IsSelected, contactMethod.ContactMethodType, contactMethod.ContactMethodValue));
                     }
+
+                    var url = "https://localhost:7168/api/employees/" + employeeToEdit.EmployeeNumber;
+                    employeeRepo.PutCallAsync(url,employeeToEdit);
+
                     Search();
                     SetPropertiesToFalse();
                     SelectedEmployee = null;

@@ -122,14 +122,14 @@ namespace WebAPIApp.Controllers
 
         // POST api/employees
         [HttpPost]
-        public void Post([FromBody] EmployeeDTO employee)
+        public void Post(EmployeeDTO employee)
         {
             employees.Add(employee);
         }
-
+        
         // PUT api/employees/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] EmployeeDTO employee)
+        public void Put(int id, EmployeeDTO employee)
         {
             var emp = employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
             if (emp != null)

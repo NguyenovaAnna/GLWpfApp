@@ -14,16 +14,30 @@ namespace GLWpfApp.Repository
     {
                
         static readonly HttpClient httpClient = new HttpClient();
-     
-        public async Task<ObservableCollection<Employee>> GetEmployeesAsync(string path)
+
+        public async Task<HttpResponseMessage> GetCallAsync(string path)
         {
-            ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
-            var response = await httpClient.GetAsync(path);
-            if (response.IsSuccessStatusCode)
-            {
-                employees = await response.Content.ReadAsAsync<ObservableCollection<Employee>>();
-            }
-            return employees;    
+            httpClient.BaseAddress = new Uri("https://localhost:7168/");
+            HttpResponseMessage response = await httpClient.GetAsync(path);
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> PostCallAsync(string path, Employee newEmployee)
+        {
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(path, newEmployee);
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> PutCallAsync(string path, Employee employee)
+        {
+            HttpResponseMessage response = await httpClient.PutAsJsonAsync(path, employee);
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> DeleteCallAsync(string path)
+        {
+            HttpResponseMessage response = await httpClient.DeleteAsync(path);
+            return response;
         }
     }
 }
