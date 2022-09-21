@@ -1,6 +1,6 @@
-﻿using GLWpfApp.Models;
-using GLWpfApp.Repository;
-using GLWpfApp.ViewModels;
+﻿using ClientApp.Models;
+using ClientApp.Repository;
+using ClientApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GLWpfApp
+namespace ClientApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

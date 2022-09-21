@@ -1,10 +1,10 @@
-﻿<Window x:Class="GLWpfApp.MainWindow"
+﻿<Window x:Class="ClientApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GLWpfApp"
-        xmlns:vm="clr-namespace:GLWpfApp.ViewModels" xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:local="clr-namespace:ClientApp"
+        xmlns:vm="clr-namespace:ClientApp.ViewModels" xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
         Title="Employees" Height="550" Width="900">
 

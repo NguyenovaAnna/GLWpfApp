@@ -1,7 +1,7 @@
-﻿<Application x:Class="GLWpfApp.App"
+﻿<Application x:Class="ClientApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:GLWpfApp"
+             xmlns:local="clr-namespace:ClientApp"
              StartupUri="Views/EmployeeListView.xaml">
     <Application.Resources>
          

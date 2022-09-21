@@ -1,4 +1,4 @@
-﻿using GLWpfApp.Models;
+﻿using ClientApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GLWpfApp.Repository
+namespace ClientApp.Repository
 {
     public class EmployeeRepository
     {

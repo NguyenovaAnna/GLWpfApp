@@ -1,4 +1,4 @@
-﻿using GLWpfApp.ViewModels;
+﻿using ClientApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace GLWpfApp
+namespace ClientApp
 {
     /// <summary>
     /// Interaction logic for App.xaml

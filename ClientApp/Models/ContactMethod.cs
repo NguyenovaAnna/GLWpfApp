@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GLWpfApp.Models
+namespace ClientApp.Models
 {
     public class ContactMethod : INotifyPropertyChanged
     {

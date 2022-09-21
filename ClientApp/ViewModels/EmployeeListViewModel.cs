@@ -1,6 +1,6 @@
-﻿using GLWpfApp.Commands;
-using GLWpfApp.Models;
-using GLWpfApp.Repository;
+﻿using ClientApp.Commands;
+using ClientApp.Models;
+using ClientApp.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace GLWpfApp.ViewModels
+namespace ClientApp.ViewModels
 {
     public class EmployeeListViewModel : ViewModelBase
     {

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GLWpfApp", "GLWpfApp\GLWpfApp.csproj", "{CB2F676F-9AFF-4008-8E38-65AFFC6143C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientApp", "ClientApp\ClientApp.csproj", "{CB2F676F-9AFF-4008-8E38-65AFFC6143C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIApp", "WebAPIApp\WebAPIApp.csproj", "{CAF9F4FE-9D1A-428B-A54E-529215F1F33B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerApp", "ServerApp\ServerApp.csproj", "{CAF9F4FE-9D1A-428B-A54E-529215F1F33B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Models", "Shared.Models\Shared.Models.csproj", "{1464474D-B7AE-4526-885D-9ED3CA9E1572}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Models", "Shared.Models\Shared.Models.csproj", "{1464474D-B7AE-4526-885D-9ED3CA9E1572}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
