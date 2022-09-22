@@ -12,8 +12,33 @@ namespace ClientApp.Repository
 {
     public class EmployeeRepository
     {
-               
+        
         static readonly HttpClient httpClient = new HttpClient();
+        public ObservableCollection<Employee> Employees { get; set; }
+
+        public EmployeeRepository()
+        {
+            Employees = new ObservableCollection<Employee>();
+            var task = GetEmployees();
+        }
+
+        public async Task GetEmployees()
+        {
+            var response = await GetCallAsync("api/employees");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var emps = await response.Content.ReadAsAsync<ObservableCollection<Employee>>();
+
+                foreach (var emp in emps)
+                {
+                    var newEmployee = new Employee(emp.FirstName, emp.LastName, emp.EmployeeNumber, emp.MiddleName, emp.NationalIdNumber,
+                                                    emp.PreviousIdNumber, emp.PersonellNumber, emp.ActivationTime, emp.ExpirationTime, emp.ContactMethods);
+
+                    Employees.Add(newEmployee);
+                }
+            }
+        }
 
         public async Task<HttpResponseMessage> GetCallAsync(string path)
         {

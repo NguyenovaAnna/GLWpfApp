@@ -18,7 +18,6 @@ namespace ClientApp.ViewModels
     {
         EmployeeRepository employeeRepo = new EmployeeRepository();
 
-        private ObservableCollection<Employee> _employees;
         private ObservableCollection<ContactMethod> _employeeContactMethods;
         private Employee? _selectedEmployee;
         private bool _isVisible;
@@ -34,19 +33,7 @@ namespace ClientApp.ViewModels
 
         public ICollectionView EmployeesCollectionView { get; }
 
-        public ObservableCollection<Employee> Employees
-        {
-            get
-            {
-                return _employees;
-            }
-            set
-            {
-                _employees = value;
-                OnPropertyChanged(nameof(Employees));
-            }
-        }
-
+        public ReadOnlyObservableCollection<Employee> EmployeesRO { get; }
 
         public ObservableCollection<ContactMethod> EmployeeContactMethods
         {
@@ -220,8 +207,8 @@ namespace ClientApp.ViewModels
 
                 if (SelectedEmployee != null)
                 {
-                    var employeeToEdit = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
-                    var employeeToCheck = Employees.FirstOrDefault(y => y.EmployeeNumber == EmployeeNum);
+                    var employeeToEdit = EmployeesRO.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
+                    var employeeToCheck = EmployeesRO.FirstOrDefault(y => y.EmployeeNumber == EmployeeNum);
 
                     if (employeeToEdit != null)
                     {
@@ -237,7 +224,7 @@ namespace ClientApp.ViewModels
                 }
                 else
                 {
-                    var employeeToAdd = Employees.FirstOrDefault(x => x.EmployeeNumber == EmployeeNum);
+                    var employeeToAdd = EmployeesRO.FirstOrDefault(x => x.EmployeeNumber == EmployeeNum);
 
                     if (employeeToAdd != null)
                     {
@@ -263,8 +250,7 @@ namespace ClientApp.ViewModels
         public EmployeeListViewModel()
         {
             SelectedEmployeeDetail = new Employee();
-            Employees = new ObservableCollection<Employee>();
-            Task task = GetEmployees();
+            EmployeesRO = new ReadOnlyObservableCollection<Employee>(employeeRepo.Employees);
             
             SearchCommand = new RelayCommand(Search);
             DeleteCommand = new RelayCommand(Delete);
@@ -274,26 +260,10 @@ namespace ClientApp.ViewModels
             AddContactMethodCommand = new RelayCommand(AddContactMethod);
             SubmitCommand = new SubmitCommand(Submit, CanSubmitExecute);
 
-            EmployeesCollectionView = CollectionViewSource.GetDefaultView(Employees);
+            EmployeesCollectionView = CollectionViewSource.GetDefaultView(EmployeesRO);
             EmployeesCollectionView.Filter = FilterEmployees;
         }
 
-        public async Task GetEmployees()
-        {
-            var response = await employeeRepo.GetCallAsync("api/employees");
-            if (response.IsSuccessStatusCode)
-            {
-                var employees = await response.Content.ReadAsAsync<ObservableCollection<Employee>>();
-
-                foreach (var employee in employees)
-                {
-                    var newEmployee = new Employee(employee.FirstName, employee.LastName, employee.EmployeeNumber, employee.MiddleName, employee.NationalIdNumber,
-                                                    employee.PreviousIdNumber, employee.PersonellNumber, employee.ActivationTime, employee.ExpirationTime, employee.ContactMethods);
-
-                    Employees.Add(newEmployee);
-                }
-            }
-        }
 
         private bool FilterEmployees(object obj)
         {
@@ -314,11 +284,11 @@ namespace ClientApp.ViewModels
         {
             if (SelectedEmployee != null)
             {
-                var employeeToDelete = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
+                var employeeToDelete = EmployeesRO.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
 
                 if (employeeToDelete != null)
                 {
-                    Employees.Remove(employeeToDelete);
+                    //Employees.Remove(employeeToDelete);
                     var url = "https://localhost:7168/api/employees/" + employeeToDelete.EmployeeNumber;
                     employeeRepo.DeleteCallAsync(url);
                 }
@@ -386,7 +356,6 @@ namespace ClientApp.ViewModels
                                     SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime,
                                     new ObservableCollection<ContactMethod>(EmployeeContactMethods));
 
-                Employees.Add(newEmployee);
                 var url = "https://localhost:7168/api/employees";
                 var emp = employeeRepo.PostCallAsync(url, newEmployee);
                 Search();
@@ -396,7 +365,7 @@ namespace ClientApp.ViewModels
 
             if (SelectedEmployee != null && EmployeeNum != 0 && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
             {
-                var employeeToEdit = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
+                var employeeToEdit = EmployeesRO.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
 
                 if (employeeToEdit != null)
                 {
@@ -413,7 +382,7 @@ namespace ClientApp.ViewModels
                     }
 
                     var url = "https://localhost:7168/api/employees/" + employeeToEdit.EmployeeNumber;
-                    employeeRepo.PutCallAsync(url,employeeToEdit);
+                    employeeRepo.PutCallAsync(url, employeeToEdit);
 
                     Search();
                     SetPropertiesToFalse();
@@ -488,12 +457,12 @@ namespace ClientApp.ViewModels
 
         private int GenerateId()
         {
-            int maxId = Employees.Max(x => x.EmployeeNumber);
+            int maxId = EmployeesRO.Max(x => x.EmployeeNumber);
             int id;
 
             for (int i = 1; i <= maxId; i++)
             {
-                var employee = Employees.FirstOrDefault(x => x.EmployeeNumber == i);
+                var employee = EmployeesRO.FirstOrDefault(x => x.EmployeeNumber == i);
                 if (employee == null)
                 {
                     id = i;
