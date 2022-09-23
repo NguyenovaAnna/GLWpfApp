@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shared.Models;
 using System.Net;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -104,6 +105,8 @@ namespace ServerApp.Controllers
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "peter555" }
                 }
             });
+
+            HttpContext.Session.SetObjectAsJson("List<EmployeeDTO>", employees);
         }
         
         // GET: api/employees

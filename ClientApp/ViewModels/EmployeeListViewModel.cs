@@ -251,6 +251,11 @@ namespace ClientApp.ViewModels
         {
             SelectedEmployeeDetail = new Employee();
             EmployeesRO = new ReadOnlyObservableCollection<Employee>(employeeRepo.Employees);
+
+            //if (EmployeesRO == null)
+            //{
+                
+            //}
             
             SearchCommand = new RelayCommand(Search);
             DeleteCommand = new RelayCommand(Delete);
@@ -291,6 +296,7 @@ namespace ClientApp.ViewModels
                     //Employees.Remove(employeeToDelete);
                     var url = "https://localhost:7168/api/employees/" + employeeToDelete.EmployeeNumber;
                     employeeRepo.DeleteCallAsync(url);
+                    employeeRepo.GetEmployees();
                 }
             }
 
