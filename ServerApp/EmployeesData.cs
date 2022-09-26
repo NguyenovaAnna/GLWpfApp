@@ -2,11 +2,14 @@
 
 namespace ServerApp
 {
-    public static class Employees
+    public class EmployeesData
     {
-        public static List<EmployeeDTO> employees = new List<EmployeeDTO>()
+        private static readonly EmployeesData instance = new EmployeesData();
+        public List<EmployeeDTO> employees = new List<EmployeeDTO>();
+
+        private EmployeesData()
         {
-            new EmployeeDTO
+            employees.Add(new EmployeeDTO
             {
                 FirstName = "Anna",
                 LastName = "Nguyenova",
@@ -23,8 +26,8 @@ namespace ServerApp
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "anna@email.com" },
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "anna111" }
                 }
-            },
-            new EmployeeDTO
+            });
+            employees.Add(new EmployeeDTO
             {
                 FirstName = "Daniela",
                 LastName = "Horvathova",
@@ -41,8 +44,8 @@ namespace ServerApp
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "daniela@email.com" },
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "daniela222" }
                 }
-            },
-            new EmployeeDTO
+            });
+            employees.Add(new EmployeeDTO
             {
                 FirstName = "Dominika",
                 LastName = "Mala",
@@ -59,8 +62,8 @@ namespace ServerApp
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "dominika@email.com" },
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "dominika333" }
                 }
-            },
-            new EmployeeDTO
+            });
+            employees.Add(new EmployeeDTO
             {
                 FirstName = "David",
                 LastName = "Kovac",
@@ -77,8 +80,8 @@ namespace ServerApp
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "david@email.com" },
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "david444" }
                 }
-            },
-            new EmployeeDTO
+            });
+            employees.Add(new EmployeeDTO
             {
                 FirstName = "Peter",
                 LastName = "Duris",
@@ -95,7 +98,12 @@ namespace ServerApp
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "peter@email.com" },
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "peter555" }
                 }
-            }
-        };
+            });
+        }
+
+        public static EmployeesData GetEmployeesData()
+        {
+            return instance;
+        }
     }
 }

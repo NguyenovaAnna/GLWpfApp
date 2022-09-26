@@ -298,7 +298,6 @@ namespace ClientApp.ViewModels
                     var url = "https://localhost:7168/api/employees/" + employeeToDelete.EmployeeNumber;
                     Task deleteTask = employeeRepo.DeleteCallAsync(url);
                     Task getTask = employeeRepo.GetEmployees();
-                    
                 }
             }
 

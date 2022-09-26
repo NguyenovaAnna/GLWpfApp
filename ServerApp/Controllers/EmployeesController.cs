@@ -11,39 +11,34 @@ namespace ServerApp.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        //List<EmployeeDTO> employees = new List<EmployeeDTO>();
-
-        //public EmployeesController()
-        //{
-            
-        //}
-        
+        static EmployeesData employeesData = EmployeesData.GetEmployeesData();
+   
         // GET: api/employees
         [HttpGet]
         public List<EmployeeDTO> Get()
         {
-            return Employees.employees;
+            return employeesData.employees;
         }
 
         // GET api/employees/5
         [HttpGet("{id}")]
         public EmployeeDTO Get(int id)
         {
-            return Employees.employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
+            return employeesData.employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
         }
 
         // POST api/employees
         [HttpPost]
         public void Post(EmployeeDTO employee)
         {
-            Employees.employees.Add(employee);
+            employeesData.employees.Add(employee);
         }
         
         // PUT api/employees/5
         [HttpPut("{id}")]
         public void Put(int id, EmployeeDTO employee)
         {
-            var emp = Employees.employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
+            var emp = employeesData.employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
             if (emp != null)
             {
                 emp.FirstName = employee.FirstName;
@@ -63,10 +58,10 @@ namespace ServerApp.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            var emp = Employees.employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
+            var emp = employeesData.employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
             if (emp != null)
             {
-                Employees.employees.Remove(emp);
+                employeesData.employees.Remove(emp);
             }
         }
     }
