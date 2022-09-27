@@ -32,7 +32,6 @@ namespace ClientApp.Repository
 
         static readonly HttpClient httpClient = new HttpClient();
 
-
         public EmployeeRepository()
         {
             Employees = new ObservableCollection<Employee>();

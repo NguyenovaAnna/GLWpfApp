@@ -280,7 +280,6 @@ namespace ClientApp.ViewModels
         {
             SelectedEmployeeDetail = new Employee();
             EmployeesRO = new ReadOnlyObservableCollection<Employee>(employeeRepo.Employees);
-            CheckAvailability();
             
             SearchCommand = new RelayCommand(Search);
             DeleteCommand = new RelayCommand(Delete);
@@ -320,7 +319,6 @@ namespace ClientApp.ViewModels
                 {
                     var url = "https://localhost:7168/api/employees/" + employeeToDelete.EmployeeNumber;
                     Task deleteTask = employeeRepo.DeleteCallAsync(url);
-                    //deleteTask.Wait();
                     Task getTask = employeeRepo.GetEmployees();
                 }
             }
@@ -520,18 +518,6 @@ namespace ClientApp.ViewModels
             else
             {
                 return true;
-            }
-        }
-
-        private void CheckAvailability()
-        {
-            if (EmployeesRO.Count == 0)
-            {
-                IsAvailable = true;
-            }
-            else
-            {
-                IsAvailable = false;
             }
         }
     }
