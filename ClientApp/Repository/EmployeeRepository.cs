@@ -41,12 +41,13 @@ namespace ClientApp.Repository
 
         public async Task GetEmployees()
         {
-            Employees.Clear();
             var response = await GetCallAsync("https://localhost:7168/api/employees");
 
             if (response.IsSuccessStatusCode)
             {
                 var emps = await response.Content.ReadAsAsync<ObservableCollection<Employee>>();
+
+                Employees.Clear();
 
                 foreach (var emp in emps)
                 {
@@ -56,31 +57,63 @@ namespace ClientApp.Repository
                     Employees.Add(newEmployee);
                 }
             }
+
         }
 
         public async Task<HttpResponseMessage> GetCallAsync(string path)
         {
-            //httpClient.BaseAddress = new Uri("https://localhost:7168/");
-            HttpResponseMessage response = await httpClient.GetAsync(path);
-            return response;
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(path);
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public async Task<HttpResponseMessage> PostCallAsync(string path, Employee newEmployee)
         {
-            HttpResponseMessage response = await httpClient.PostAsJsonAsync(path, newEmployee);
-            return response;
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsJsonAsync(path, newEmployee);
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public async Task<HttpResponseMessage> PutCallAsync(string path, Employee employee)
         {
-            HttpResponseMessage response = await httpClient.PutAsJsonAsync(path, employee);
-            return response;
+            try
+            {
+                HttpResponseMessage response = await httpClient.PutAsJsonAsync(path, employee);
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public async Task<HttpResponseMessage> DeleteCallAsync(string path)
         {
-            HttpResponseMessage response = await httpClient.DeleteAsync(path);
-            return response;
+            try
+            {
+                HttpResponseMessage response = await httpClient.DeleteAsync(path);
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -22,7 +22,8 @@ namespace ClientApp.ViewModels
         private ObservableCollection<ContactMethod> _employeeContactMethods;
         private Employee? _selectedEmployee;
         private bool _isVisible;
-        public bool _isContactMethodTextBoxVisible;
+        private bool _isAvailable;
+        private bool _isContactMethodTextBoxVisible;
         private bool _isEmployeeNumberExisting;
         private bool _isEmployeeNumberEmpty;
         private bool _isFirstNameEmpty;
@@ -30,6 +31,7 @@ namespace ClientApp.ViewModels
         private bool _isContactMethodCheckBoxChecked;
         private string _employeesFilter = string.Empty;
         private string _newContactMethodType = string.Empty;
+        private string _showMessage = string.Empty;
         private int _employeeNum = 0;
 
         public ICollectionView EmployeesCollectionView { get; }
@@ -89,6 +91,18 @@ namespace ClientApp.ViewModels
             {
                 _isVisible = value;
                 OnPropertyChanged(nameof(IsVisible));
+            }
+        }
+        public bool IsAvailable
+        {
+            get
+            {
+                return _isAvailable;
+            }
+            set
+            {
+                _isAvailable = value;
+                OnPropertyChanged(nameof(IsAvailable));
             }
         }
 
@@ -198,6 +212,19 @@ namespace ClientApp.ViewModels
             }
         }
 
+        public string ShowMessage
+        {
+            get
+            {
+                return _showMessage;
+            }
+            set
+            {
+                _showMessage = value;
+                OnPropertyChanged(nameof(ShowMessage));
+            }
+        }
+
         public int EmployeeNum
         {
             get { return _employeeNum; }
@@ -253,12 +280,8 @@ namespace ClientApp.ViewModels
         {
             SelectedEmployeeDetail = new Employee();
             EmployeesRO = new ReadOnlyObservableCollection<Employee>(employeeRepo.Employees);
-     
-            //if (EmployeesRO == null)
-            //{
-
-            //}
-
+            CheckAvailability();
+            
             SearchCommand = new RelayCommand(Search);
             DeleteCommand = new RelayCommand(Delete);
             AddCommand = new RelayCommand(Add);
@@ -297,6 +320,7 @@ namespace ClientApp.ViewModels
                 {
                     var url = "https://localhost:7168/api/employees/" + employeeToDelete.EmployeeNumber;
                     Task deleteTask = employeeRepo.DeleteCallAsync(url);
+                    //deleteTask.Wait();
                     Task getTask = employeeRepo.GetEmployees();
                 }
             }
@@ -465,19 +489,26 @@ namespace ClientApp.ViewModels
 
         private int GenerateId()
         {
-            int maxId = EmployeesRO.Max(x => x.EmployeeNumber);
-            int id;
-
-            for (int i = 1; i <= maxId; i++)
+            if (EmployeesRO.Count == 0)
             {
-                var employee = EmployeesRO.FirstOrDefault(x => x.EmployeeNumber == i);
-                if (employee == null)
-                {
-                    id = i;
-                    return id;
-                }
+                return 1;
             }
-            return maxId + 1;
+            else
+            {
+                int maxId = EmployeesRO.Max(x => x.EmployeeNumber);
+                int id;
+
+                for (int i = 1; i <= maxId; i++)
+                {
+                    var employee = EmployeesRO.FirstOrDefault(x => x.EmployeeNumber == i);
+                    if (employee == null)
+                    {
+                        id = i;
+                        return id;
+                    }
+                }
+                return maxId + 1;
+            } 
         }
 
         private bool CanSubmitExecute(object parameter)
@@ -489,6 +520,18 @@ namespace ClientApp.ViewModels
             else
             {
                 return true;
+            }
+        }
+
+        private void CheckAvailability()
+        {
+            if (EmployeesRO.Count == 0)
+            {
+                IsAvailable = true;
+            }
+            else
+            {
+                IsAvailable = false;
             }
         }
     }
