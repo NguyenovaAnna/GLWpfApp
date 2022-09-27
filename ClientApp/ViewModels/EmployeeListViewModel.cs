@@ -309,7 +309,7 @@ namespace ClientApp.ViewModels
             EmployeesCollectionView.Refresh();
         }
 
-        public void Delete()
+        public async void Delete()
         {
             if (SelectedEmployee != null)
             {
@@ -318,8 +318,8 @@ namespace ClientApp.ViewModels
                 if (employeeToDelete != null)
                 {
                     var url = "https://localhost:7168/api/employees/" + employeeToDelete.EmployeeNumber;
-                    Task deleteTask = employeeRepo.DeleteCallAsync(url);
-                    Task getTask = employeeRepo.GetEmployees();
+                    var emp = await employeeRepo.DeleteCallAsync(url);
+                    employeeRepo.GetEmployees();
                 }
             }
 
@@ -372,7 +372,7 @@ namespace ClientApp.ViewModels
             }
         }
 
-        public void Submit(object parameter)
+        public async void Submit(object parameter)
         {
             CheckEmployeeNumber();
             CheckFirstName();
@@ -387,8 +387,8 @@ namespace ClientApp.ViewModels
                                     new ObservableCollection<ContactMethod>(EmployeeContactMethods));
 
                 var url = "https://localhost:7168/api/employees";
-                var emp = employeeRepo.PostCallAsync(url, newEmployee);
-                Task task = employeeRepo.GetEmployees();
+                var emp = await employeeRepo.PostCallAsync(url, newEmployee);
+                employeeRepo.GetEmployees();
                 Search();
                 Clear();
                 SetPropertiesToFalse();
@@ -413,7 +413,7 @@ namespace ClientApp.ViewModels
                     }
 
                     var url = "https://localhost:7168/api/employees/" + employeeToEdit.EmployeeNumber;
-                    Task PutTask = employeeRepo.PutCallAsync(url, employeeToEdit);
+                    var emp = employeeRepo.PutCallAsync(url, employeeToEdit);
                    
                     Search();
                     SetPropertiesToFalse();

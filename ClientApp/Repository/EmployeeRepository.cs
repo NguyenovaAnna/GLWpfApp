@@ -35,10 +35,10 @@ namespace ClientApp.Repository
         public EmployeeRepository()
         {
             Employees = new ObservableCollection<Employee>();
-            Task task = GetEmployees();
+            GetEmployees();
         }
 
-        public async Task GetEmployees()
+        public async void GetEmployees()
         {
             var response = await GetCallAsync("https://localhost:7168/api/employees");
 
