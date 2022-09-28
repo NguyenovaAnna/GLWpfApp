@@ -49,7 +49,11 @@ namespace ClientApp.Models
                 OnPropertyChanged(nameof(ContactMethodValue));
             }
         }
-        
+
+        public ContactMethod()
+        {
+
+        }
 
         public ContactMethod(bool isSelected, string contactMethodType, string contactMethodValue)
         {

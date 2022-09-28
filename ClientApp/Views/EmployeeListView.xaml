@@ -348,18 +348,13 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock 
-                        Grid.Column="0" 
-                        Text="Contact Method" 
-                        FontSize="10" 
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Bottom"/>
-                    <CheckBox 
-                        Grid.Column="1" 
+                        Grid.Column="1"
                         Margin="3,0,0,0"
-                        Name="ContactMethodCheckBox"
+                        Text="Contact Methods" 
                         FontSize="10" 
-                        VerticalContentAlignment="Bottom"
-                        IsChecked="{Binding IsContactMethodCheckBoxChecked}"/>
+                        FontWeight="Bold"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Bottom"/>
                     <TextBox 
                         Grid.Column="2"
                         Height="20"

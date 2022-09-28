@@ -34,13 +34,17 @@ namespace ClientApp.Repository
 
         public EmployeeRepository()
         {
+            httpClient.BaseAddress = new Uri("https://localhost:7168/");
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
             Employees = new ObservableCollection<Employee>();
             GetEmployees();
         }
 
         public async void GetEmployees()
         {
-            var response = await GetCallAsync("https://localhost:7168/api/employees");
+            var response = await GetCallAsync("api/employees");
 
             if (response.IsSuccessStatusCode)
             {
@@ -50,27 +54,36 @@ namespace ClientApp.Repository
 
                 foreach (var emp in emps)
                 {
-                    var newEmployee = new Employee(emp.FirstName, emp.LastName, emp.EmployeeNumber, emp.MiddleName, emp.NationalIdNumber,
-                                                    emp.PreviousIdNumber, emp.PersonellNumber, emp.ActivationTime, emp.ExpirationTime, emp.ContactMethods);
+                    var newEmployee = new Employee();
+                    newEmployee.FirstName = emp.FirstName;
+                    newEmployee.LastName = emp.LastName;
+                    newEmployee.EmployeeNumber = emp.EmployeeNumber;
+                    newEmployee.MiddleName = emp.MiddleName;
+                    newEmployee.NationalIdNumber = emp.NationalIdNumber;
+                    newEmployee.PreviousIdNumber = emp.PreviousIdNumber;
+                    newEmployee.PersonellNumber = emp.PersonellNumber;
+                    newEmployee.ActivationTime = emp.ActivationTime;
+                    newEmployee.ExpirationTime = emp.ExpirationTime;
+                    newEmployee.ContactMethods = new ObservableCollection<ContactMethod>();
+
+                    foreach (var contactMethod in emp.ContactMethods)
+                    {
+                        var newContactMethod = new ContactMethod();
+                        newContactMethod.IsSelected = contactMethod.IsSelected;
+                        newContactMethod.ContactMethodType = contactMethod.ContactMethodType;
+                        newContactMethod.ContactMethodValue = contactMethod.ContactMethodValue;
+                        newEmployee.ContactMethods.Add(contactMethod);
+                    }
 
                     Employees.Add(newEmployee);
                 }
             }
-
         }
 
         public async Task<HttpResponseMessage> GetCallAsync(string path)
         {
-            try
-            {
-                HttpResponseMessage response = await httpClient.GetAsync(path);
-                return response;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            HttpResponseMessage response = await httpClient.GetAsync(path);
+            return response;
         }
 
         public async Task<HttpResponseMessage> PostCallAsync(string path, Employee newEmployee)
@@ -82,7 +95,6 @@ namespace ClientApp.Repository
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }
@@ -96,7 +108,6 @@ namespace ClientApp.Repository
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }
@@ -110,7 +121,6 @@ namespace ClientApp.Repository
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }

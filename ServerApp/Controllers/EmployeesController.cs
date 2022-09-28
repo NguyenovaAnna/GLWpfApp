@@ -2,6 +2,7 @@
 using Shared.Models;
 using System.Net;
 using Microsoft.AspNetCore.Http;
+using ServerApp.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,19 +13,12 @@ namespace ServerApp.Controllers
     public class EmployeesController : ControllerBase
     {
         static EmployeesData employeesData = EmployeesData.GetEmployeesData();
-   
+
         // GET: api/employees
         [HttpGet]
         public List<EmployeeDTO> Get()
         {
             return employeesData.employees;
-        }
-
-        // GET api/employees/5
-        [HttpGet("{id}")]
-        public EmployeeDTO Get(int id)
-        {
-            return employeesData.employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
         }
 
         // POST api/employees

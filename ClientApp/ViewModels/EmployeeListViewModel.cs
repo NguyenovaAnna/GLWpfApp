@@ -28,7 +28,6 @@ namespace ClientApp.ViewModels
         private bool _isEmployeeNumberEmpty;
         private bool _isFirstNameEmpty;
         private bool _isLastNameEmpty;
-        private bool _isContactMethodCheckBoxChecked;
         private string _employeesFilter = string.Empty;
         private string _newContactMethodType = string.Empty;
         private string _showMessage = string.Empty;
@@ -66,7 +65,6 @@ namespace ClientApp.ViewModels
                 {
                     IsVisible = true;
                     IsEmployeeNumberExisting = false;
-                    UncheckCheckBoxes();
                     IsContactMethodTextBoxVisible = false;
                     NewContactMethodType = String.Empty;
                     EmployeeNum = SelectedEmployee.EmployeeNumber;
@@ -168,19 +166,6 @@ namespace ClientApp.ViewModels
             {
                 _isLastNameEmpty = value;
                 OnPropertyChanged(nameof(IsLastNameEmpty));
-            }
-        }
-
-        public bool IsContactMethodCheckBoxChecked
-        {
-            get
-            {
-                return _isContactMethodCheckBoxChecked;
-            }
-            set
-            {
-                _isContactMethodCheckBoxChecked = value;
-                OnPropertyChanged(nameof(IsContactMethodCheckBoxChecked));
             }
         }
 
@@ -317,7 +302,7 @@ namespace ClientApp.ViewModels
 
                 if (employeeToDelete != null)
                 {
-                    var url = "https://localhost:7168/api/employees/" + employeeToDelete.EmployeeNumber;
+                    var url = "api/employees/" + employeeToDelete.EmployeeNumber;
                     var emp = await employeeRepo.DeleteCallAsync(url);
                     employeeRepo.GetEmployees();
                 }
@@ -332,7 +317,6 @@ namespace ClientApp.ViewModels
             SelectedEmployee = null;
             EmployeeNum = GenerateId();
             Clear();
-            UncheckCheckBoxes();
             EmployeeContactMethods = new ObservableCollection<ContactMethod>()
             {
                 new ContactMethod (false, "PhoneNumber",String.Empty),
@@ -349,10 +333,8 @@ namespace ClientApp.ViewModels
         public void Cancel()
         {
             IsEmployeeNumberExisting = false;
-            IsContactMethodCheckBoxChecked = false;
             SelectedEmployee = null;
             SetPropertiesToFalse();
-            UncheckCheckBoxes();
             Clear();
         }
 
@@ -381,12 +363,28 @@ namespace ClientApp.ViewModels
             if (SelectedEmployee == null && EmployeeNum != 0 && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
             {
 
-                var newEmployee = new Employee(SelectedEmployeeDetail.FirstName, SelectedEmployeeDetail.LastName, EmployeeNum,
-                                    SelectedEmployeeDetail.MiddleName, SelectedEmployeeDetail.NationalIdNumber, SelectedEmployeeDetail.PreviousIdNumber,
-                                    SelectedEmployeeDetail.PersonellNumber, SelectedEmployeeDetail.ActivationTime, SelectedEmployeeDetail.ExpirationTime,
-                                    new ObservableCollection<ContactMethod>(EmployeeContactMethods));
+                var newEmployee = new Employee();
+                newEmployee.FirstName = SelectedEmployeeDetail.FirstName;
+                newEmployee.LastName = SelectedEmployeeDetail.LastName;
+                newEmployee.EmployeeNumber = EmployeeNum;
+                newEmployee.MiddleName = SelectedEmployeeDetail.MiddleName;
+                newEmployee.NationalIdNumber = SelectedEmployeeDetail.NationalIdNumber;
+                newEmployee.PreviousIdNumber = SelectedEmployeeDetail.PreviousIdNumber;
+                newEmployee.PersonellNumber = SelectedEmployeeDetail.PersonellNumber;
+                newEmployee.ActivationTime = SelectedEmployeeDetail.ActivationTime;
+                newEmployee.ExpirationTime = SelectedEmployeeDetail.ExpirationTime;
+                newEmployee.ContactMethods = new ObservableCollection<ContactMethod>();
 
-                var url = "https://localhost:7168/api/employees";
+                foreach (var contactMethod in EmployeeContactMethods)
+                {
+                    var newContactMethod = new ContactMethod();
+                    newContactMethod.IsSelected = contactMethod.IsSelected;
+                    newContactMethod.ContactMethodType = contactMethod.ContactMethodType;
+                    newContactMethod.ContactMethodValue = contactMethod.ContactMethodValue;
+                    newEmployee.ContactMethods.Add(newContactMethod);
+                }
+
+                var url = "api/employees";
                 var emp = await employeeRepo.PostCallAsync(url, newEmployee);
                 employeeRepo.GetEmployees();
                 Search();
@@ -412,7 +410,7 @@ namespace ClientApp.ViewModels
                         employeeToEdit.ContactMethods.Add(new ContactMethod(contactMethod.IsSelected, contactMethod.ContactMethodType, contactMethod.ContactMethodValue));
                     }
 
-                    var url = "https://localhost:7168/api/employees/" + employeeToEdit.EmployeeNumber;
+                    var url = "api/employees/" + employeeToEdit.EmployeeNumber;
                     var emp = employeeRepo.PutCallAsync(url, employeeToEdit);
                    
                     Search();
@@ -454,11 +452,6 @@ namespace ClientApp.ViewModels
             IsFirstNameEmpty = false;
             IsLastNameEmpty = false;
             IsContactMethodTextBoxVisible = false;
-        }
-
-        private void UncheckCheckBoxes()
-        {
-            IsContactMethodCheckBoxChecked = false;
         }
 
         private void CheckEmployeeNumber()
