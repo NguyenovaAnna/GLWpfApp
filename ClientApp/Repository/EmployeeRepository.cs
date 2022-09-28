@@ -13,25 +13,8 @@ using System.Threading.Tasks;
 
 namespace ClientApp.Repository
 {
-    public class EmployeeRepository : INotifyPropertyChanged
+    public class EmployeeRepository
     {
-
-        public string ErrorMessage {get; set;}
-
-        private ObservableCollection<Employee> _employees;
-
-        public ObservableCollection<Employee> Employees
-        {
-            get 
-            { 
-                return _employees; 
-            }
-            set 
-            { 
-                _employees = value;
-                OnPropertyChanged(nameof(Employees));
-            }
-        }
 
         static readonly HttpClient httpClient = new HttpClient();
 
@@ -41,12 +24,7 @@ namespace ClientApp.Repository
             httpClient.BaseAddress = new Uri("https://localhost:7168/");
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            
-            
         }
-
-        
 
         public async Task<HttpResponseMessage> GetCallAsync(string path)
         {
@@ -92,16 +70,5 @@ namespace ClientApp.Repository
                 throw;
             }
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
     }
 }
