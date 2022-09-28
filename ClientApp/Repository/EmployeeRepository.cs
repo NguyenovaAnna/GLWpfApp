@@ -1,4 +1,5 @@
 ﻿using ClientApp.Models;
+using ClientApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +15,9 @@ namespace ClientApp.Repository
 {
     public class EmployeeRepository : INotifyPropertyChanged
     {
-        
+
+        public string ErrorMessage {get; set;}
+
         private ObservableCollection<Employee> _employees;
 
         public ObservableCollection<Employee> Employees
@@ -34,51 +37,16 @@ namespace ClientApp.Repository
 
         public EmployeeRepository()
         {
+            
             httpClient.BaseAddress = new Uri("https://localhost:7168/");
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            Employees = new ObservableCollection<Employee>();
-            GetEmployees();
+            
+            
         }
 
-        public async void GetEmployees()
-        {
-            var response = await GetCallAsync("api/employees");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var emps = await response.Content.ReadAsAsync<ObservableCollection<Employee>>();
-
-                Employees.Clear();
-
-                foreach (var emp in emps)
-                {
-                    var newEmployee = new Employee();
-                    newEmployee.FirstName = emp.FirstName;
-                    newEmployee.LastName = emp.LastName;
-                    newEmployee.EmployeeNumber = emp.EmployeeNumber;
-                    newEmployee.MiddleName = emp.MiddleName;
-                    newEmployee.NationalIdNumber = emp.NationalIdNumber;
-                    newEmployee.PreviousIdNumber = emp.PreviousIdNumber;
-                    newEmployee.PersonellNumber = emp.PersonellNumber;
-                    newEmployee.ActivationTime = emp.ActivationTime;
-                    newEmployee.ExpirationTime = emp.ExpirationTime;
-                    newEmployee.ContactMethods = new ObservableCollection<ContactMethod>();
-
-                    foreach (var contactMethod in emp.ContactMethods)
-                    {
-                        var newContactMethod = new ContactMethod();
-                        newContactMethod.IsSelected = contactMethod.IsSelected;
-                        newContactMethod.ContactMethodType = contactMethod.ContactMethodType;
-                        newContactMethod.ContactMethodValue = contactMethod.ContactMethodValue;
-                        newEmployee.ContactMethods.Add(contactMethod);
-                    }
-
-                    Employees.Add(newEmployee);
-                }
-            }
-        }
+        
 
         public async Task<HttpResponseMessage> GetCallAsync(string path)
         {

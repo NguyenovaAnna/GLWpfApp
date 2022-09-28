@@ -69,7 +69,7 @@
                         </Grid>
                         <ListBox 
                             Name="MyList" 
-                            ItemsSource="{Binding EmployeesRO}"
+                            ItemsSource="{Binding Employees}"
                             SelectedItem="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="2" 
                             Background="Transparent" 
@@ -96,21 +96,10 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                         <TextBlock 
-                            Text="Service is not available."
+                            Text="{Binding ErrorMessage}"
+                            Visibility="{Binding HasErrorMessage, Converter={StaticResource booleanVisibleConverter}}"
                             FontWeight="Bold"
-                            HorizontalAlignment="Center">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=MyList, Path=HasItems}" Value="False">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-
+                            HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
             </Grid>
