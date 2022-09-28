@@ -400,14 +400,20 @@ namespace ClientApp.ViewModels
                 {
                     employeeToEdit.EmployeeNumber = EmployeeNum;
                     Assign(employeeToEdit, SelectedEmployeeDetail);
-                    employeeToEdit.ContactMethods = new ObservableCollection<ContactMethod>();
+                    employeeToEdit.ContactMethods.Clear();
                     foreach (var contactMethod in EmployeeContactMethods)
                     {
                         if (contactMethod.IsSelected == false)
                         {
                             contactMethod.ContactMethodValue = String.Empty;
                         }
-                        employeeToEdit.ContactMethods.Add(new ContactMethod(contactMethod.IsSelected, contactMethod.ContactMethodType, contactMethod.ContactMethodValue));
+                        var employeeToEditContactMethod = new ContactMethod();
+
+                        employeeToEditContactMethod.IsSelected = contactMethod.IsSelected;
+                        employeeToEditContactMethod.ContactMethodType = contactMethod.ContactMethodType;
+                        employeeToEditContactMethod.ContactMethodValue = contactMethod.ContactMethodValue;
+                       
+                        employeeToEdit.ContactMethods.Add(employeeToEditContactMethod);
                     }
 
                     var url = "api/employees/" + employeeToEdit.EmployeeNumber;
