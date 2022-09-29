@@ -12,27 +12,33 @@ namespace ServerApp.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        static EmployeesData employeesData = EmployeesData.GetEmployeesData();
+
+        private SingletonService _singletonService;
+
+        public EmployeesController(SingletonService singletonService)
+        {
+            _singletonService = singletonService;
+        }
 
         // GET: api/employees
         [HttpGet]
         public List<EmployeeDTO> Get()
         {
-            return employeesData.employees;
+            return _singletonService.employees;
         }
 
         // POST api/employees
         [HttpPost]
         public void Post(EmployeeDTO employee)
         {
-            employeesData.employees.Add(employee);
+            _singletonService.employees.Add(employee);
         }
         
         // PUT api/employees/5
         [HttpPut("{id}")]
         public void Put(int id, EmployeeDTO employee)
         {
-            var emp = employeesData.employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
+            var emp = _singletonService.employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
             if (emp != null)
             {
                 emp.FirstName = employee.FirstName;
@@ -52,10 +58,10 @@ namespace ServerApp.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            var emp = employeesData.employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
+            var emp = _singletonService.employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
             if (emp != null)
             {
-                employeesData.employees.Remove(emp);
+                _singletonService.employees.Remove(emp);
             }
         }
     }

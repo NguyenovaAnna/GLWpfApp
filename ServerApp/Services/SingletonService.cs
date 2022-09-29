@@ -99,11 +99,5 @@ namespace ServerApp.Services
                 }
             });
         }
-
-        public List<EmployeeDTO> GetEmployees()
-        {
-            return employees;
-        }
-
     }
 }

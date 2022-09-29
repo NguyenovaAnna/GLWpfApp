@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace ClientApp.Repository
 {
@@ -17,11 +18,12 @@ namespace ClientApp.Repository
     {
 
         static readonly HttpClient httpClient = new HttpClient();
+        string url = ConfigurationManager.AppSettings["url"];
 
         public EmployeeRepository()
         {
             
-            httpClient.BaseAddress = new Uri("https://localhost:7168/");
+            httpClient.BaseAddress = new Uri(url);
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }

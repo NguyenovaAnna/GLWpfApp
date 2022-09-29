@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSingleton(new ApplicationUrl { Url = applicationUrl });
+builder.Services.AddSingleton<SingletonService>();
 
 var app = builder.Build();
 
