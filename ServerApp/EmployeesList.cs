@@ -1,12 +1,13 @@
 ﻿using Shared.Models;
 
-namespace ServerApp.Services
+namespace ServerApp
 {
-    public class SingletonService
+    public class EmployeesList
     {
+        private static readonly EmployeesList instance = new EmployeesList();
         public List<EmployeeDTO> employees = new List<EmployeeDTO>();
 
-        public SingletonService()
+        private EmployeesList()
         {
             employees.Add(new EmployeeDTO
             {
@@ -98,6 +99,11 @@ namespace ServerApp.Services
                     new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "peter555" }
                 }
             });
+        }
+
+        public static EmployeesList GetEmployeesData()
+        {
+            return instance;
         }
     }
 }

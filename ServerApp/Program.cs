@@ -1,3 +1,4 @@
+using MediatR;
 using ServerApp;
 using ServerApp.Services;
 
@@ -17,7 +18,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSingleton<SingletonService>();
+builder.Services.AddSingleton<IEmployeesData, EmployeesData>();
+builder.Services.AddMediatR(typeof(Program).Assembly);
 
 var app = builder.Build();
 

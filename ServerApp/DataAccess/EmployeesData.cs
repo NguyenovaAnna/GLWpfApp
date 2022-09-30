@@ -1,13 +1,12 @@
 ﻿using Shared.Models;
 
-namespace ServerApp
+namespace ServerApp.Services
 {
-    public class EmployeesData
+    public class EmployeesData : IEmployeesData
     {
-        private static readonly EmployeesData instance = new EmployeesData();
         public List<EmployeeDTO> employees = new List<EmployeeDTO>();
 
-        private EmployeesData()
+        public EmployeesData()
         {
             employees.Add(new EmployeeDTO
             {
@@ -101,9 +100,28 @@ namespace ServerApp
             });
         }
 
-        public static EmployeesData GetEmployeesData()
+        public List<EmployeeDTO> GetAllEmployees()
         {
-            return instance;
+            return employees;
+        }
+
+        public EmployeeDTO InsertEmployee(string firstName, string lastName, int employeeNumber, string middleName, int nationalIdNumber, int previousIdNumber, int personellNumber, DateTime activationTime, DateTime expirationTime, List<ContactMethodDTO> contactMethods)
+        {
+            EmployeeDTO emp = new EmployeeDTO()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                EmployeeNumber = employeeNumber,
+                MiddleName = middleName,
+                NationalIdNumber = nationalIdNumber,
+                PreviousIdNumber = previousIdNumber,
+                PersonellNumber = personellNumber,
+                ActivationTime = activationTime,
+                ExpirationTime = expirationTime,
+                ContactMethods = contactMethods,
+            };
+            employees.Add(emp);
+            return emp;
         }
     }
 }
