@@ -118,9 +118,55 @@ namespace ServerApp.Services
                 PersonellNumber = personellNumber,
                 ActivationTime = activationTime,
                 ExpirationTime = expirationTime,
-                ContactMethods = contactMethods,
+                ContactMethods = contactMethods
             };
             employees.Add(emp);
+            return emp;
+        }
+
+        public EmployeeDTO AddEmployee(EmployeeDTO employee)
+        {
+            EmployeeDTO emp = new EmployeeDTO()
+            {
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                EmployeeNumber = employee.EmployeeNumber,
+                MiddleName = employee.MiddleName,
+                NationalIdNumber = employee.NationalIdNumber,
+                PreviousIdNumber = employee.PreviousIdNumber,
+                PersonellNumber = employee.PersonellNumber,
+                ActivationTime = employee.ActivationTime,
+                ExpirationTime = employee.ExpirationTime,
+                ContactMethods = employee.ContactMethods,
+            };
+            employees.Add(emp);
+            return emp;
+        }
+
+        public void RemoveEmployee(int id)
+        {
+            var emp = employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
+            if (emp != null)
+            {
+                employees.Remove(emp);
+            }
+        }
+
+        public EmployeeDTO UpdateEmployee(int id, EmployeeDTO employee)
+        {
+            var emp = employees.Where(x => x.EmployeeNumber == id).FirstOrDefault();
+            if (emp != null)
+            {
+                emp.FirstName = employee.FirstName;
+                emp.LastName = employee.LastName;
+                emp.MiddleName = employee.MiddleName;
+                emp.NationalIdNumber = employee.NationalIdNumber;
+                emp.PreviousIdNumber = employee.PreviousIdNumber;
+                emp.PersonellNumber = employee.PersonellNumber;
+                emp.ActivationTime = employee.ActivationTime;
+                emp.ExpirationTime = employee.ExpirationTime;
+                emp.ContactMethods = employee.ContactMethods;
+            }
             return emp;
         }
     }
