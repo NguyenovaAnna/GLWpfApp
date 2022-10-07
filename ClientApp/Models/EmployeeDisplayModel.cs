@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ClientApp.Models
 {
-    public class Employee : INotifyPropertyChanged
+    public class EmployeeDisplayModel : INotifyPropertyChanged
     {
-        private ObservableCollection<ContactMethod> _contactMethods;
+        private ObservableCollection<ContactMethodDisplayModel> _contactMethods;
         private string _firstName;
         private string _lastName;
         private string _middleName;
@@ -21,7 +21,7 @@ namespace ClientApp.Models
         private DateTime _activationTime;
         private DateTime _expirationTime;
 
-        public ObservableCollection<ContactMethod> ContactMethods
+        public ObservableCollection<ContactMethodDisplayModel> ContactMethods
         {
             get
             {
@@ -159,12 +159,12 @@ namespace ClientApp.Models
             }
         }
 
-        public Employee()
+        public EmployeeDisplayModel()
         {
 
         }
 
-        public Employee(string firstName, string lastName, int employeeNumber, string middleName, int nationalIdNumber, int previousIdNumber, int personellNumber, DateTime activationTime, DateTime expirationTime, ObservableCollection<ContactMethod> contactMethods)
+        public EmployeeDisplayModel(string firstName, string lastName, int employeeNumber, string middleName, int nationalIdNumber, int previousIdNumber, int personellNumber, DateTime activationTime, DateTime expirationTime, ObservableCollection<ContactMethodDisplayModel> contactMethods)
         {
             FirstName = firstName;
             LastName = lastName;

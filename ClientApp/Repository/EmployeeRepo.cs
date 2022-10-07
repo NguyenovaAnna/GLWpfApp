@@ -11,18 +11,18 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using AutoMapper;
 
 namespace ClientApp.Repository
 {
-    public class EmployeeRepository
+    public class EmployeeRepo
     {
-
+        
         static readonly HttpClient httpClient = new HttpClient();
         string url = ConfigurationManager.AppSettings["url"];
 
-        public EmployeeRepository()
+        public EmployeeRepo()
         {
-            
             httpClient.BaseAddress = new Uri(url);
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -34,7 +34,7 @@ namespace ClientApp.Repository
             return response;
         }
 
-        public async Task<HttpResponseMessage> PostCallAsync(string path, Employee newEmployee)
+        public async Task<HttpResponseMessage> PostCallAsync(string path, EmployeeDisplayModel newEmployee)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace ClientApp.Repository
             }
         }
 
-        public async Task<HttpResponseMessage> PutCallAsync(string path, Employee employee)
+        public async Task<HttpResponseMessage> PutCallAsync(string path, EmployeeDisplayModel employee)
         {
             try
             {

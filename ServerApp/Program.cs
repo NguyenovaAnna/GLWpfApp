@@ -1,4 +1,7 @@
+using DataAccess.Context;
+using DataAccess.Repository;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ServerApp;
 using ServerApp.Services;
 
@@ -20,6 +23,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSingleton<IEmployeesData, EmployeesData>();
 builder.Services.AddMediatR(typeof(Program).Assembly);
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddDbContext<EmployeesContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 var app = builder.Build();
 
@@ -37,4 +46,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+//AppDbInitializer.Seed(app);
+
 app.Run();
+
+

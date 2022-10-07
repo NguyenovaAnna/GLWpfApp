@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClientApp.Models
 {
-    public class ContactMethod : INotifyPropertyChanged
+    public class ContactMethodDisplayModel : INotifyPropertyChanged
     {
         private bool _isSelected;
         private string _contactMethodType;
@@ -50,12 +50,12 @@ namespace ClientApp.Models
             }
         }
 
-        public ContactMethod()
+        public ContactMethodDisplayModel()
         {
 
         }
 
-        public ContactMethod(bool isSelected, string contactMethodType, string contactMethodValue)
+        public ContactMethodDisplayModel(bool isSelected, string contactMethodType, string contactMethodValue)
         {
             IsSelected = isSelected;
             ContactMethodType = contactMethodType;

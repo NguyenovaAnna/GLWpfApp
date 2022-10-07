@@ -20,12 +20,12 @@ namespace ServerApp
                 PersonellNumber = 11,
                 ActivationTime = new DateTime(2020, 1, 1),
                 ExpirationTime = new DateTime(2025, 12, 31),
-                ContactMethods = new List<ContactMethodDTO>()
-                {
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 111 111" },
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "anna@email.com" },
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "anna111" }
-                }
+                //ContactMethods = new List<ContactMethodDTO>()
+                //{
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 111 111" },
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "anna@email.com" },
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "anna111" }
+                //}
             });
             employees.Add(new EmployeeDTO
             {
@@ -38,12 +38,12 @@ namespace ServerApp
                 PersonellNumber = 22,
                 ActivationTime = new DateTime(2020, 1, 1),
                 ExpirationTime = new DateTime(2025, 12, 31),
-                ContactMethods = new List<ContactMethodDTO>()
-                {
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 222 222" },
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "daniela@email.com" },
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "daniela222" }
-                }
+                //ContactMethods = new List<ContactMethodDTO>()
+                //{
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 222 222" },
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "daniela@email.com" },
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "daniela222" }
+                //}
             });
             employees.Add(new EmployeeDTO
             {
@@ -56,12 +56,12 @@ namespace ServerApp
                 PersonellNumber = 33,
                 ActivationTime = new DateTime(2020, 1, 1),
                 ExpirationTime = new DateTime(2025, 12, 31),
-                ContactMethods = new List<ContactMethodDTO>()
-                {
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 333 333" },
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "dominika@email.com" },
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "dominika333" }
-                }
+                //ContactMethods = new List<ContactMethodDTO>()
+                //{
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 333 333" },
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "dominika@email.com" },
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "dominika333" }
+                //}
             });
             employees.Add(new EmployeeDTO
             {
@@ -74,12 +74,12 @@ namespace ServerApp
                 PersonellNumber = 44,
                 ActivationTime = new DateTime(2020, 1, 1),
                 ExpirationTime = new DateTime(2025, 12, 31),
-                ContactMethods = new List<ContactMethodDTO>()
-                {
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 444 444" },
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "david@email.com" },
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "david444" }
-                }
+                //ContactMethods = new List<ContactMethodDTO>()
+                //{
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 444 444" },
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "david@email.com" },
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "david444" }
+                //}
             });
             employees.Add(new EmployeeDTO
             {
@@ -92,12 +92,12 @@ namespace ServerApp
                 PersonellNumber = 55,
                 ActivationTime = new DateTime(2020, 1, 1),
                 ExpirationTime = new DateTime(2025, 12, 31),
-                ContactMethods = new List<ContactMethodDTO>()
-                {
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 555 555" },
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "peter@email.com" },
-                    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "peter555" }
-                }
+                //ContactMethods = new List<ContactMethodDTO>()
+                //{
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 555 555" },
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "peter@email.com" },
+                //    new ContactMethodDTO { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "peter555" }
+                //}
             });
         }
 

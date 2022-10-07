@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using DataAccess.Repository;
+using MediatR;
 using ServerApp.Commands;
 using ServerApp.Queries;
 using ServerApp.Services;
@@ -8,15 +9,17 @@ namespace ServerApp.Handlers
 {
     public class RemoveEmployeeCommandHandler : IRequestHandler<RemoveEmployeeCommand>
     {
-        private readonly IEmployeesData _data;
+        private readonly IEmployeeRepository _employeerepo;
+        //private readonly IEmployeesData _data;
 
-        public RemoveEmployeeCommandHandler(IEmployeesData data)
+        public RemoveEmployeeCommandHandler(IEmployeeRepository employeerepo)
         {
-            _data = data;
+            _employeerepo = employeerepo;
         }
         public async Task<Unit> Handle(RemoveEmployeeCommand request, CancellationToken cancellationToken)
         {
-            _data.RemoveEmployee(request.id);
+            _employeerepo.Delete(request.id);
+            //_data.RemoveEmployee(request.id);
             return Unit.Value;
         }
     }

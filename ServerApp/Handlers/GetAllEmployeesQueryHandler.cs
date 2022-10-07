@@ -1,4 +1,8 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using DataAccess.Context;
+using DataAccess.Entities;
+using DataAccess.Repository;
+using MediatR;
 using ServerApp.Queries;
 using ServerApp.Services;
 using Shared.Models;
@@ -7,14 +11,20 @@ namespace ServerApp.Handlers
 {
     public class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery, List<EmployeeDTO>>
     {
-        private readonly IEmployeesData _data;
-        public GetAllEmployeesQueryHandler(IEmployeesData data)
+        
+        private readonly IEmployeeRepository _employeerepo;
+        private readonly IMapper _mapper;
+        public GetAllEmployeesQueryHandler(IEmployeeRepository employeerepo, IMapper mapper)
         {
-            _data = data;
+            _employeerepo = employeerepo;
+            _mapper = mapper;
         }
-        public Task<List<EmployeeDTO>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
+
+        public async Task<List<EmployeeDTO>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_data.GetAllEmployees());
+            var employees = _employeerepo.GetAll().ToList();
+            var employeesDtos = _mapper.Map<List<EmployeeDTO>>(employees);
+            return employeesDtos;
         }
     }
 }

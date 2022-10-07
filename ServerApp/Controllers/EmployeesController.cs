@@ -6,6 +6,7 @@ using ServerApp.Services;
 using MediatR;
 using ServerApp.Queries;
 using ServerApp.Commands;
+using DataAccess.Entities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
