@@ -3,6 +3,7 @@ using ClientApp.Commands;
 using ClientApp.Models;
 using ClientApp.Repository;
 using DataAccess.Entities;
+using Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,9 +20,11 @@ namespace ClientApp.ViewModels
 {
     public class EmployeeListViewModel : ViewModelBase
     {
-        private readonly IMapper _mapper;
-        EmployeeRepo employeeRepo = new EmployeeRepo();
+        //private readonly IMapper _mapper;
         
+        EmployeeRepo employeeRepo = new EmployeeRepo();
+        private Mapper mapper;
+        private ObservableCollection<EmployeeDisplayModel> _employees;
         private ObservableCollection<ContactMethodDisplayModel> _employeeContactMethods;
         private EmployeeDisplayModel? _selectedEmployee;
         private bool _isVisible;
@@ -36,7 +39,19 @@ namespace ClientApp.ViewModels
 
         public ICollectionView EmployeesCollectionView { get; }
 
-        public ObservableCollection<EmployeeDisplayModel> Employees { get; set; }
+       
+        public ObservableCollection<EmployeeDisplayModel> Employees 
+        { 
+            get
+            {
+                return _employees;
+            }
+            set
+            {
+                _employees = value;
+                OnPropertyChanged(nameof(Employees));
+            }
+        }
 
         public ObservableCollection<ContactMethodDisplayModel> EmployeeContactMethods
         {
@@ -273,10 +288,15 @@ namespace ClientApp.ViewModels
         public ICommand SubmitCommand { get; set; }
         public ICommand AddContactMethodCommand { get; set; }
 
-
         public EmployeeListViewModel()
         {
-            //_mapper = mapper;
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<EmployeeDTO, EmployeeDisplayModel>().ReverseMap();
+            });
+
+            mapper = new Mapper(config);
+
             SelectedEmployeeDetail = new EmployeeDisplayModel();
 
             Employees = new ObservableCollection<EmployeeDisplayModel>();
@@ -303,32 +323,31 @@ namespace ClientApp.ViewModels
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var emps = await response.Content.ReadAsAsync<ObservableCollection<EmployeeDisplayModel>>();
-                    //var emps = await response.Content.ReadAsAsync<ObservableCollection<Employee>>();
-                    //var employees = _mapper.Map<ObservableCollection<EmployeeDisplayModel>>(emps);
+                    //var emps = await response.Content.ReadAsAsync<ObservableCollection<EmployeeDisplayModel>>();
 
+                    var emps = await response.Content.ReadAsAsync<ObservableCollection<EmployeeDTO>>();
                     Employees.Clear();
-                    //Employees = new ObservableCollection<EmployeeDisplayModel>(employees);
+                    Employees = mapper.Map<ObservableCollection<EmployeeDisplayModel>>(emps);
+                                        
+                    //foreach (var emp in emps)
+                    //{
+                    //    var newEmp = new EmployeeDisplayModel();
+                    //    newEmp.EmployeeNumber = emp.EmployeeNumber;
+                    //    Assign(newEmp, emp);
 
-                    foreach (var emp in emps)
-                    {
-                        var newEmp = new EmployeeDisplayModel();
-                        newEmp.EmployeeNumber = emp.EmployeeNumber;
-                        Assign(newEmp, emp);
+                    //    //newEmp.ContactMethods = new ObservableCollection<ContactMethodDisplayModel>();
 
-                        //newEmp.ContactMethods = new ObservableCollection<ContactMethodDisplayModel>();
+                    //    //foreach (var contactMethod in emp.ContactMethods)
+                    //    //{
+                    //    //    var newContactMethod = new ContactMethodDisplayModel();
+                    //    //    newContactMethod.IsSelected = contactMethod.IsSelected;
+                    //    //    newContactMethod.ContactMethodType = contactMethod.ContactMethodType;
+                    //    //    newContactMethod.ContactMethodValue = contactMethod.ContactMethodValue;
+                    //    //    newEmp.ContactMethods.Add(contactMethod);
+                    //    //}
 
-                        //foreach (var contactMethod in emp.ContactMethods)
-                        //{
-                        //    var newContactMethod = new ContactMethodDisplayModel();
-                        //    newContactMethod.IsSelected = contactMethod.IsSelected;
-                        //    newContactMethod.ContactMethodType = contactMethod.ContactMethodType;
-                        //    newContactMethod.ContactMethodValue = contactMethod.ContactMethodValue;
-                        //    newEmp.ContactMethods.Add(contactMethod);
-                        //}
-
-                        Employees.Add(newEmp);
-                    }
+                    //Employees.Add(newEmp);
+                    //}
                 }
             }
             catch (Exception ex)
@@ -423,6 +442,7 @@ namespace ClientApp.ViewModels
 
                 var newEmployee = new EmployeeDisplayModel();
                 Assign(newEmployee, SelectedEmployeeDetail);
+                var newEmployeeDTO = mapper.Map<EmployeeDTO>(newEmployee);
                 //newEmployee.EmployeeNumber = EmployeeNum;
                 //newEmployee.ContactMethods = new ObservableCollection<ContactMethodDisplayModel>();
 
@@ -434,7 +454,7 @@ namespace ClientApp.ViewModels
                 //}
 
                 var url = "api/employees";
-                var emp = await employeeRepo.PostCallAsync(url, newEmployee);
+                var emp = await employeeRepo.PostCallAsync(url, newEmployeeDTO);
                 GetEmployees();
                 Search();
                 Clear();
@@ -449,6 +469,7 @@ namespace ClientApp.ViewModels
                 {
                     employeeToEdit.EmployeeNumber = EmployeeNum;
                     Assign(employeeToEdit, SelectedEmployeeDetail);
+                    var employeeToEditDto = mapper.Map<EmployeeDTO>(employeeToEdit);
                     //employeeToEdit.ContactMethods.Clear();
                     //foreach (var contactMethod in EmployeeContactMethods)
                     //{
@@ -462,8 +483,8 @@ namespace ClientApp.ViewModels
                     //}
 
                     var url = "api/employees/" + employeeToEdit.EmployeeNumber;
-                    var emp = employeeRepo.PutCallAsync(url, employeeToEdit);
-                   
+                    var emp = await employeeRepo.PutCallAsync(url, employeeToEditDto);
+                    GetEmployees();
                     Search();
                     SetPropertiesToFalse();
                     SelectedEmployee = null;

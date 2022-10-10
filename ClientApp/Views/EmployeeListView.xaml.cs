@@ -1,6 +1,8 @@
-﻿using ClientApp.Models;
+﻿using AutoMapper;
+using ClientApp.Models;
 using ClientApp.Repository;
 using ClientApp.ViewModels;
+using Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +26,7 @@ namespace ClientApp
     public partial class MainWindow : Window
     {
         public MainWindow()
-        {
+        {  
             InitializeComponent();
         }
     }

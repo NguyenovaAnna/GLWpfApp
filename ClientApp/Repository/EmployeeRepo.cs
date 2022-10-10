@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using AutoMapper;
+using Shared.Models;
 
 namespace ClientApp.Repository
 {
@@ -34,7 +35,7 @@ namespace ClientApp.Repository
             return response;
         }
 
-        public async Task<HttpResponseMessage> PostCallAsync(string path, EmployeeDisplayModel newEmployee)
+        public async Task<HttpResponseMessage> PostCallAsync(string path, EmployeeDTO newEmployee)
         {
             try
             {
@@ -47,7 +48,7 @@ namespace ClientApp.Repository
             }
         }
 
-        public async Task<HttpResponseMessage> PutCallAsync(string path, EmployeeDisplayModel employee)
+        public async Task<HttpResponseMessage> PutCallAsync(string path, EmployeeDTO employee)
         {
             try
             {

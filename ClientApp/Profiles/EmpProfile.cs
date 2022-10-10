@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ClientApp.Models;
 using DataAccess.Entities;
+using Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace ClientApp.Profiles
     {
         public EmpProfile()
         {
-            CreateMap<Employee, EmployeeDisplayModel>().ReverseMap();
+            //CreateMap<EmployeeDTO, EmployeeDisplayModel>().ReverseMap();
             
         }
     }
