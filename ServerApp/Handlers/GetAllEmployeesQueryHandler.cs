@@ -22,7 +22,7 @@ namespace ServerApp.Handlers
 
         public async Task<List<EmployeeDTO>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
         {
-            var employees = _employeerepo.GetAll().ToList();
+            var employees = _employeerepo.GetAll();
             var employeesDtos = _mapper.Map<List<EmployeeDTO>>(employees);
             return employeesDtos;
         }

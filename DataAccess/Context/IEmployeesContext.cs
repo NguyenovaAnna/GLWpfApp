@@ -5,6 +5,8 @@ namespace DataAccess.Context
 {
     public interface IEmployeesContext
     {
-        DbSet<Employee> Employees { get; set; }
+        DbSet<Employee> Employee { get; set; }
+        DbSet<ContactMethod> ContactMethod { get; set; }
+        //DbSet<EmployeeContactMethod> EmployeeContactMethod { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(EmployeesContext))]
-    partial class EmployeesContextModelSnapshot : ModelSnapshot
+    [Migration("20221011111303_AddedContactMethodTable")]
+    partial class AddedContactMethodTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -58,7 +60,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("ContactMethodId");
 
-                    b.ToTable("ContactMethod");
+                    b.ToTable("ContactMethods");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Employee", b =>
@@ -99,7 +101,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("EmployeeNumber");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("ContactMethodEmployee", b =>

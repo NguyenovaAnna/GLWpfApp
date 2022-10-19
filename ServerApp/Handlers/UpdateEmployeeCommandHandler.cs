@@ -20,8 +20,6 @@ namespace ServerApp.Handlers
         }
         public Task<EmployeeDTO> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
         {
-            //return Task.FromResult(_data.UpdateEmployee(request.id, request.employee));
-
             var employee = _mapper.Map<Employee>(request.employee);
             var employeeToEdit = _employeerepo.Update(employee.EmployeeNumber, employee);
             var editedEmployee = _mapper.Map<EmployeeDTO>(employeeToEdit);

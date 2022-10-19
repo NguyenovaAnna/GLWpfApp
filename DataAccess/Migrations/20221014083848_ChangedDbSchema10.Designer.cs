@@ -4,6 +4,7 @@ using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(EmployeesContext))]
-    partial class EmployeesContextModelSnapshot : ModelSnapshot
+    [Migration("20221014083848_ChangedDbSchema10")]
+    partial class ChangedDbSchema10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +23,6 @@ namespace DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("ContactMethodEmployee", b =>
-                {
-                    b.Property<int>("ContactMethodsContactMethodId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EmployeesEmployeeNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("ContactMethodsContactMethodId", "EmployeesEmployeeNumber");
-
-                    b.HasIndex("EmployeesEmployeeNumber");
-
-                    b.ToTable("ContactMethodEmployee");
-                });
 
             modelBuilder.Entity("DataAccess.Entities.ContactMethod", b =>
                 {
@@ -102,19 +89,53 @@ namespace DataAccess.Migrations
                     b.ToTable("Employee");
                 });
 
-            modelBuilder.Entity("ContactMethodEmployee", b =>
+            modelBuilder.Entity("DataAccess.Entities.EmployeeContactMethod", b =>
                 {
-                    b.HasOne("DataAccess.Entities.ContactMethod", null)
-                        .WithMany()
-                        .HasForeignKey("ContactMethodsContactMethodId")
+                    b.Property<int>("EmployeeNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContactMethodId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeeNumber1")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeNumber", "ContactMethodId");
+
+                    b.HasIndex("ContactMethodId");
+
+                    b.HasIndex("EmployeeNumber1");
+
+                    b.ToTable("EmployeeContactMethod");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.EmployeeContactMethod", b =>
+                {
+                    b.HasOne("DataAccess.Entities.ContactMethod", "ContactMethod")
+                        .WithMany("EmployeeContactMethods")
+                        .HasForeignKey("ContactMethodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccess.Entities.Employee", null)
-                        .WithMany()
-                        .HasForeignKey("EmployeesEmployeeNumber")
+                    b.HasOne("DataAccess.Entities.Employee", "Employee")
+                        .WithMany("EmployeeContactMethods")
+                        .HasForeignKey("EmployeeNumber1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ContactMethod");
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.ContactMethod", b =>
+                {
+                    b.Navigation("EmployeeContactMethods");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Employee", b =>
+                {
+                    b.Navigation("EmployeeContactMethods");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,6 +9,7 @@ namespace DataAccess.Entities
 {
     public class Employee
     {
+        
         [Key]
         public int EmployeeNumber { get; set; }
         [Required]
@@ -23,6 +24,14 @@ namespace DataAccess.Entities
         public int PersonellNumber { get; set; }
         public DateTime ActivationTime { get; set; }
         public DateTime? ExpirationTime { get; set; }
-        
+
+        public ICollection<ContactMethod> ContactMethods { get; set; }
+        //public ICollection<EmployeeContactMethod> EmployeeContactMethods { get; set; }
+
+        public Employee()
+        {
+            ContactMethods = new List<ContactMethod>();
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(EmployeesContext))]
-    partial class EmployeesContextModelSnapshot : ModelSnapshot
+    [Migration("20221013131008_ChangedDbSchema7")]
+    partial class ChangedDbSchema7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +23,6 @@ namespace DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("ContactMethodEmployee", b =>
-                {
-                    b.Property<int>("ContactMethodsContactMethodId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EmployeesEmployeeNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("ContactMethodsContactMethodId", "EmployeesEmployeeNumber");
-
-                    b.HasIndex("EmployeesEmployeeNumber");
-
-                    b.ToTable("ContactMethodEmployee");
-                });
 
             modelBuilder.Entity("DataAccess.Entities.ContactMethod", b =>
                 {
@@ -48,13 +35,6 @@ namespace DataAccess.Migrations
                     b.Property<string>("ContactMethodType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContactMethodValue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsSelected")
-                        .HasColumnType("bit");
 
                     b.HasKey("ContactMethodId");
 
@@ -102,19 +82,46 @@ namespace DataAccess.Migrations
                     b.ToTable("Employee");
                 });
 
-            modelBuilder.Entity("ContactMethodEmployee", b =>
+            modelBuilder.Entity("DataAccess.Entities.EmployeeContactMethod", b =>
                 {
-                    b.HasOne("DataAccess.Entities.ContactMethod", null)
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ContactMethodId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeeNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactMethodId");
+
+                    b.HasIndex("EmployeeNumber");
+
+                    b.ToTable("EmployeeContactMethod");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.EmployeeContactMethod", b =>
+                {
+                    b.HasOne("DataAccess.Entities.ContactMethod", "ContactMethod")
                         .WithMany()
-                        .HasForeignKey("ContactMethodsContactMethodId")
+                        .HasForeignKey("ContactMethodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccess.Entities.Employee", null)
+                    b.HasOne("DataAccess.Entities.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeesEmployeeNumber")
+                        .HasForeignKey("EmployeeNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ContactMethod");
+
+                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

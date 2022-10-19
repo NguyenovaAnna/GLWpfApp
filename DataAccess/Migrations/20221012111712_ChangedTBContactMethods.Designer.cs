@@ -4,6 +4,7 @@ using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,26 +12,27 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(EmployeesContext))]
-    partial class EmployeesContextModelSnapshot : ModelSnapshot
+    [Migration("20221012111712_ChangedTBContactMethods")]
+    partial class ChangedTBContactMethods
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("ContactMethodEmployee", b =>
                 {
-                    b.Property<int>("ContactMethodsContactMethodId")
+                    b.Property<int>("ContactMethodsId")
                         .HasColumnType("int");
 
                     b.Property<int>("EmployeesEmployeeNumber")
                         .HasColumnType("int");
 
-                    b.HasKey("ContactMethodsContactMethodId", "EmployeesEmployeeNumber");
+                    b.HasKey("ContactMethodsId", "EmployeesEmployeeNumber");
 
                     b.HasIndex("EmployeesEmployeeNumber");
 
@@ -39,11 +41,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.ContactMethod", b =>
                 {
-                    b.Property<int>("ContactMethodId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactMethodId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ContactMethodType")
                         .IsRequired()
@@ -56,9 +58,9 @@ namespace DataAccess.Migrations
                     b.Property<bool>("IsSelected")
                         .HasColumnType("bit");
 
-                    b.HasKey("ContactMethodId");
+                    b.HasKey("Id");
 
-                    b.ToTable("ContactMethod");
+                    b.ToTable("ContactMethods");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Employee", b =>
@@ -99,14 +101,14 @@ namespace DataAccess.Migrations
 
                     b.HasKey("EmployeeNumber");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("ContactMethodEmployee", b =>
                 {
                     b.HasOne("DataAccess.Entities.ContactMethod", null)
                         .WithMany()
-                        .HasForeignKey("ContactMethodsContactMethodId")
+                        .HasForeignKey("ContactMethodsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -8,6 +8,7 @@ namespace Shared.Models
 {
     public class EmployeeDTO
     {
+        
         public int EmployeeNumber { get; set; }
         public int NationalIdNumber { get; set; }
         public int PreviousIdNumber { get; set; }
@@ -17,6 +18,11 @@ namespace Shared.Models
         public string MiddleName { get; set; }
         public DateTime ActivationTime { get; set; }
         public DateTime ExpirationTime { get; set; }
-        //public List<ContactMethodDTO> ContactMethods { get; set; }
+        public ICollection<ContactMethodDTO> ContactMethods { get; set; }
+
+        public EmployeeDTO()
+        {
+            ContactMethods = new List<ContactMethodDTO>();
+        }
     }
 }

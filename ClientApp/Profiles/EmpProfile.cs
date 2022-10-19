@@ -14,8 +14,8 @@ namespace ClientApp.Profiles
     {
         public EmpProfile()
         {
-            //CreateMap<EmployeeDTO, EmployeeDisplayModel>().ReverseMap();
-            
+            CreateMap<EmployeeDTO, EmployeeDisplayModel>().ReverseMap();
+            CreateMap<ContactMethodDTO, ContactMethodDisplayModel>().ReverseMap();
         }
     }
 }
