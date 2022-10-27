@@ -9,15 +9,19 @@ namespace Shared.Models
     public class ContactMethodDTO
     {
         public int ContactMethodId { get; set; }
-        public bool IsSelected { get; set; }
+        
         public string ContactMethodType { get; set; }
-        public string ContactMethodValue { get; set; }
-        public ICollection<EmployeeDTO> Employees { get; set; }
 
-        public ContactMethodDTO()
-        {
-            Employees = new List<EmployeeDTO>();
-        }
+        public bool IsSelected { get; set; }
+
+        public string ContactMethodValue { get; set; }
+
+        //public ICollection<EmployeeContactMethodDTO> Employees { get; set; }
+
+        //public ContactMethodDTO()
+        //{
+        //    Employees = new List<EmployeeContactMethodDTO>();
+        //}
 
     }
 }

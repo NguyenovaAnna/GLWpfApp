@@ -9,19 +9,9 @@ namespace DataAccess.Entities
 {
     public class ContactMethod
     {
+        [Key]
         public int ContactMethodId { get; set; }
-        public bool IsSelected { get; set; }
         public string ContactMethodType { get; set; }
-        public string ContactMethodValue { get; set; }
-
-        public ICollection<Employee> Employees { get; set; }
-
-        public ContactMethod()
-        {
-            Employees = new List<Employee>();
-        }
-
-        //public ICollection<EmployeeContactMethod> EmployeeContactMethods { get; set; }
-
+        public virtual ICollection<EmployeeContactMethod> Employees { get; set; }
     }
 }

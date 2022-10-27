@@ -33,7 +33,7 @@ namespace DataAccess.Repository
 
         public IEnumerable<ContactMethod> GetAll()
         {
-            return _context.ContactMethod;
+            return _context.ContactMethod.ToList();
         }
 
         public ContactMethod GetById(int id)

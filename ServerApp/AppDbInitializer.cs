@@ -22,13 +22,12 @@ namespace ServerApp
                         PersonellNumber = 11,
                         ActivationTime = new DateTime(2020, 1, 1),
                         ExpirationTime = new DateTime(2025, 12, 31),
-                        ContactMethods = new List<ContactMethod>()
-
-                        {
-                            new ContactMethod { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 111 111" },
-                            new ContactMethod { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "anna@email.com" },
-                            new ContactMethod { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "anna111" }
-                        }
+                        //ContactMethods = new List<EmployeeContactMethod>()
+                        //{
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 1, ContactMethodValue = "+421 911 111 111"},
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 2, ContactMethodValue = "anna@email.com"},
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 3, ContactMethodValue = "anna111"}
+                        //}
                     },
                     new Employee()
                     {
@@ -40,13 +39,12 @@ namespace ServerApp
                         PersonellNumber = 22,
                         ActivationTime = new DateTime(2020, 1, 1),
                         ExpirationTime = new DateTime(2025, 12, 31),
-                        ContactMethods = new List<ContactMethod>()
-
-                        {
-                            new ContactMethod { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 222 222" },
-                            new ContactMethod { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "daniela@email.com" },
-                            new ContactMethod { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "daniela222" }
-                        }
+                        //ContactMethods = new List<EmployeeContactMethod>()
+                        //{
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 1, ContactMethodValue = "+421 911 222 222"},
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 2, ContactMethodValue = "daniela@email.com"},
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 3, ContactMethodValue = "daniela222"}
+                        //}
                     },
                     new Employee()
                     {
@@ -58,13 +56,12 @@ namespace ServerApp
                         PersonellNumber = 33,
                         ActivationTime = new DateTime(2020, 1, 1),
                         ExpirationTime = new DateTime(2025, 12, 31),
-                        ContactMethods = new List<ContactMethod>()
-
-                        {
-                            new ContactMethod { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 333 333" },
-                            new ContactMethod { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "dominika@email.com" },
-                            new ContactMethod { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "dominika333" }
-                        }
+                        //ContactMethods = new List<EmployeeContactMethod>()
+                        //{
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 1, ContactMethodValue = "+421 911 333 333"},
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 2, ContactMethodValue = "dominika@email.com"},
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 3, ContactMethodValue = "dominika333"}
+                        //}
                     },
                     new Employee()
                     {
@@ -76,13 +73,12 @@ namespace ServerApp
                         PersonellNumber = 44,
                         ActivationTime = new DateTime(2020, 1, 1),
                         ExpirationTime = new DateTime(2025, 12, 31),
-                        ContactMethods = new List<ContactMethod>()
-
-                        {
-                            new ContactMethod { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 444 444" },
-                            new ContactMethod { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "david@email.com" },
-                            new ContactMethod { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "david444" }
-                        }
+                        //ContactMethods = new List<EmployeeContactMethod>()
+                        //{
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 1, ContactMethodValue = "+421 911 444 444"},
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 2, ContactMethodValue = "david@email.com"},
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 3, ContactMethodValue = "david444"}
+                        //}
                     },
                     new Employee()
                     {
@@ -94,13 +90,12 @@ namespace ServerApp
                         PersonellNumber = 55,
                         ActivationTime = new DateTime(2020, 1, 1),
                         ExpirationTime = new DateTime(2025, 12, 31),
-                        ContactMethods = new List<ContactMethod>()
-
-                        {
-                            new ContactMethod { IsSelected = true, ContactMethodType = "PhoneNumber", ContactMethodValue = "+421 911 555 555" },
-                            new ContactMethod { IsSelected = true, ContactMethodType = "Email", ContactMethodValue = "peter@email.com" },
-                            new ContactMethod { IsSelected = true, ContactMethodType = "Skype", ContactMethodValue = "peter555" }
-                        }
+                        //ContactMethods = new List<EmployeeContactMethod>()
+                        //{
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 1, ContactMethodValue = "+421 911 555 555"},
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 2, ContactMethodValue = "peter@email.com"},
+                        //    new EmployeeContactMethod {IsSelected = true, ContactMethodId = 3, ContactMethodValue = "peter555"}
+                        //}
                     });
 
                     context.SaveChanges();

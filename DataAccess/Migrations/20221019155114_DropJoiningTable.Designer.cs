@@ -4,6 +4,7 @@ using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(EmployeesContext))]
-    partial class EmployeesContextModelSnapshot : ModelSnapshot
+    [Migration("20221019155114_DropJoiningTable")]
+    partial class DropJoiningTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +35,13 @@ namespace DataAccess.Migrations
                     b.Property<string>("ContactMethodType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactMethodValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
 
                     b.HasKey("ContactMethodId");
 
@@ -78,57 +87,6 @@ namespace DataAccess.Migrations
                     b.HasKey("EmployeeNumber");
 
                     b.ToTable("Employee");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.EmployeeContactMethod", b =>
-                {
-                    b.Property<int>("EmployeeNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ContactMethodId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ContactMethodValue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsSelected")
-                        .HasColumnType("bit");
-
-                    b.HasKey("EmployeeNumber", "ContactMethodId");
-
-                    b.HasIndex("ContactMethodId");
-
-                    b.ToTable("EmployeeContactMethod");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.EmployeeContactMethod", b =>
-                {
-                    b.HasOne("DataAccess.Entities.ContactMethod", "ContactMethod")
-                        .WithMany("Employees")
-                        .HasForeignKey("ContactMethodId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DataAccess.Entities.Employee", "Employee")
-                        .WithMany("EmployeeContactMethods")
-                        .HasForeignKey("EmployeeNumber")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("ContactMethod");
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.ContactMethod", b =>
-                {
-                    b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.Employee", b =>
-                {
-                    b.Navigation("EmployeeContactMethods");
                 });
 #pragma warning restore 612, 618
         }

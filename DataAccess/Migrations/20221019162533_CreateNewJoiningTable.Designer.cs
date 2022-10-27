@@ -4,6 +4,7 @@ using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(EmployeesContext))]
-    partial class EmployeesContextModelSnapshot : ModelSnapshot
+    [Migration("20221019162533_CreateNewJoiningTable")]
+    partial class CreateNewJoiningTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,16 +106,16 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.EmployeeContactMethod", b =>
                 {
-                    b.HasOne("DataAccess.Entities.ContactMethod", "ContactMethod")
-                        .WithMany("Employees")
+                    b.HasOne("DataAccess.Entities.Employee", "Employee")
+                        .WithMany("ContactMethods")
                         .HasForeignKey("ContactMethodId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccess.Entities.Employee", "Employee")
-                        .WithMany("EmployeeContactMethods")
+                    b.HasOne("DataAccess.Entities.ContactMethod", "ContactMethod")
+                        .WithMany("Employees")
                         .HasForeignKey("EmployeeNumber")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ContactMethod");
@@ -128,7 +130,7 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.Employee", b =>
                 {
-                    b.Navigation("EmployeeContactMethods");
+                    b.Navigation("ContactMethods");
                 });
 #pragma warning restore 612, 618
         }

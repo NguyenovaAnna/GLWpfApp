@@ -18,6 +18,7 @@ namespace ServerApp.Controllers
     {
 
         private readonly IMediator _mediator;
+        //private readonly ContactMethod _contactMethod;
 
         public EmployeesController(IMediator mediator)
         {
@@ -55,5 +56,13 @@ namespace ServerApp.Controllers
             var emp = new RemoveEmployeeCommand(id);
             await _mediator.Send(emp);
         }
+
+        // GET: api/contactmethods
+        //[HttpGet]
+        //public async Task<List<ContactMethod>> GetAllContactMethods()
+        //{
+        //    var cms = await  //_mediator.Send(new GetAllEmployeesQuery());
+        //    return cms;
+        //}
     }
 }

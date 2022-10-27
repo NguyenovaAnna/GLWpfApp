@@ -7,6 +7,6 @@ namespace DataAccess.Context
     {
         DbSet<Employee> Employee { get; set; }
         DbSet<ContactMethod> ContactMethod { get; set; }
-        //DbSet<EmployeeContactMethod> EmployeeContactMethod { get; set; }
+        DbSet<EmployeeContactMethod> EmployeeContactMethod { get; set; }
     }
 }
