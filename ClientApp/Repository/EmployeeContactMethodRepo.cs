@@ -16,13 +16,13 @@ using Shared.Models;
 
 namespace ClientApp.Repository
 {
-    public class EmployeeRepo
+    public class EmployeeContactMethodRepo
     {
         
         static readonly HttpClient httpClient = new HttpClient();
         string url = ConfigurationManager.AppSettings["url"];
 
-        public EmployeeRepo()
+        public EmployeeContactMethodRepo()
         {
             httpClient.BaseAddress = new Uri(url);
             httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -73,5 +73,11 @@ namespace ClientApp.Repository
                 throw;
             }
         }
+        public async Task<HttpResponseMessage> GetContactMethodsCallAsync(string path)
+        {
+            HttpResponseMessage response = await httpClient.GetAsync(path);
+            return response;
+        }
+
     }
 }

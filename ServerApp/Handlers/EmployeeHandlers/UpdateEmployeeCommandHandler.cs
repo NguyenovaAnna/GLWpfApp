@@ -6,7 +6,7 @@ using ServerApp.Commands;
 using ServerApp.Services;
 using Shared.Models;
 
-namespace ServerApp.Handlers
+namespace ServerApp.Handlers.EmployeeHandlers
 {
     public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, EmployeeDTO>
     {

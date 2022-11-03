@@ -31,6 +31,7 @@ builder.Services.AddDbContext<EmployeesContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IContactMethodRepository, ContactMethodRepository>();
 
 var app = builder.Build();
 

@@ -13,6 +13,7 @@ namespace ClientApp.Models
         private string _contactMethodType;
         private string _contactMethodValue;
 
+        public int ContactMethodId { get; set; }
         public bool IsSelected
         {
             get
@@ -49,6 +50,8 @@ namespace ClientApp.Models
                 OnPropertyChanged(nameof(ContactMethodValue));
             }
         }
+
+        public int MyProperty { get; set; }
 
         public ContactMethodDisplayModel()
         {

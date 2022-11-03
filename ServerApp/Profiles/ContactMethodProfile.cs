@@ -8,7 +8,7 @@ namespace ServerApp.Profiles
     {
         public ContactMethodProfile()
         {
-            CreateMap<ContactMethod, ContactMethodDTO>().ReverseMap();
+            CreateMap<ContactMethod, ContactMethodTypesDTO>().ReverseMap();
         }
     }
 }

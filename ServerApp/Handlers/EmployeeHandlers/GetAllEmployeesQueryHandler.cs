@@ -3,15 +3,15 @@ using DataAccess.Context;
 using DataAccess.Entities;
 using DataAccess.Repository;
 using MediatR;
-using ServerApp.Queries;
+using ServerApp.Queries.EmployeeQueries;
 using ServerApp.Services;
 using Shared.Models;
 
-namespace ServerApp.Handlers
+namespace ServerApp.Handlers.EmployeeHandlers
 {
     public class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery, List<EmployeeDTO>>
     {
-        
+
         private readonly IEmployeeRepository _employeerepo;
         private readonly IMapper _mapper;
         public GetAllEmployeesQueryHandler(IEmployeeRepository employeerepo, IMapper mapper)

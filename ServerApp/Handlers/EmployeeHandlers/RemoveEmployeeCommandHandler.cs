@@ -5,7 +5,7 @@ using ServerApp.Queries;
 using ServerApp.Services;
 using Shared.Models;
 
-namespace ServerApp.Handlers
+namespace ServerApp.Handlers.EmployeeHandlers
 {
     public class RemoveEmployeeCommandHandler : IRequestHandler<RemoveEmployeeCommand>
     {

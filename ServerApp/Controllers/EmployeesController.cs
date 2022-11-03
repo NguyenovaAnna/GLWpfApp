@@ -7,6 +7,8 @@ using MediatR;
 using ServerApp.Queries;
 using ServerApp.Commands;
 using DataAccess.Entities;
+using ServerApp.Queries.EmployeeQueries;
+using ServerApp.Queries.ContactMethodQueries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,7 +35,7 @@ namespace ServerApp.Controllers
             return emps;
         }
 
-        // POST api/employees
+        // POST: api/employees
         [HttpPost]
         public async Task<EmployeeDTO> Post(EmployeeDTO employee)
         {
@@ -41,7 +43,7 @@ namespace ServerApp.Controllers
             return await _mediator.Send(emp);
         }
         
-        // PUT api/employees/5
+        // PUT: api/employees/5
         [HttpPut("{id}")]
         public async Task<EmployeeDTO> Put(int id, EmployeeDTO employee)
         {
@@ -49,7 +51,7 @@ namespace ServerApp.Controllers
             return await _mediator.Send(emp);
         }
 
-        // DELETE api/employees/5
+        // DELETE: api/employees/5
         [HttpDelete("{id}")]
         public async void Delete(int id)
         {
@@ -57,12 +59,12 @@ namespace ServerApp.Controllers
             await _mediator.Send(emp);
         }
 
-        // GET: api/contactmethods
-        //[HttpGet]
-        //public async Task<List<ContactMethod>> GetAllContactMethods()
-        //{
-        //    var cms = await  //_mediator.Send(new GetAllEmployeesQuery());
-        //    return cms;
-        //}
+        //GET: api/employees/contactmethods
+        [HttpGet("contactMethods")]
+        public async Task<List<ContactMethodTypesDTO>> GetAllContactMethods()
+        {
+            var cms = await _mediator.Send(new GetAllContactMethodsQuery());
+            return cms;
+        }
     }
 }
