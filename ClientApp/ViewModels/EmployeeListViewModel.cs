@@ -119,7 +119,7 @@ namespace ClientApp.ViewModels
 
                     foreach (var contactMethod in SelectedEmployee.ContactMethods)
                     {
-                        EmployeeContactMethods.Add(new ContactMethodDisplayModel(contactMethod.IsSelected, contactMethod.ContactMethodType, contactMethod.ContactMethodValue));
+                        EmployeeContactMethods.Add(new ContactMethodDisplayModel(true, contactMethod.ContactMethodType, contactMethod.ContactMethodValue));
                     }
 
                     AllContactMethods = new ObservableCollection<ContactMethodDisplayModel>();
@@ -133,7 +133,7 @@ namespace ClientApp.ViewModels
                             newContactMethod.ContactMethodId = cm.ContactMethodId;
                             newContactMethod.ContactMethodType = cm.ContactMethodType;
                             newContactMethod.ContactMethodValue = selectedEmployeeContactMethodType.ContactMethodValue;
-                            newContactMethod.IsSelected = selectedEmployeeContactMethodType.IsSelected;
+                            newContactMethod.IsSelected = true;
                         }
                         else
                         {
@@ -452,9 +452,22 @@ namespace ClientApp.ViewModels
         {
             IsVisible = true;
             SelectedEmployee = null;
-            EmployeeNum = GenerateId();
+            EmployeeNum = 0;
             Clear();
             IsContactMethodsCheckBoxChecked = true;
+            AllContactMethods = new ObservableCollection<ContactMethodDisplayModel>();
+
+            foreach (var cm in ContactMethodTypes)
+            {
+                var newContactMethod = new ContactMethodDisplayModel();
+               
+                newContactMethod.ContactMethodId = cm.ContactMethodId;
+                newContactMethod.ContactMethodType = cm.ContactMethodType;
+                newContactMethod.ContactMethodValue = String.Empty;
+                newContactMethod.IsSelected = false;
+                
+                AllContactMethods.Add(newContactMethod);
+            }
         }
 
         public void Reset()
@@ -488,24 +501,25 @@ namespace ClientApp.ViewModels
 
         public async void Submit(object parameter)
         {
-            CheckEmployeeNumber();
+            //CheckEmployeeNumber();
             CheckFirstName();
             CheckLastName();
 
-            if (SelectedEmployee == null && EmployeeNum != 0 && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
+            if (SelectedEmployee == null && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
             {
-
                 var newEmployee = new EmployeeDisplayModel();
                 Assign(newEmployee, SelectedEmployeeDetail);
 
-                //newEmployee.EmployeeNumber = EmployeeNum;
                 newEmployee.ContactMethods = new ObservableCollection<ContactMethodDisplayModel>();
 
-                foreach (var contactMethod in EmployeeContactMethods)
+                foreach (var contactMethod in AllContactMethods)
                 {
-                    var newContactMethod = new ContactMethodDisplayModel();
-                    AssignContactMethod(newContactMethod, contactMethod);
-                    newEmployee.ContactMethods.Add(newContactMethod);
+                    if (contactMethod.IsSelected == true)
+                    {
+                        var newContactMethod = new ContactMethodDisplayModel();
+                        AssignContactMethod(newContactMethod, contactMethod);
+                        newEmployee.ContactMethods.Add(newContactMethod);
+                    }
                 }
 
                 var newEmployeeDTO = mapper.Map<EmployeeDTO>(newEmployee);
@@ -517,7 +531,7 @@ namespace ClientApp.ViewModels
                 SetPropertiesToFalse();
             }
 
-            if (SelectedEmployee != null && EmployeeNum != 0 && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
+            if (SelectedEmployee != null && !String.IsNullOrEmpty(SelectedEmployeeDetail.FirstName) && !String.IsNullOrEmpty(SelectedEmployeeDetail.LastName))
             {
                 var employeeToEdit = Employees.FirstOrDefault(x => x.EmployeeNumber == SelectedEmployee.EmployeeNumber);
 
@@ -526,16 +540,40 @@ namespace ClientApp.ViewModels
                     employeeToEdit.EmployeeNumber = EmployeeNum;
                     Assign(employeeToEdit, SelectedEmployeeDetail);
                     employeeToEdit.ContactMethods.Clear();
-                    foreach (var contactMethod in EmployeeContactMethods)
+
+                    if (IsContactMethodsCheckBoxChecked == false)
                     {
-                        if (contactMethod.IsSelected == false)
+                        foreach (var contactMethod in EmployeeContactMethods)
                         {
-                            contactMethod.ContactMethodValue = String.Empty;
+                            if (contactMethod.IsSelected == true)
+                            {
+                                var employeeToEditContactMethod = new ContactMethodDisplayModel();
+                                var contactMethodId = ContactMethodTypes.FirstOrDefault(x => x.ContactMethodType == contactMethod.ContactMethodType);
+                                if (contactMethodId != null)
+                                {
+                                    employeeToEditContactMethod.ContactMethodId = contactMethodId.ContactMethodId;
+                                    employeeToEditContactMethod.ContactMethodType = contactMethod.ContactMethodType;
+                                    employeeToEditContactMethod.ContactMethodValue = contactMethod.ContactMethodValue;
+                                }
+                                //AssignContactMethod(employeeToEditContactMethod, contactMethod);
+                                employeeToEdit.ContactMethods.Add(employeeToEditContactMethod);
+                            }
+
                         }
-                        var employeeToEditContactMethod = new ContactMethodDisplayModel();
-                        AssignContactMethod(employeeToEditContactMethod, contactMethod);
-                        employeeToEdit.ContactMethods.Add(employeeToEditContactMethod);
                     }
+                    else
+                    {
+                        foreach (var contactMethod in AllContactMethods)
+                        {
+                            if (contactMethod.IsSelected == true)
+                            {
+                                var employeeToEditContactMethod = new ContactMethodDisplayModel();
+                                AssignContactMethod(employeeToEditContactMethod, contactMethod);
+                                employeeToEdit.ContactMethods.Add(employeeToEditContactMethod);
+                            }
+                        }
+                    }
+                    
                     var employeeToEditDto = mapper.Map<EmployeeDTO>(employeeToEdit);
                     var url = "api/employees/" + employeeToEdit.EmployeeNumber;
                     var emp = await employeeContactMethodRepo.PutCallAsync(url, employeeToEditDto);
@@ -614,29 +652,29 @@ namespace ClientApp.ViewModels
             }
         }
 
-        private int GenerateId()
-        {
-            if (Employees.Count == 0)
-            {
-                return 1;
-            }
-            else
-            {
-                int maxId = Employees.Max(x => x.EmployeeNumber);
-                int id;
+        //private int GenerateId()
+        //{
+        //    if (Employees.Count == 0)
+        //    {
+        //        return 1;
+        //    }
+        //    else
+        //    {
+        //        int maxId = Employees.Max(x => x.EmployeeNumber);
+        //        int id;
 
-                for (int i = 1; i <= maxId; i++)
-                {
-                    var employee = Employees.FirstOrDefault(x => x.EmployeeNumber == i);
-                    if (employee == null)
-                    {
-                        id = i;
-                        return id;
-                    }
-                }
-                return maxId + 1;
-            } 
-        }
+        //        for (int i = 1; i <= maxId; i++)
+        //        {
+        //            var employee = Employees.FirstOrDefault(x => x.EmployeeNumber == i);
+        //            if (employee == null)
+        //            {
+        //                id = i;
+        //                return id;
+        //            }
+        //        }
+        //        return maxId + 1;
+        //    } 
+        //}
 
         private bool CanSubmitExecute(object parameter)
         {

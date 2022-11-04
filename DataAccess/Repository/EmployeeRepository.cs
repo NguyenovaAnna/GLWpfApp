@@ -38,7 +38,6 @@ namespace DataAccess.Repository
                 newEmployeeContactMethod.EmployeeNumber = employee.EmployeeNumber;
                 newEmployeeContactMethod.ContactMethodId = cm.ContactMethodId;
                 newEmployeeContactMethod.ContactMethodValue = cm.ContactMethodValue;
-                newEmployeeContactMethod.IsSelected = cm.IsSelected;
                 _context.EmployeeContactMethod.Add(newEmployeeContactMethod);
             }
             _context.SaveChanges();
@@ -56,13 +55,6 @@ namespace DataAccess.Repository
         public IEnumerable<Employee> GetAll()
         {
             return _context.Employee.Include(x => x.EmployeeContactMethods).ThenInclude(y => y.ContactMethod).ToList();
-            
-            //var test2 = (from e in _context.Employee
-            //             join cm in _context.EmployeeContactMethod
-            //             on e.EmployeeNumber equals cm.EmployeeNumber
-            //             where e.EmployeeNumber == 1
-            //             select new { FirstName = e.FirstName, ContactMethods = e.ContactMethods }).ToList();
-            
         }
 
         public Employee GetById(int id)
@@ -102,14 +94,10 @@ namespace DataAccess.Repository
                     if (contactMethod != null)
                     {
                         cm.ContactMethodValue = contactMethod.ContactMethodValue;
-                        cm.IsSelected = contactMethod.IsSelected;
-                        //contactMethod.ContactMethodValue = cm.ContactMethodValue;
-                        //contactMethod.IsSelected = cm.IsSelected;
                     }
                 }
 
                 var contactMethodsToBeAdded = entity.EmployeeContactMethods.Where(x => !employeeContactMethods.Any(y => x.ContactMethodId == y.ContactMethodId)).ToList();
-                //var contactMethodsToBeAdded = employee.EmployeeContactMethods.Where(x => x.ContactMethodId == 0).ToList();
 
                 foreach (var cm in contactMethodsToBeAdded)
                 {
@@ -117,32 +105,7 @@ namespace DataAccess.Repository
                     newEmployeeContactMethod.EmployeeNumber = employee.EmployeeNumber;
                     newEmployeeContactMethod.ContactMethodId = cm.ContactMethodId;
                     newEmployeeContactMethod.ContactMethodValue = cm.ContactMethodValue;
-                    newEmployeeContactMethod.IsSelected = cm.IsSelected;
                     _context.EmployeeContactMethod.Add(newEmployeeContactMethod);
-
-
-                    //if (cm.ContactMethod.ContactMethodId == 0)
-                    //{
-                    //var newContactMethod = new ContactMethod();
-                    //newContactMethod.ContactMethodType = cm.ContactMethod.ContactMethodType;
-                    //_context.ContactMethod.Add(newContactMethod);
-
-                    //var newEmployeeContactMethod = new EmployeeContactMethod();
-                    //newEmployeeContactMethod.EmployeeNumber = cm.EmployeeNumber;
-                    //newEmployeeContactMethod.ContactMethodId = cm.ContactMethodId;
-                    //newEmployeeContactMethod.ContactMethodValue = cm.ContactMethodValue;
-                    //newEmployeeContactMethod.IsSelected = cm.IsSelected;
-                    //_context.EmployeeContactMethod.Add(newEmployeeContactMethod);
-                    //}
-                    //else
-                    //{
-                    //var contactMethod = employee.EmployeeContactMethods.FirstOrDefault(x => x.ContactMethodId == cm.ContactMethodId);
-                    //if (contactMethod != null)
-                    //{
-                    //    contactMethod.ContactMethodValue = cm.ContactMethodValue;
-                    //    contactMethod.IsSelected = cm.IsSelected;
-                    //}
-                    //}
                 }
             }
 

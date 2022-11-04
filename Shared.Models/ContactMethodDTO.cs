@@ -12,8 +12,6 @@ namespace Shared.Models
         
         public string ContactMethodType { get; set; }
 
-        public bool IsSelected { get; set; }
-
         public string ContactMethodValue { get; set; }
 
         //public ICollection<EmployeeContactMethodDTO> Employees { get; set; }
