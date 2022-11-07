@@ -46,9 +46,10 @@ namespace DataAccess.Repository
 
         public void Delete(int id)
         {
-            var employee = GetById(id);
-            employee.EmployeeContactMethods.Clear();
-            _context.Employee.Remove(employee);
+            var employees = GetAll();
+            var employeeToDelete = employees.FirstOrDefault(x => x.EmployeeNumber == id);
+            employeeToDelete.EmployeeContactMethods.Clear();
+            _context.Employee.Remove(employeeToDelete);
             _context.SaveChanges();
         }
 

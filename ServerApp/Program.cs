@@ -35,6 +35,11 @@ builder.Services.AddScoped<IContactMethodRepository, ContactMethodRepository>();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<EmployeesContext>();
+    db.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -49,7 +54,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//AppDbInitializer.Seed(app);
+AppDbInitializer.Seed(app);
 
 app.Run();
 

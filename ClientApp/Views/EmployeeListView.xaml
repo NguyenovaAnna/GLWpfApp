@@ -352,26 +352,6 @@
                         VerticalContentAlignment="Bottom"
                         Content="All Contact Methods"
                         IsChecked="{Binding IsContactMethodsCheckBoxChecked, Mode=TwoWay}"/>
-                    <TextBox 
-                        Grid.Column="2"
-                        Height="20"
-                        Text="{Binding NewContactMethodType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Visibility="{Binding IsContactMethodTextBoxVisible, Converter={StaticResource booleanVisibleConverter}}">
-                        <TextBox.InputBindings>
-                            <KeyBinding Command="{Binding AddContactMethodCommand}" Key="Return"/>
-                        </TextBox.InputBindings>
-                    </TextBox>
-                    <Button
-                        Name="AddContactMethod"
-                        Grid.Column="3"
-                        Width="20"
-                        Height="20"
-                        BorderThickness="0"
-                        Background="Transparent"
-                        HorizontalAlignment="Right"
-                        Command="{Binding AddContactMethodCommand}">
-                        <Image Source="../Images/AddButton.png"/>
-                    </Button>
                 </Grid>
                 <Grid Margin="0,0,0,3">
                     <Grid.ColumnDefinitions>
