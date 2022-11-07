@@ -92,6 +92,65 @@ namespace ServerApp
 
                     context.SaveChanges();
                 }
+                if (!context.EmployeeContactMethod.Any())
+                {
+                    context.EmployeeContactMethod.AddRange(new EmployeeContactMethod()
+                    {
+                        EmployeeNumber = 1,
+                        ContactMethodId = 1,
+                        ContactMethodValue = "anna@email.com"
+                    },
+                    new EmployeeContactMethod()
+                    {
+                        EmployeeNumber = 1,
+                        ContactMethodId = 2,
+                        ContactMethodValue = "+421 911 111 111"
+                    },
+                    new EmployeeContactMethod()
+                    {
+                        EmployeeNumber = 1,
+                        ContactMethodId = 3,
+                        ContactMethodValue = "anna111"
+                    },
+                    new EmployeeContactMethod()
+                    {
+                        EmployeeNumber = 2,
+                        ContactMethodId = 1,
+                        ContactMethodValue = "daniela@email.com"
+                    },
+                    new EmployeeContactMethod()
+                    {
+                        EmployeeNumber = 2,
+                        ContactMethodId = 2,
+                        ContactMethodValue = "+421 911 222 222"
+                    },
+                    new EmployeeContactMethod()
+                    {
+                        EmployeeNumber = 3,
+                        ContactMethodId = 2,
+                        ContactMethodValue = "+421 911 333 333"
+                    },
+                    new EmployeeContactMethod()
+                    {
+                        EmployeeNumber = 3,
+                        ContactMethodId = 3,
+                        ContactMethodValue = "dominika333"
+                    },
+                    new EmployeeContactMethod()
+                    {
+                        EmployeeNumber = 4,
+                        ContactMethodId = 2,
+                        ContactMethodValue = "+421 911 444 444"
+                    },
+                    new EmployeeContactMethod()
+                    {
+                        EmployeeNumber = 5,
+                        ContactMethodId = 1,
+                        ContactMethodValue = "peter@email.com"
+                    });
+
+                    context.SaveChanges();
+                }
             }
         }
     }
