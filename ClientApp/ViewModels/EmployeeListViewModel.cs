@@ -514,7 +514,7 @@ namespace ClientApp.ViewModels
 
                 foreach (var contactMethod in AllContactMethods)
                 {
-                    if (contactMethod.IsSelected == true)
+                    if (contactMethod.IsSelected == true && !String.IsNullOrEmpty(contactMethod.ContactMethodValue))
                     {
                         var newContactMethod = new ContactMethodDisplayModel();
                         AssignContactMethod(newContactMethod, contactMethod);
@@ -545,7 +545,7 @@ namespace ClientApp.ViewModels
                     {
                         foreach (var contactMethod in EmployeeContactMethods)
                         {
-                            if (contactMethod.IsSelected == true)
+                            if (contactMethod.IsSelected == true && !String.IsNullOrEmpty(contactMethod.ContactMethodValue))
                             {
                                 var employeeToEditContactMethod = new ContactMethodDisplayModel();
                                 var contactMethodId = ContactMethodTypes.FirstOrDefault(x => x.ContactMethodType == contactMethod.ContactMethodType);
