@@ -501,7 +501,6 @@ namespace ClientApp.ViewModels
 
         public async void Submit(object parameter)
         {
-            //CheckEmployeeNumber();
             CheckFirstName();
             CheckLastName();
 
@@ -555,7 +554,6 @@ namespace ClientApp.ViewModels
                                     employeeToEditContactMethod.ContactMethodType = contactMethod.ContactMethodType;
                                     employeeToEditContactMethod.ContactMethodValue = contactMethod.ContactMethodValue;
                                 }
-                                //AssignContactMethod(employeeToEditContactMethod, contactMethod);
                                 employeeToEdit.ContactMethods.Add(employeeToEditContactMethod);
                             }
 

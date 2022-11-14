@@ -18,30 +18,11 @@ namespace ServerApp.Handlers.ContactMethodHandlers
             _mapper = mapper;
         }
 
-        public async Task<List<ContactMethodTypesDTO>> Handle(GetAllContactMethodsQuery request, CancellationToken cancellationToken)
+        public Task<List<ContactMethodTypesDTO>> Handle(GetAllContactMethodsQuery request, CancellationToken cancellationToken)
         {
             var contactMethods = _contactMethodRepo.GetAll();
             var contactMethodTypesDTO = _mapper.Map<List<ContactMethodTypesDTO>>(contactMethods);
-            return contactMethodTypesDTO;
+            return Task.FromResult(contactMethodTypesDTO);
         }
     }
-
-    //public class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery, List<EmployeeDTO>>
-    //{
-
-    //    private readonly IEmployeeRepository _employeerepo;
-    //    private readonly IMapper _mapper;
-    //    public GetAllEmployeesQueryHandler(IEmployeeRepository employeerepo, IMapper mapper)
-    //    {
-    //        _employeerepo = employeerepo;
-    //        _mapper = mapper;
-    //    }
-
-    //    public async Task<List<EmployeeDTO>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
-    //    {
-    //        var employees = _employeerepo.GetAll();
-    //        var employeesDtos = _mapper.Map<List<EmployeeDTO>>(employees);
-    //        return employeesDtos;
-    //    }
-    //}
 }

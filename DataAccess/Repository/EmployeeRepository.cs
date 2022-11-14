@@ -48,9 +48,12 @@ namespace DataAccess.Repository
         {
             var employees = GetAll();
             var employeeToDelete = employees.FirstOrDefault(x => x.EmployeeNumber == id);
-            employeeToDelete.EmployeeContactMethods.Clear();
-            _context.Employee.Remove(employeeToDelete);
-            _context.SaveChanges();
+            if (employeeToDelete != null)
+            {
+                employeeToDelete.EmployeeContactMethods.Clear();
+                _context.Employee.Remove(employeeToDelete);
+            }
+            _context.SaveChangesAsync();
         }
 
         public IEnumerable<Employee> GetAll()

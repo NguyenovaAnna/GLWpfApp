@@ -22,7 +22,6 @@ namespace ClientApp.Commands
             _canExecute = canExecute;
         }
 
-
         public bool CanExecute(object parameter)
         {
             if (_canExecute == null)

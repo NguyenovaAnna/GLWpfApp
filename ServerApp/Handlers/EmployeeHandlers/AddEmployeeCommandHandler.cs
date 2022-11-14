@@ -3,7 +3,6 @@ using DataAccess.Entities;
 using DataAccess.Repository;
 using MediatR;
 using ServerApp.Commands;
-using ServerApp.Services;
 using Shared.Models;
 
 namespace ServerApp.Handlers.EmployeeHandlers
@@ -25,8 +24,6 @@ namespace ServerApp.Handlers.EmployeeHandlers
             var newEmployee = _employeerepo.Create(employee);
             var createdEmployee = _mapper.Map<EmployeeDTO>(newEmployee);
             return Task.FromResult(createdEmployee);
-
-            //return Task.FromResult(_data.AddEmployee(request.employee));
         }
     }
 }

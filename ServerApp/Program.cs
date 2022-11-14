@@ -3,7 +3,6 @@ using DataAccess.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ServerApp;
-using ServerApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +22,6 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSingleton<IEmployeesData, EmployeesData>();
 builder.Services.AddMediatR(typeof(Program).Assembly);
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddDbContext<EmployeesContext>(options =>

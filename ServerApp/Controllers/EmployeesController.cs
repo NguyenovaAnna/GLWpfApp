@@ -2,7 +2,6 @@
 using Shared.Models;
 using System.Net;
 using Microsoft.AspNetCore.Http;
-using ServerApp.Services;
 using MediatR;
 using ServerApp.Queries;
 using ServerApp.Commands;
@@ -20,7 +19,6 @@ namespace ServerApp.Controllers
     {
 
         private readonly IMediator _mediator;
-        //private readonly ContactMethod _contactMethod;
 
         public EmployeesController(IMediator mediator)
         {
