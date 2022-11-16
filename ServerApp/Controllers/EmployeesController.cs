@@ -8,6 +8,7 @@ using ServerApp.Commands;
 using DataAccess.Entities;
 using ServerApp.Queries.EmployeeQueries;
 using ServerApp.Queries.ContactMethodQueries;
+using ServerApp.RabbitMQ;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,10 +20,12 @@ namespace ServerApp.Controllers
     {
 
         private readonly IMediator _mediator;
+        private readonly IRabbitMQProducer _messageProducer;
 
-        public EmployeesController(IMediator mediator)
+        public EmployeesController(IMediator mediator, IRabbitMQProducer messageProducer)
         {
             _mediator = mediator;
+            _messageProducer = messageProducer;
         }
 
         // GET: api/employees
@@ -30,6 +33,7 @@ namespace ServerApp.Controllers
         public async Task<List<EmployeeDTO>> GetAll()
         {
             var emps = await _mediator.Send(new GetAllEmployeesQuery());
+            _messageProducer.SendMessage(emps);
             return emps;
         }
 

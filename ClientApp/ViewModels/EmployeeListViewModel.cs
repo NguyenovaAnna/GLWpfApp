@@ -2,8 +2,10 @@
 using ClientApp.Commands;
 using ClientApp.Models;
 using ClientApp.Profiles;
+using ClientApp.RabbitMQ.Consumer;
 using ClientApp.Repository;
 using DataAccess.Entities;
+using RabbitMQ.Client;
 using Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -355,6 +357,16 @@ namespace ClientApp.ViewModels
 
         public EmployeeListViewModel()
         {
+            var factory = new ConnectionFactory
+            {
+                HostName = "localhost"
+            };
+
+            using var connection = factory.CreateConnection();
+            using var channel = connection.CreateModel();
+
+            QueueConsumer.Consume(channel);
+
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<EmpProfile>();
